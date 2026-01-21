@@ -33,6 +33,17 @@ CREATE TABLE IF NOT EXISTS banners (
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+-- Advertisements table
+CREATE TABLE IF NOT EXISTS advertisements (
+  id SERIAL PRIMARY KEY,
+  title VARCHAR(255) NOT NULL,
+  image VARCHAR(500),
+  link VARCHAR(500),
+  position VARCHAR(50) DEFAULT 'top',
+  status VARCHAR(20) DEFAULT 'active',
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
 -- Create indexes for better query performance
 CREATE INDEX idx_videos_category ON videos(category_id);
 CREATE INDEX idx_videos_created_at ON videos(created_at DESC);
