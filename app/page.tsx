@@ -75,26 +75,27 @@ export default async function Home({
   ])
 
   return (
-    <main className="min-h-screen bg-background">
-      <header className="sticky top-0 z-50 bg-background border-b border-border">
+    <main className="min-h-screen bg-background vercel-gradient">
+      <header className="sticky top-0 z-50 bg-background/80 backdrop-blur-md border-b border-border/50">
         <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
-          <div className="flex items-center gap-8">
-            <Link href="/" className="flex items-center gap-2">
-              <div className="w-6 h-6 bg-foreground rounded-full flex items-center justify-center">
-                <div className="w-3 h-3 bg-background transform rotate-45" />
+          <div className="flex items-center gap-10">
+            <Link href="/" className="flex items-center gap-2.5 group">
+              <div className="w-8 h-8 bg-foreground rounded-lg flex items-center justify-center group-hover:scale-105 transition-transform duration-200 shadow-lg shadow-foreground/10">
+                <div className="w-4 h-4 bg-background transform rotate-45 rounded-sm" />
               </div>
               <span className="text-xl font-bold tracking-tight">StreamFlix</span>
             </Link>
-            <nav className="hidden md:flex gap-6 text-sm font-medium text-muted-foreground">
-              <Link href="/" className="hover:text-foreground transition-colors">Home</Link>
-              <Link href="/kategori" className="hover:text-foreground transition-colors">Categories</Link>
-              <Link href="/admin" className="hover:text-foreground transition-colors">Dashboard</Link>
+            <nav className="hidden md:flex gap-8 text-sm font-medium text-muted-foreground">
+              <Link href="/" className="hover:text-foreground transition-all hover:translate-y-[-1px]">Home</Link>
+              <Link href="/kategori" className="hover:text-foreground transition-all hover:translate-y-[-1px]">Categories</Link>
+              <Link href="/admin" className="hover:text-foreground transition-all hover:translate-y-[-1px]">Dashboard</Link>
             </nav>
           </div>
-          <div className="flex items-center gap-4">
-            <div className="hidden md:block w-64">
+          <div className="flex items-center gap-5">
+            <div className="hidden md:block w-72">
               <SearchBar initialValue={search} />
             </div>
+            <div className="h-6 w-[1px] bg-border/50 hidden md:block" />
             <HeaderUser />
             <MobileMenu />
           </div>
@@ -102,24 +103,24 @@ export default async function Home({
       </header>
 
       {/* Main Content */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
         {/* Hero Banner */}
-        <section className="mb-8">
+        <section className="mb-12">
           <HeroBanner />
         </section>
 
         {/* Top Advertisement Banner */}
-        <section className="mb-8">
+        <section className="mb-12">
           <AdBanner position="top" />
         </section>
 
         {/* Search and Filter Section */}
-        <section className="mb-12 space-y-8">
+        <section className="mb-16">
           {/* Category Tabs */}
-          <div className="flex items-center gap-1 border-b border-border overflow-x-auto pb-px no-scrollbar">
+          <div className="flex items-center gap-2 border-b border-border/50 overflow-x-auto pb-px no-scrollbar">
             <Link
               href="/"
-              className={`px-4 py-2 text-sm font-medium transition-colors relative ${
+              className={`px-5 py-3 text-sm font-medium transition-all relative ${
                 !selectedCategory
                   ? 'text-foreground'
                   : 'text-muted-foreground hover:text-foreground'
@@ -127,14 +128,14 @@ export default async function Home({
             >
               All
               {!selectedCategory && (
-                <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-foreground" />
+                <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-foreground rounded-full" />
               )}
             </Link>
             {categories.map((cat: any) => (
               <Link
                 key={cat.id}
                 href={`/?category=${encodeURIComponent(cat.name)}${search ? `&search=${encodeURIComponent(search)}` : ''}`}
-                className={`px-4 py-2 text-sm font-medium transition-colors relative whitespace-nowrap ${
+                className={`px-5 py-3 text-sm font-medium transition-all relative whitespace-nowrap ${
                   selectedCategory === cat.name
                     ? 'text-foreground'
                     : 'text-muted-foreground hover:text-foreground'
@@ -142,7 +143,7 @@ export default async function Home({
               >
                 {cat.name}
                 {selectedCategory === cat.name && (
-                  <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-foreground" />
+                  <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-foreground rounded-full" />
                 )}
               </Link>
             ))}
@@ -151,15 +152,20 @@ export default async function Home({
 
         {/* Videos Grid */}
         <section>
-          <div className="flex items-center justify-between mb-8">
-            <h2 className="text-2xl font-bold tracking-tight">
-              {selectedCategory ? `${selectedCategory} Videos` : 'Popular Videos'}
-            </h2>
+          <div className="flex items-center justify-between mb-10">
+            <div>
+              <h2 className="text-3xl font-bold tracking-tight mb-2">
+                {selectedCategory ? `${selectedCategory}` : 'Popular Now'}
+              </h2>
+              <p className="text-muted-foreground text-sm">
+                {videos.length} videos available in this collection
+              </p>
+            </div>
             <div className="flex items-center gap-4">
                <SortFilter currentSort={sort} />
             </div>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-6 gap-y-10">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-8 gap-y-12">
             {videos.length > 0 ? (
               videos.map((video: any, index: number) => (
                 <Link
