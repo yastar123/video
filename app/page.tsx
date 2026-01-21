@@ -195,12 +195,15 @@ export default async function Home({
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-6 gap-y-10">
             {videos.length > 0 ? (
-              videos.map((video: any) => (
+              videos.map((video: any, index: number) => (
                 <Link
                   key={video.id}
                   href={`/video/${video.id}`}
                 >
-                  <VideoCard video={video} />
+                  <VideoCard 
+                    video={video} 
+                    priority={index < 4} // Load first 4 images with priority
+                  />
                 </Link>
               ))
             ) : (
