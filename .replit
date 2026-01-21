@@ -37,3 +37,12 @@ externalPort = 80
 deploymentTarget = "autoscale"
 run = ["pnpm", "start"]
 build = ["pnpm", "build"]
+
+[userenv]
+
+[userenv.shared]
+ALLOWED_FILE_TYPES = "image/jpeg,image/png,image/jpg,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+JWT_EXPIRES_IN = "7d"
+UPLOAD_DIR = "./uploads"
+JWT_SECRET = "2670db856738c847a4f7d147490bfd3c20ecd21ebf10c99e3fba6ef0a7ebd8f1e639482928042905c6f588b0085f9467ee58fc15e5e614b7215526c2c8fadc12"
+MAX_FILE_SIZE = "104857600"
