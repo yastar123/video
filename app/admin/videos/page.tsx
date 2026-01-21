@@ -147,9 +147,6 @@ export default function VideosPage() {
                       Category
                     </th>
                     <th className="px-6 py-3 text-left text-sm font-semibold">
-                      Duration
-                    </th>
-                    <th className="px-6 py-3 text-left text-sm font-semibold">
                       Views
                     </th>
                     <th className="px-6 py-3 text-left text-sm font-semibold">
@@ -189,12 +186,6 @@ export default function VideosPage() {
                         <span className="px-2 py-1 bg-muted rounded text-sm">
                           {video.category}
                         </span>
-                      </td>
-                      <td className="px-6 py-4 text-sm">
-                        <div className="flex items-center gap-1">
-                          <Clock size={16} />
-                          {formatDuration(video.duration)}
-                        </div>
                       </td>
                       <td className="px-6 py-4 text-sm">
                         <div className="flex items-center gap-1">

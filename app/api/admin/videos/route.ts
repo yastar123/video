@@ -26,7 +26,7 @@ export async function POST(request: NextRequest) {
       description: body.description || '',
       thumbnail: body.thumbnail || 'https://via.placeholder.com/500x300',
       category: body.category,
-      duration: body.duration || 3600,
+      duration: 0,
       views: 0,
       rating: 0,
       url: body.url || '',
