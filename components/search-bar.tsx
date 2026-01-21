@@ -50,22 +50,22 @@ export function SearchBar({ onSearch, placeholder = 'Search videos...', initialV
   }
 
   return (
-    <div className="relative w-full">
-      <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" size={20} />
+    <div className="relative w-full group">
+      <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground group-focus-within:text-primary transition-colors duration-200" size={18} />
       <input
         type="text"
         value={value}
         onChange={handleChange}
         onKeyDown={handleKeyDown}
         placeholder={placeholder}
-        className="w-full pl-10 pr-10 py-2 rounded-lg border border-input bg-background focus:outline-none focus:ring-2 focus:ring-primary"
+        className="w-full pl-11 pr-11 py-2.5 rounded-full border border-border bg-muted/30 hover:bg-muted/50 focus:bg-background focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all duration-200 text-sm font-medium"
       />
       {value && (
         <button
           onClick={handleClear}
-          className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+          className="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors p-1 hover:bg-muted rounded-full"
         >
-          <X size={20} />
+          <X size={16} />
         </button>
       )}
     </div>
