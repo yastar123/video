@@ -1,0 +1,45 @@
+'use client'
+
+import { useEffect, useState } from 'react'
+import Link from 'next/link'
+import { User } from 'lucide-react'
+import { getCurrentUser } from '@/lib/session'
+
+export function HeaderUser() {
+  const [currentUser, setCurrentUser] = useState<any>(null)
+
+  useEffect(() => {
+    setCurrentUser(getCurrentUser())
+  }, [])
+
+  if (!currentUser) {
+    return (
+      <Link
+        href="/auth/login"
+        className="text-sm font-medium bg-foreground text-background px-4 py-2 rounded-md hover:bg-foreground/90 transition-colors"
+      >
+        Sign In
+      </Link>
+    )
+  }
+
+  return (
+    <Link
+      href="/profile"
+      className="flex items-center gap-2 text-sm font-medium hover:text-muted-foreground transition-colors"
+    >
+      {currentUser.image ? (
+        <img
+          src={currentUser.image}
+          alt={currentUser.username}
+          className="w-8 h-8 rounded-full border border-border"
+        />
+      ) : (
+        <div className="w-8 h-8 rounded-full bg-secondary border border-border flex items-center justify-center">
+          <User size={16} />
+        </div>
+      )}
+      <span>{currentUser.username}</span>
+    </Link>
+  )
+}

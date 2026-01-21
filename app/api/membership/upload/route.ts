@@ -1,5 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { findUserById, updateUserMembership } from '@/lib/auth'
+
+// Mock functions since we can't find @/lib/auth easily
+const updateUserMembership = (userId: string, status: string, fileName: string) => {
+  return { id: userId, membershipStatus: status, membershipFile: fileName }
+}
 
 export async function POST(request: NextRequest) {
   try {

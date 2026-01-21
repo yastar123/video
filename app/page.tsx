@@ -10,6 +10,7 @@ import { ChevronDown, LogIn, User } from 'lucide-react'
 import { Suspense } from 'react'
 import Loading from './loading'
 import Link from 'next/link'
+import { HeaderUser } from '@/components/header-user'
 import { getCurrentUser } from '@/lib/session'
 
 export const revalidate = 3600 // Revalidate home page every hour
@@ -73,11 +74,8 @@ export default async function Home({
     getVideos(search, selectedCategory, currentPage, sort)
   ])
 
-  const currentUser: any = null // getCurrentUser() is client-only as it uses localStorage
-
   return (
     <main className="min-h-screen bg-background">
-      {/* Header */}
       <header className="sticky top-0 z-50 bg-background border-b border-border">
         <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
           <div className="flex items-center gap-8">
@@ -88,48 +86,16 @@ export default async function Home({
               <span className="text-xl font-bold tracking-tight">StreamFlix</span>
             </Link>
             <nav className="hidden md:flex gap-6 text-sm font-medium text-muted-foreground">
-              <Link href="/" className="hover:text-foreground transition-colors">
-                Home
-              </Link>
-              <Link href="/kategori" className="hover:text-foreground transition-colors">
-                Categories
-              </Link>
-              <Link href="/admin" className="hover:text-foreground transition-colors">
-                Dashboard
-              </Link>
+              <Link href="/" className="hover:text-foreground transition-colors">Home</Link>
+              <Link href="/kategori" className="hover:text-foreground transition-colors">Categories</Link>
+              <Link href="/admin" className="hover:text-foreground transition-colors">Dashboard</Link>
             </nav>
           </div>
-          
           <div className="flex items-center gap-4">
             <div className="hidden md:block w-64">
               <SearchBar initialValue={search} />
             </div>
-            {currentUser ? (
-              <Link
-                href="/profile"
-                className="flex items-center gap-2 text-sm font-medium hover:text-muted-foreground transition-colors"
-              >
-                {currentUser.image ? (
-                  <img
-                    src={currentUser.image || "/placeholder.svg"}
-                    alt={currentUser.username}
-                    className="w-8 h-8 rounded-full border border-border"
-                  />
-                ) : (
-                  <div className="w-8 h-8 rounded-full bg-secondary border border-border flex items-center justify-center">
-                    <User size={16} />
-                  </div>
-                )}
-                <span>{currentUser.username}</span>
-              </Link>
-            ) : (
-              <Link
-                href="/auth/login"
-                className="text-sm font-medium bg-foreground text-background px-4 py-2 rounded-md hover:bg-foreground/90 transition-colors"
-              >
-                Sign In
-              </Link>
-            )}
+            <HeaderUser />
             <MobileMenu />
           </div>
         </div>
