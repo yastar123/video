@@ -65,7 +65,7 @@ export function VideoCard({ video, onClick, isLink, priority }: VideoCardProps) 
       className="group cursor-pointer space-y-4"
     >
       {/* Thumbnail */}
-      <div className="relative aspect-video rounded-xl overflow-hidden border border-border/50 bg-secondary transition-all duration-300 group-hover:border-primary/30 group-hover:shadow-2xl group-hover:shadow-primary/5 group-hover:-translate-y-1">
+      <div className="relative aspect-video rounded-xl overflow-hidden border border-border bg-secondary transition-all duration-300 group-hover:border-primary group-hover:shadow-2xl group-hover:shadow-primary/10 group-hover:-translate-y-1">
         {isVisible ? (
           <Image
             src={video.thumbnail || "/placeholder.svg"}
