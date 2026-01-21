@@ -29,6 +29,8 @@ export function VideoForm({
     category: video?.category || '',
     url: video?.url || '',
   })
+  const [newCategory, setNewCategory] = useState('')
+  const [isAddingCategory, setIsAddingCategory] = useState(false)
 
   const handleChange = (
     e: React.ChangeEvent<
@@ -40,6 +42,31 @@ export function VideoForm({
       ...prev,
       [name]: value,
     }))
+  }
+
+  const handleAddCategory = async () => {
+    if (!newCategory.trim()) return
+    setLoading(true)
+    try {
+      const res = await fetch('/api/categories', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name: newCategory.trim() }),
+      })
+      if (!res.ok) throw new Error('Failed to create category')
+      const category = await res.json()
+      // We expect the parent to refresh categories, but for immediate UX:
+      setFormData(prev => ({ ...prev, category: category.name }))
+      setIsAddingCategory(false)
+      setNewCategory('')
+      // Trigger a refresh of the categories list in the parent if possible
+      // In this simple MVP, we'll assume the user might need to reopen or the parent handles it via state
+      window.location.reload() // Simple way to sync for now
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to add category')
+    } finally {
+      setLoading(false)
+    }
   }
 
   const handleThumbnailFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -130,20 +157,48 @@ export function VideoForm({
             <label className="block text-sm font-medium mb-1">
               Category *
             </label>
-            <select
-              name="category"
-              value={formData.category}
-              onChange={handleChange}
-              required
-              className="w-full px-3 py-2 border border-input rounded-lg focus:outline-none focus:ring-2 focus:ring-primary bg-background"
-            >
-              <option value="">Select a category</option>
-              {categories.map((cat) => (
-                <option key={cat.id} value={cat.name}>
-                  {cat.name}
-                </option>
-              ))}
-            </select>
+            <div className="flex gap-2">
+              <select
+                name="category"
+                value={formData.category}
+                onChange={handleChange}
+                required
+                className="flex-1 px-3 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary bg-background"
+              >
+                <option value="">Select a category</option>
+                {categories.map((cat) => (
+                  <option key={cat.id} value={cat.name}>
+                    {cat.name}
+                  </option>
+                ))}
+              </select>
+              <button
+                type="button"
+                onClick={() => setIsAddingCategory(!isAddingCategory)}
+                className="px-3 py-2 border border-border rounded-lg hover:bg-muted transition-colors text-sm font-medium"
+              >
+                {isAddingCategory ? 'Cancel' : 'New'}
+              </button>
+            </div>
+            
+            {isAddingCategory && (
+              <div className="mt-2 flex gap-2 animate-in fade-in slide-in-from-top-1 duration-200">
+                <input
+                  type="text"
+                  value={newCategory}
+                  onChange={(e) => setNewCategory(e.target.value)}
+                  placeholder="New category name"
+                  className="flex-1 px-3 py-1.5 border border-border rounded-md text-sm bg-background focus:ring-1 focus:ring-primary outline-none"
+                />
+                <button
+                  type="button"
+                  onClick={handleAddCategory}
+                  className="px-3 py-1.5 bg-foreground text-background rounded-md text-sm font-medium hover:opacity-90 transition-opacity"
+                >
+                  Add
+                </button>
+              </div>
+            )}
           </div>
 
           {/* Thumbnail */}
