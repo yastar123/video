@@ -12,6 +12,8 @@ import Loading from './loading'
 import Link from 'next/link'
 import { getCurrentUser } from '@/lib/session'
 
+export const revalidate = 3600 // Revalidate home page every hour
+
 async function getCategories() {
   const { rows } = await query('SELECT * FROM categories ORDER BY name ASC')
   return rows
