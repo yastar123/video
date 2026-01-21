@@ -1,22 +1,17 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { updateUserMembership, findUserById } from '@/lib/auth'
-import { users } from '@/lib/db'
+import { query } from '@/lib/postgres'
 
 export async function GET() {
   try {
-    // Get all users with membership applications
-    const membershipUsers = users.filter(
-      (u) =>
-        u.membershipStatus === 'pending' || u.membershipStatus === 'approved'
-    )
-
-    return NextResponse.json(membershipUsers)
+    const { rows } = await query(`
+      SELECT * FROM users 
+      WHERE membership_status IN ('pending', 'approved')
+      ORDER BY created_at DESC
+    `)
+    return NextResponse.json(rows)
   } catch (error) {
-    console.error('Fetch error:', error)
-    return NextResponse.json(
-      { error: 'Failed to fetch membership data' },
-      { status: 500 }
-    )
+    console.error('Database error:', error)
+    return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 })
   }
 }
 
@@ -31,24 +26,21 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    const updatedUser = updateUserMembership(
-      userId,
-      status as 'pending' | 'approved' | 'none'
+    const { rows } = await query(
+      'UPDATE users SET membership_status = $1 WHERE id = $2 RETURNING *',
+      [status, userId]
     )
 
-    if (!updatedUser) {
+    if (rows.length === 0) {
       return NextResponse.json(
         { error: 'User not found' },
         { status: 404 }
       )
     }
 
-    return NextResponse.json(updatedUser)
+    return NextResponse.json(rows[0])
   } catch (error) {
-    console.error('Update error:', error)
-    return NextResponse.json(
-      { error: 'Failed to update membership' },
-      { status: 500 }
-    )
+    console.error('Database error:', error)
+    return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 })
   }
 }

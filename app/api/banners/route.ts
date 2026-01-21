@@ -1,6 +1,12 @@
 import { NextResponse } from 'next/server'
-import { banners } from '@/lib/db'
+import { query } from '@/lib/postgres'
 
 export async function GET() {
-  return NextResponse.json(banners)
+  try {
+    const { rows } = await query('SELECT * FROM banners ORDER BY id DESC')
+    return NextResponse.json(rows)
+  } catch (error) {
+    console.error('Database error:', error)
+    return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 })
+  }
 }
