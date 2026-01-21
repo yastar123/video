@@ -1,57 +1,38 @@
-'use client'
-
-import { useEffect, useState } from 'react'
-import { videos } from '@/lib/db'
-import type { Video } from '@/lib/db'
+import { query } from '@/lib/postgres'
 import { Star, Eye, Clock, ArrowLeft } from 'lucide-react'
 import { RandomVideos } from '@/components/random-videos'
 import { AdBanner } from '@/components/ad-banner'
 import Link from 'next/link'
+import dynamic from 'next/dynamic'
+import { notFound } from 'next/navigation'
 
-export default function VideoDetail({ params }: { params: Promise<{ id: string }> }) {
-  const [video, setVideo] = useState<Video | null>(null)
-  const [loading, setLoading] = useState(true)
+const VideoPlayer = dynamic(() => import('@/components/video-player'), {
+  ssr: false,
+  loading: () => (
+    <div className="aspect-video bg-muted flex items-center justify-center">
+      <div className="animate-spin w-8 h-8 border-4 border-muted border-t-primary rounded-full" />
+    </div>
+  )
+})
 
-  useEffect(() => {
-    const resolveParams = async () => {
-      try {
-        const { id } = await params
-        const foundVideo = videos.find((v) => v.id === id)
-        setVideo(foundVideo || null)
-      } catch (error) {
-        console.error('[v0] Error resolving params:', error)
-        setVideo(null)
-      } finally {
-        setLoading(false)
-      }
-    }
-    resolveParams()
-  }, [params])
+export async function generateStaticParams() {
+  const { rows } = await query('SELECT id FROM videos LIMIT 50')
+  return rows.map((video: any) => ({
+    id: video.id.toString(),
+  }))
+}
 
-  if (loading) {
-    return (
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="animate-spin w-8 h-8 border-4 border-muted border-t-primary rounded-full" />
-      </div>
-    )
-  }
+async function getVideo(id: string) {
+  const { rows } = await query('SELECT v.*, c.name as category FROM videos v LEFT JOIN categories c ON v.category_id = c.id WHERE v.id = $1', [id])
+  return rows[0] || null
+}
+
+export default async function VideoDetail({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params
+  const video = await getVideo(id)
 
   if (!video) {
-    return (
-      <main className="min-h-screen bg-background">
-        <header className="sticky top-0 z-50 bg-background/80 backdrop-blur border-b border-border">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-            <Link href="/" className="flex items-center gap-2 text-sm hover:text-primary transition w-fit">
-              <ArrowLeft size={18} />
-              Back to Home
-            </Link>
-          </div>
-        </header>
-        <div className="flex items-center justify-center min-h-screen">
-          <p className="text-lg text-muted-foreground">Video not found</p>
-        </div>
-      </main>
-    )
+    notFound()
   }
 
   const formatDuration = (seconds: number) => {
@@ -89,23 +70,7 @@ export default function VideoDetail({ params }: { params: Promise<{ id: string }
         {/* Video Player */}
         <section className="mb-8">
           <div className="relative w-full bg-black rounded-lg overflow-hidden border border-border">
-            <div className="aspect-video bg-muted flex items-center justify-center">
-              {video.url ? (
-                <video 
-                  src={video.url} 
-                  controls 
-                  className="w-full h-full"
-                  poster={video.thumbnail}
-                >
-                  Your browser does not support the video tag.
-                </video>
-              ) : (
-                <div className="text-center">
-                  <div className="mb-4 text-6xl opacity-20">▶</div>
-                  <p className="text-muted-foreground">Video URL not provided</p>
-                </div>
-              )}
-            </div>
+            <VideoPlayer url={video.url} thumbnail={video.thumbnail} />
           </div>
         </section>
 
@@ -135,7 +100,7 @@ export default function VideoDetail({ params }: { params: Promise<{ id: string }
                 <Star size={16} />
                 Rating
               </div>
-              <p className="text-2xl font-bold">{video.rating.toFixed(1)}/5</p>
+              <p className="text-2xl font-bold">{Number(video.rating).toFixed(1)}/5</p>
             </div>
 
             <div className="bg-muted p-4 rounded-lg">
@@ -156,7 +121,7 @@ export default function VideoDetail({ params }: { params: Promise<{ id: string }
           <div className="border-t border-border pt-4 text-sm text-muted-foreground">
             <p>
               Uploaded on{' '}
-              {new Date(video.createdAt).toLocaleDateString('en-US', {
+              {new Date(video.created_at).toLocaleDateString('en-US', {
                 year: 'numeric',
                 month: 'long',
                 day: 'numeric',

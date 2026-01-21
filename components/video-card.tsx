@@ -2,6 +2,8 @@
 
 import type { Video } from '@/lib/db'
 import { Star, Eye, Clock } from 'lucide-react'
+import Image from 'next/image'
+import { useEffect, useRef, useState } from 'react'
 
 interface VideoCardProps {
   video: Video
@@ -10,6 +12,27 @@ interface VideoCardProps {
 }
 
 export function VideoCard({ video, onClick, isLink }: VideoCardProps) {
+  const [isVisible, setIsVisible] = useState(false)
+  const cardRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true)
+          observer.unobserve(entry.target)
+        }
+      },
+      { threshold: 0.1 }
+    )
+
+    if (cardRef.current) {
+      observer.observe(cardRef.current)
+    }
+
+    return () => observer.disconnect()
+  }, [])
+
   const formatDuration = (seconds: number) => {
     const hours = Math.floor(seconds / 3600)
     const minutes = Math.floor((seconds % 3600) / 60)
@@ -31,16 +54,24 @@ export function VideoCard({ video, onClick, isLink }: VideoCardProps) {
 
   return (
     <div
+      ref={cardRef}
       onClick={onClick}
       className="group cursor-pointer space-y-3"
     >
       {/* Thumbnail */}
       <div className="relative aspect-video rounded-md overflow-hidden border border-border bg-secondary transition-all group-hover:border-foreground/20">
-        <img
-          src={video.thumbnail || "/placeholder.svg"}
-          alt={video.title}
-          className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-        />
+        {isVisible ? (
+          <Image
+            src={video.thumbnail || "/placeholder.svg"}
+            alt={video.title}
+            fill
+            className="object-cover transition-transform duration-300 group-hover:scale-105"
+            loading="lazy"
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
+          />
+        ) : (
+          <div className="w-full h-full bg-secondary animate-pulse" />
+        )}
 
         {/* Duration */}
         <div className="absolute bottom-2 right-2 bg-background/90 text-[10px] font-bold px-1.5 py-0.5 rounded border border-border">

@@ -1,6 +1,3 @@
-'use client'
-
-import { useEffect, useState } from 'react'
 import { HeroBanner } from '@/components/hero-banner'
 import { VideoCard } from '@/components/video-card'
 import { SearchBar } from '@/components/search-bar'
@@ -8,75 +5,73 @@ import { MobileMenu } from '@/components/mobile-menu'
 import { Pagination } from '@/components/pagination'
 import { SortFilter } from '@/components/sort-filter'
 import { AdBanner } from '@/components/ad-banner'
-import type { Video, Category } from '@/lib/db'
+import { query } from '@/lib/postgres'
 import { ChevronDown, LogIn, User } from 'lucide-react'
 import { Suspense } from 'react'
 import Loading from './loading'
 import Link from 'next/link'
 import { getCurrentUser } from '@/lib/session'
 
-export default function Home() {
-  const [videos, setVideos] = useState<Video[]>([])
-  const [categories, setCategories] = useState<Category[]>([])
-  const [search, setSearch] = useState('')
-  const [selectedCategory, setSelectedCategory] = useState('')
-  const [loading, setLoading] = useState(true)
-  const [currentPage, setCurrentPage] = useState(1)
-  const [totalPages, setTotalPages] = useState(1)
-  const [sort, setSort] = useState('newest')
-  const [currentUser, setCurrentUser] = useState<ReturnType<typeof getCurrentUser>>(null)
+async function getCategories() {
+  const { rows } = await query('SELECT * FROM categories ORDER BY name ASC')
+  return rows
+}
 
-  // Check current user
-  useEffect(() => {
-    const user = getCurrentUser()
-    setCurrentUser(user)
-  }, [])
+async function getVideos(search?: string, category?: string, page: number = 1, sort: string = 'newest') {
+  const limit = 8
+  const offset = (page - 1) * limit
+  let sql = 'SELECT v.*, c.name as category_name FROM videos v LEFT JOIN categories c ON v.category_id = c.id WHERE 1=1'
+  const params: any[] = []
 
-  // Fetch categories
-  useEffect(() => {
-    fetch('/api/categories')
-      .then((res) => {
-        if (!res.ok) throw new Error('API failed')
-        return res.json()
-      })
-      .then((data) => setCategories(Array.isArray(data) ? data : []))
-      .catch((err) => {
-        console.error('Failed to fetch categories:', err)
-        setCategories([])
-      })
-  }, [])
+  if (search) {
+    params.push(`%${search}%`)
+    sql += ` AND (v.title ILIKE $${params.length} OR v.description ILIKE $${params.length})`
+  }
 
-  // Fetch videos
-  useEffect(() => {
-    const params = new URLSearchParams()
-    if (search) params.append('search', search)
-    if (selectedCategory) params.append('category', selectedCategory)
-    params.append('page', currentPage.toString())
-    params.append('sort', sort)
-    params.append('limit', '8')
+  if (category) {
+    params.push(category)
+    sql += ` AND c.name = $${params.length}`
+  }
 
-    setLoading(true)
-    fetch(`/api/videos?${params}`)
-      .then((res) => {
-        if (!res.ok) throw new Error('API failed')
-        return res.json()
-      })
-      .then((data) => {
-        setVideos(Array.isArray(data.videos) ? data.videos : [])
-        setTotalPages(data.pagination?.totalPages || 1)
-        setLoading(false)
-      })
-      .catch((err) => {
-        console.error('Failed to fetch videos:', err)
-        setVideos([])
-        setLoading(false)
-      })
-  }, [search, selectedCategory, currentPage, sort])
+  let orderBy = 'v.created_at DESC'
+  if (sort === 'oldest') orderBy = 'v.created_at ASC'
+  else if (sort === 'popular') orderBy = 'v.views DESC'
+  else if (sort === 'rating') orderBy = 'v.rating DESC'
 
-  // Reset to page 1 when search or category changes
-  useEffect(() => {
-    setCurrentPage(1)
-  }, [search, selectedCategory])
+  const countSql = `SELECT COUNT(*) FROM (${sql}) as total`
+  const { rows: countRows } = await query(countSql, params)
+  const totalCount = parseInt(countRows[0].count)
+
+  sql += ` ORDER BY ${orderBy} LIMIT ${limit} OFFSET ${offset}`
+  const { rows: videoRows } = await query(sql, params)
+
+  return {
+    videos: videoRows,
+    pagination: {
+      totalCount,
+      totalPages: Math.ceil(totalCount / limit),
+      currentPage: page
+    }
+  }
+}
+
+export default async function Home({
+  searchParams,
+}: {
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>
+}) {
+  const params = await searchParams
+  const search = typeof params.search === 'string' ? params.search : undefined
+  const selectedCategory = typeof params.category === 'string' ? params.category : undefined
+  const currentPage = typeof params.page === 'string' ? parseInt(params.page) : 1
+  const sort = typeof params.sort === 'string' ? params.sort : 'newest'
+
+  const [categories, { videos, pagination }] = await Promise.all([
+    getCategories(),
+    getVideos(search, selectedCategory, currentPage, sort)
+  ])
+
+  const currentUser = getCurrentUser() // Note: This might need adjustment if it relies on browser cookies/localStorage
 
   return (
     <main className="min-h-screen bg-background">
@@ -91,21 +86,21 @@ export default function Home() {
               <span className="text-xl font-bold tracking-tight">StreamFlix</span>
             </Link>
             <nav className="hidden md:flex gap-6 text-sm font-medium text-muted-foreground">
-              <a href="/" className="hover:text-foreground transition-colors">
+              <Link href="/" className="hover:text-foreground transition-colors">
                 Home
-              </a>
-              <a href="/kategori" className="hover:text-foreground transition-colors">
+              </Link>
+              <Link href="/kategori" className="hover:text-foreground transition-colors">
                 Categories
-              </a>
-              <a href="/admin" className="hover:text-foreground transition-colors">
+              </Link>
+              <Link href="/admin" className="hover:text-foreground transition-colors">
                 Dashboard
-              </a>
+              </Link>
             </nav>
           </div>
           
           <div className="flex items-center gap-4">
             <div className="hidden md:block w-64">
-              <SearchBar onSearch={setSearch} />
+              <SearchBar initialValue={search} />
             </div>
             {currentUser ? (
               <Link
@@ -154,23 +149,23 @@ export default function Home() {
         <section className="mb-12 space-y-8">
           {/* Category Tabs */}
           <div className="flex items-center gap-1 border-b border-border overflow-x-auto pb-px no-scrollbar">
-            <button
-              onClick={() => setSelectedCategory('')}
+            <Link
+              href="/"
               className={`px-4 py-2 text-sm font-medium transition-colors relative ${
-                selectedCategory === ''
+                !selectedCategory
                   ? 'text-foreground'
                   : 'text-muted-foreground hover:text-foreground'
               }`}
             >
               All
-              {selectedCategory === '' && (
+              {!selectedCategory && (
                 <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-foreground" />
               )}
-            </button>
-            {categories.map((cat) => (
-              <button
+            </Link>
+            {categories.map((cat: any) => (
+              <Link
                 key={cat.id}
-                onClick={() => setSelectedCategory(cat.name)}
+                href={`/?category=${encodeURIComponent(cat.name)}${search ? `&search=${encodeURIComponent(search)}` : ''}`}
                 className={`px-4 py-2 text-sm font-medium transition-colors relative whitespace-nowrap ${
                   selectedCategory === cat.name
                     ? 'text-foreground'
@@ -181,7 +176,7 @@ export default function Home() {
                 {selectedCategory === cat.name && (
                   <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-foreground" />
                 )}
-              </button>
+              </Link>
             ))}
           </div>
         </section>
@@ -193,22 +188,12 @@ export default function Home() {
               {selectedCategory ? `${selectedCategory} Videos` : 'Popular Videos'}
             </h2>
             <div className="flex items-center gap-4">
-               <SortFilter currentSort={sort} onSortChange={setSort} />
+               <SortFilter currentSort={sort} />
             </div>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-6 gap-y-10">
-            {loading ? (
-              Array.from({ length: 8 }).map((_, i) => (
-                <div key={i} className="space-y-3">
-                  <div className="aspect-video bg-secondary animate-pulse rounded-md" />
-                  <div className="space-y-2">
-                    <div className="h-4 bg-secondary animate-pulse rounded w-3/4" />
-                    <div className="h-3 bg-secondary animate-pulse rounded w-1/2" />
-                  </div>
-                </div>
-              ))
-            ) : videos.length > 0 ? (
-              videos.map((video) => (
+            {videos.length > 0 ? (
+              videos.map((video: any) => (
                 <Link
                   key={video.id}
                   href={`/video/${video.id}`}
@@ -222,11 +207,10 @@ export default function Home() {
               </div>
             )}
           </div>
-          {videos.length > 0 && totalPages > 1 && (
+          {videos.length > 0 && pagination.totalPages > 1 && (
             <Pagination
               currentPage={currentPage}
-              totalPages={totalPages}
-              onPageChange={setCurrentPage}
+              totalPages={pagination.totalPages}
             />
           )}
         </section>
