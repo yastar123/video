@@ -5,7 +5,6 @@ import React from "react"
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { getCurrentUser, saveSession } from '@/lib/session'
-import { findUserById } from '@/lib/auth'
 import type { User } from '@/lib/db'
 import { Upload, LogOut, Heart } from 'lucide-react'
 import Link from 'next/link'
@@ -18,13 +17,28 @@ export default function ProfilePage() {
   const [selectedFile, setSelectedFile] = useState<File | null>(null)
 
   useEffect(() => {
-    const currentUser = getCurrentUser()
-    if (currentUser) {
-      setUser(currentUser)
-    } else {
-      router.push('/auth/login')
+    const fetchUser = async () => {
+      const currentUser = getCurrentUser()
+      if (currentUser) {
+        try {
+          // Verify with database
+          const res = await fetch(`/api/users?id=${currentUser.id}`)
+          const dbUsers = await res.json()
+          const dbUser = Array.isArray(dbUsers) ? dbUsers.find((u: any) => u.id === currentUser.id) : null
+          if (dbUser) {
+            setUser(dbUser)
+          } else {
+            setUser(currentUser)
+          }
+        } catch (err) {
+          setUser(currentUser)
+        }
+      } else {
+        router.push('/auth/login')
+      }
+      setLoading(false)
     }
-    setLoading(false)
+    fetchUser()
   }, [router])
 
   const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {

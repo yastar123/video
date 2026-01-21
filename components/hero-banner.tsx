@@ -13,7 +13,12 @@ export function HeroBanner() {
     fetch('/api/banners')
       .then((res) => res.json())
       .then((data) => {
-        setBanners(data)
+        setBanners(Array.isArray(data) ? data : [])
+        setLoading(false)
+      })
+      .catch((err) => {
+        console.error('Failed to fetch banners:', err)
+        setBanners([])
         setLoading(false)
       })
   }, [])

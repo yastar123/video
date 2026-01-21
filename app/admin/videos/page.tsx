@@ -22,8 +22,12 @@ export default function VideosPage() {
         ])
         const videosData = await videosRes.json()
         const categoriesData = await categoriesRes.json()
-        setVideos(videosData)
-        setCategories(categoriesData)
+        setVideos(Array.isArray(videosData) ? videosData : [])
+        setCategories(Array.isArray(categoriesData) ? categoriesData : [])
+      } catch (err) {
+        console.error('Failed to fetch data:', err)
+        setVideos([])
+        setCategories([])
       } finally {
         setLoading(false)
       }

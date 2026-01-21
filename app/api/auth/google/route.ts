@@ -1,64 +1,33 @@
 import { NextRequest, NextResponse } from 'next/server'
-import {
-  createOrUpdateUser,
-  generateSessionToken,
-  setSession,
-} from '@/lib/auth'
-
-// For demo: simple JWT decode without verification
-function decodeGoogleToken(token: string) {
-  try {
-    const parts = token.split('.')
-    const payload = parts[1]
-    const decoded = JSON.parse(
-      Buffer.from(payload, 'base64').toString('utf-8')
-    )
-    return decoded
-  } catch {
-    return null
-  }
-}
+import { query } from '@/lib/postgres'
 
 export async function POST(request: NextRequest) {
   try {
-    const { token } = await request.json()
-
-    if (!token) {
-      return NextResponse.json(
-        { success: false, error: 'No token provided' },
-        { status: 400 }
-      )
-    }
-
-    const decoded = decodeGoogleToken(token)
-
-    if (!decoded || !decoded.email) {
-      return NextResponse.json(
-        { success: false, error: 'Invalid token' },
-        { status: 401 }
-      )
-    }
-
-    const user = createOrUpdateUser({
-      id: decoded.sub,
-      email: decoded.email,
-      name: decoded.name || 'User',
-      image: decoded.picture,
-    })
-
-    const sessionToken = generateSessionToken()
-    setSession(sessionToken, user)
-
-    return NextResponse.json({
-      success: true,
-      sessionToken,
-      user,
-    })
-  } catch (error) {
-    console.error('Google auth error:', error)
-    return NextResponse.json(
-      { success: false, error: 'Authentication failed' },
-      { status: 500 }
+    const { userData } = await request.json()
+    
+    const { rows } = await query(
+      'SELECT * FROM users WHERE google_id = $1 OR email = $2',
+      [userData.id, userData.email]
     )
+
+    let user;
+    if (rows.length === 0) {
+      const { rows: newUsers } = await query(
+        'INSERT INTO users (username, email, google_id, image, role, status, membership_status) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *',
+        [userData.name, userData.email, userData.id, userData.picture, 'user', 'active', 'none']
+      )
+      user = newUsers[0]
+    } else {
+      user = rows[0]
+      if (user.image !== userData.picture) {
+        await query('UPDATE users SET image = $1 WHERE id = $2', [userData.picture, user.id])
+        user.image = userData.picture
+      }
+    }
+
+    return NextResponse.json({ success: true, user })
+  } catch (error) {
+    console.error('Auth error:', error)
+    return NextResponse.json({ error: 'Authentication failed' }, { status: 500 })
   }
 }

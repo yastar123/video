@@ -35,8 +35,15 @@ export default function Home() {
   // Fetch categories
   useEffect(() => {
     fetch('/api/categories')
-      .then((res) => res.json())
-      .then((data) => setCategories(data))
+      .then((res) => {
+        if (!res.ok) throw new Error('API failed')
+        return res.json()
+      })
+      .then((data) => setCategories(Array.isArray(data) ? data : []))
+      .catch((err) => {
+        console.error('Failed to fetch categories:', err)
+        setCategories([])
+      })
   }, [])
 
   // Fetch videos
@@ -50,10 +57,18 @@ export default function Home() {
 
     setLoading(true)
     fetch(`/api/videos?${params}`)
-      .then((res) => res.json())
+      .then((res) => {
+        if (!res.ok) throw new Error('API failed')
+        return res.json()
+      })
       .then((data) => {
-        setVideos(data.videos || [])
+        setVideos(Array.isArray(data.videos) ? data.videos : [])
         setTotalPages(data.pagination?.totalPages || 1)
+        setLoading(false)
+      })
+      .catch((err) => {
+        console.error('Failed to fetch videos:', err)
+        setVideos([])
         setLoading(false)
       })
   }, [search, selectedCategory, currentPage, sort])

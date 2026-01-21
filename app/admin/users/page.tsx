@@ -1,14 +1,28 @@
 'use client'
 
-import { users } from '@/lib/db'
+import { useEffect, useState } from 'react'
 import type { User } from '@/lib/db'
-import { useState } from 'react'
 import { Mail, UserCheck, UserX, Shield, User as UserIcon } from 'lucide-react'
 
 export default function UsersPage() {
-  const [usersList, setUsersList] = useState<User[]>(users)
+  const [usersList, setUsersList] = useState<User[]>([])
+  const [loading, setLoading] = useState(true)
   const [searchTerm, setSearchTerm] = useState('')
   const [deleteConfirm, setDeleteConfirm] = useState<string | null>(null)
+
+  useEffect(() => {
+    fetch('/api/users')
+      .then((res) => res.json())
+      .then((data) => {
+        setUsersList(Array.isArray(data) ? data : [])
+        setLoading(false)
+      })
+      .catch((err) => {
+        console.error('Failed to fetch users:', err)
+        setUsersList([])
+        setLoading(false)
+      })
+  }, [])
 
   const filteredUsers = usersList.filter(
     (user) =>
@@ -47,7 +61,6 @@ export default function UsersPage() {
           </p>
         </div>
 
-        {/* Stats */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
           <div className="bg-card border border-border rounded-lg p-6">
             <div className="flex items-center justify-between">
@@ -88,7 +101,6 @@ export default function UsersPage() {
           </div>
         </div>
 
-        {/* Search */}
         <div className="mb-6">
           <input
             type="text"
@@ -99,104 +111,108 @@ export default function UsersPage() {
           />
         </div>
 
-        {/* Users Table */}
-        <div className="bg-card rounded-lg overflow-hidden border border-border">
-          <div className="overflow-x-auto">
-            <table className="w-full">
-              <thead className="bg-muted border-b border-border">
-                <tr>
-                  <th className="px-6 py-3 text-left text-sm font-semibold">
-                    Username
-                  </th>
-                  <th className="px-6 py-3 text-left text-sm font-semibold">
-                    Email
-                  </th>
-                  <th className="px-6 py-3 text-left text-sm font-semibold">
-                    Role
-                  </th>
-                  <th className="px-6 py-3 text-left text-sm font-semibold">
-                    Join Date
-                  </th>
-                  <th className="px-6 py-3 text-left text-sm font-semibold">
-                    Status
-                  </th>
-                  <th className="px-6 py-3 text-left text-sm font-semibold">
-                    Actions
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {filteredUsers.map((user, idx) => (
-                  <tr
-                    key={user.id}
-                    className={`border-b border-border hover:bg-muted/50 transition ${
-                      idx % 2 === 0 ? 'bg-transparent' : 'bg-muted/20'
-                    }`}
-                  >
-                    <td className="px-6 py-4">
-                      <p className="font-medium">{user.username}</p>
-                    </td>
-                    <td className="px-6 py-4">
-                      <div className="flex items-center gap-2">
-                        <Mail size={16} className="text-muted-foreground" />
-                        {user.email}
-                      </div>
-                    </td>
-                    <td className="px-6 py-4">
-                      <span
-                        className={`px-2 py-1 rounded text-sm font-medium ${
-                          user.role === 'admin'
-                            ? 'bg-purple-500/20 text-purple-700'
-                            : 'bg-blue-500/20 text-blue-700'
-                        }`}
-                      >
-                        {user.role === 'admin' ? 'Admin' : 'User'}
-                      </span>
-                    </td>
-                    <td className="px-6 py-4 text-sm">
-                      {new Date(user.joinDate).toLocaleDateString()}
-                    </td>
-                    <td className="px-6 py-4">
-                      <span
-                        className={`px-2 py-1 rounded text-sm font-medium ${
-                          user.status === 'active'
-                            ? 'bg-green-500/20 text-green-700'
-                            : 'bg-red-500/20 text-red-700'
-                        }`}
-                      >
-                        {user.status === 'active' ? 'Active' : 'Inactive'}
-                      </span>
-                    </td>
-                    <td className="px-6 py-4">
-                      <div className="flex items-center gap-2">
-                        <button
-                          onClick={() => handleToggleStatus(user.id)}
-                          className="p-2 hover:bg-muted rounded transition"
-                          title="Toggle status"
-                        >
-                          {user.status === 'active' ? (
-                            <UserCheck size={18} className="text-green-600" />
-                          ) : (
-                            <UserX size={18} className="text-red-600" />
-                          )}
-                        </button>
-                        <button
-                          onClick={() => setDeleteConfirm(user.id)}
-                          className="p-2 hover:bg-destructive/20 rounded transition text-destructive text-sm"
-                        >
-                          Delete
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+        {loading ? (
+          <div className="flex items-center justify-center py-12">
+            <div className="animate-spin w-8 h-8 border-4 border-muted border-t-primary rounded-full" />
           </div>
-        </div>
+        ) : (
+          <div className="bg-card rounded-lg overflow-hidden border border-border">
+            <div className="overflow-x-auto">
+              <table className="w-full">
+                <thead className="bg-muted border-b border-border">
+                  <tr>
+                    <th className="px-6 py-3 text-left text-sm font-semibold">
+                      Username
+                    </th>
+                    <th className="px-6 py-3 text-left text-sm font-semibold">
+                      Email
+                    </th>
+                    <th className="px-6 py-3 text-left text-sm font-semibold">
+                      Role
+                    </th>
+                    <th className="px-6 py-3 text-left text-sm font-semibold">
+                      Join Date
+                    </th>
+                    <th className="px-6 py-3 text-left text-sm font-semibold">
+                      Status
+                    </th>
+                    <th className="px-6 py-3 text-left text-sm font-semibold">
+                      Actions
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {filteredUsers.map((user, idx) => (
+                    <tr
+                      key={user.id}
+                      className={`border-b border-border hover:bg-muted/50 transition ${
+                        idx % 2 === 0 ? 'bg-transparent' : 'bg-muted/20'
+                      }`}
+                    >
+                      <td className="px-6 py-4">
+                        <p className="font-medium">{user.username}</p>
+                      </td>
+                      <td className="px-6 py-4">
+                        <div className="flex items-center gap-2">
+                          <Mail size={16} className="text-muted-foreground" />
+                          {user.email}
+                        </div>
+                      </td>
+                      <td className="px-6 py-4">
+                        <span
+                          className={`px-2 py-1 rounded text-sm font-medium ${
+                            user.role === 'admin'
+                              ? 'bg-purple-500/20 text-purple-700'
+                              : 'bg-blue-500/20 text-blue-700'
+                          }`}
+                        >
+                          {user.role === 'admin' ? 'Admin' : 'User'}
+                        </span>
+                      </td>
+                      <td className="px-6 py-4 text-sm">
+                        {new Date(user.joinDate).toLocaleDateString()}
+                      </td>
+                      <td className="px-6 py-4">
+                        <span
+                          className={`px-2 py-1 rounded text-sm font-medium ${
+                            user.status === 'active'
+                              ? 'bg-green-500/20 text-green-700'
+                              : 'bg-red-500/20 text-red-700'
+                          }`}
+                        >
+                          {user.status === 'active' ? 'Active' : 'Inactive'}
+                        </span>
+                      </td>
+                      <td className="px-6 py-4">
+                        <div className="flex items-center gap-2">
+                          <button
+                            onClick={() => handleToggleStatus(user.id)}
+                            className="p-2 hover:bg-muted rounded transition"
+                            title="Toggle status"
+                          >
+                            {user.status === 'active' ? (
+                              <UserCheck size={18} className="text-green-600" />
+                            ) : (
+                              <UserX size={18} className="text-red-600" />
+                            )}
+                          </button>
+                          <button
+                            onClick={() => setDeleteConfirm(user.id)}
+                            className="p-2 hover:bg-destructive/20 rounded transition text-destructive text-sm"
+                          >
+                            Delete
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        )}
       </div>
 
-      {/* Delete Confirmation */}
       {deleteConfirm && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-40 p-4">
           <div className="bg-card rounded-lg p-6 max-w-sm">

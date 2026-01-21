@@ -1,15 +1,29 @@
 'use client'
 
-import { advertisements } from '@/lib/db'
+import { useEffect, useState } from 'react'
 import type { Advertisement } from '@/lib/db'
-import { useState } from 'react'
 import { Plus, Edit, Trash2, Eye, MousePointer, DollarSign } from 'lucide-react'
 
 export default function AdsPage() {
-  const [ads, setAds] = useState<Advertisement[]>(advertisements)
+  const [ads, setAds] = useState<Advertisement[]>([])
+  const [loading, setLoading] = useState(true)
   const [showForm, setShowForm] = useState(false)
   const [editingAd, setEditingAd] = useState<Advertisement | null>(null)
   const [deleteConfirm, setDeleteConfirm] = useState<string | null>(null)
+
+  useEffect(() => {
+    fetch('/api/ads')
+      .then((res) => res.json())
+      .then((data) => {
+        setAds(Array.isArray(data) ? data : [])
+        setLoading(false)
+      })
+      .catch((err) => {
+        console.error('Failed to fetch ads:', err)
+        setAds([])
+        setLoading(false)
+      })
+  }, [])
 
   const handleToggleStatus = (id: string) => {
     setAds((prev) =>
@@ -77,7 +91,6 @@ export default function AdsPage() {
           </button>
         </div>
 
-        {/* Performance Stats */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
           <div className="bg-card border border-border rounded-lg p-6">
             <div className="flex items-center justify-between">
@@ -140,118 +153,122 @@ export default function AdsPage() {
           </div>
         </div>
 
-        {/* Ads Table */}
-        <div className="bg-card rounded-lg overflow-hidden border border-border">
-          <div className="overflow-x-auto">
-            <table className="w-full">
-              <thead className="bg-muted border-b border-border">
-                <tr>
-                  <th className="px-6 py-3 text-left text-sm font-semibold">
-                    Title
-                  </th>
-                  <th className="px-6 py-3 text-left text-sm font-semibold">
-                    Category
-                  </th>
-                  <th className="px-6 py-3 text-left text-sm font-semibold">
-                    Position
-                  </th>
-                  <th className="px-6 py-3 text-left text-sm font-semibold">
-                    Impressions
-                  </th>
-                  <th className="px-6 py-3 text-left text-sm font-semibold">
-                    Clicks
-                  </th>
-                  <th className="px-6 py-3 text-left text-sm font-semibold">
-                    Revenue
-                  </th>
-                  <th className="px-6 py-3 text-left text-sm font-semibold">
-                    Status
-                  </th>
-                  <th className="px-6 py-3 text-left text-sm font-semibold">
-                    Actions
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {ads.map((ad, idx) => (
-                  <tr
-                    key={ad.id}
-                    className={`border-b border-border hover:bg-muted/50 transition ${
-                      idx % 2 === 0 ? 'bg-transparent' : 'bg-muted/20'
-                    }`}
-                  >
-                    <td className="px-6 py-4">
-                      <div className="flex items-center gap-3">
-                        <img
-                          src={ad.image || "/placeholder.svg"}
-                          alt={ad.title}
-                          className="w-12 h-12 rounded object-cover"
-                        />
-                        <p className="font-medium">{ad.title}</p>
-                      </div>
-                    </td>
-                    <td className="px-6 py-4">
-                      <span className="px-2 py-1 bg-muted rounded text-sm">
-                        {ad.category}
-                      </span>
-                    </td>
-                    <td className="px-6 py-4 text-sm capitalize">
-                      {ad.position}
-                    </td>
-                    <td className="px-6 py-4 text-sm">
-                      {ad.impressions.toLocaleString()}
-                    </td>
-                    <td className="px-6 py-4 text-sm">
-                      {ad.clicks.toLocaleString()}
-                    </td>
-                    <td className="px-6 py-4 text-sm font-medium">
-                      ${ad.revenue.toLocaleString()}
-                    </td>
-                    <td className="px-6 py-4">
-                      <span
-                        className={`px-2 py-1 rounded text-sm font-medium ${
-                          ad.status === 'active'
-                            ? 'bg-green-500/20 text-green-700'
-                            : 'bg-red-500/20 text-red-700'
-                        }`}
-                      >
-                        {ad.status === 'active' ? 'Active' : 'Inactive'}
-                      </span>
-                    </td>
-                    <td className="px-6 py-4">
-                      <div className="flex items-center gap-2">
-                        <button
-                          onClick={() => handleToggleStatus(ad.id)}
-                          className="p-2 hover:bg-muted rounded transition text-blue-500 text-sm"
-                        >
-                          {ad.status === 'active' ? 'Pause' : 'Resume'}
-                        </button>
-                        <button
-                          onClick={() => {
-                            setEditingAd(ad)
-                            setShowForm(true)
-                          }}
-                          className="p-2 hover:bg-muted rounded transition text-blue-500"
-                        >
-                          <Edit size={18} />
-                        </button>
-                        <button
-                          onClick={() => setDeleteConfirm(ad.id)}
-                          className="p-2 hover:bg-destructive/20 rounded transition text-destructive"
-                        >
-                          <Trash2 size={18} />
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+        {loading ? (
+          <div className="flex items-center justify-center py-12">
+            <div className="animate-spin w-8 h-8 border-4 border-muted border-t-primary rounded-full" />
           </div>
-        </div>
+        ) : (
+          <div className="bg-card rounded-lg overflow-hidden border border-border">
+            <div className="overflow-x-auto">
+              <table className="w-full">
+                <thead className="bg-muted border-b border-border">
+                  <tr>
+                    <th className="px-6 py-3 text-left text-sm font-semibold">
+                      Title
+                    </th>
+                    <th className="px-6 py-3 text-left text-sm font-semibold">
+                      Category
+                    </th>
+                    <th className="px-6 py-3 text-left text-sm font-semibold">
+                      Position
+                    </th>
+                    <th className="px-6 py-3 text-left text-sm font-semibold">
+                      Impressions
+                    </th>
+                    <th className="px-6 py-3 text-left text-sm font-semibold">
+                      Clicks
+                    </th>
+                    <th className="px-6 py-3 text-left text-sm font-semibold">
+                      Revenue
+                    </th>
+                    <th className="px-6 py-3 text-left text-sm font-semibold">
+                      Status
+                    </th>
+                    <th className="px-6 py-3 text-left text-sm font-semibold">
+                      Actions
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {ads.map((ad, idx) => (
+                    <tr
+                      key={ad.id}
+                      className={`border-b border-border hover:bg-muted/50 transition ${
+                        idx % 2 === 0 ? 'bg-transparent' : 'bg-muted/20'
+                      }`}
+                    >
+                      <td className="px-6 py-4">
+                        <div className="flex items-center gap-3">
+                          <img
+                            src={ad.image || "/placeholder.svg"}
+                            alt={ad.title}
+                            className="w-12 h-12 rounded object-cover"
+                          />
+                          <p className="font-medium">{ad.title}</p>
+                        </div>
+                      </td>
+                      <td className="px-6 py-4">
+                        <span className="px-2 py-1 bg-muted rounded text-sm">
+                          {ad.category}
+                        </span>
+                      </td>
+                      <td className="px-6 py-4 text-sm capitalize">
+                        {ad.position}
+                      </td>
+                      <td className="px-6 py-4 text-sm">
+                        {ad.impressions.toLocaleString()}
+                      </td>
+                      <td className="px-6 py-4 text-sm">
+                        {ad.clicks.toLocaleString()}
+                      </td>
+                      <td className="px-6 py-4 text-sm font-medium">
+                        ${ad.revenue.toLocaleString()}
+                      </td>
+                      <td className="px-6 py-4">
+                        <span
+                          className={`px-2 py-1 rounded text-sm font-medium ${
+                            ad.status === 'active'
+                              ? 'bg-green-500/20 text-green-700'
+                              : 'bg-red-500/20 text-red-700'
+                          }`}
+                        >
+                          {ad.status === 'active' ? 'Active' : 'Inactive'}
+                        </span>
+                      </td>
+                      <td className="px-6 py-4">
+                        <div className="flex items-center gap-2">
+                          <button
+                            onClick={() => handleToggleStatus(ad.id)}
+                            className="p-2 hover:bg-muted rounded transition text-blue-500 text-sm"
+                          >
+                            {ad.status === 'active' ? 'Pause' : 'Resume'}
+                          </button>
+                          <button
+                            onClick={() => {
+                              setEditingAd(ad)
+                              setShowForm(true)
+                            }}
+                            className="p-2 hover:bg-muted rounded transition text-blue-500"
+                          >
+                            <Edit size={18} />
+                          </button>
+                          <button
+                            onClick={() => setDeleteConfirm(ad.id)}
+                            className="p-2 hover:bg-destructive/20 rounded transition text-destructive"
+                          >
+                            <Trash2 size={18} />
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        )}
       </div>
 
-      {/* Delete Confirmation */}
       {deleteConfirm && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-40 p-4">
           <div className="bg-card rounded-lg p-6 max-w-sm">
@@ -277,7 +294,6 @@ export default function AdsPage() {
         </div>
       )}
 
-      {/* Ad Form Modal */}
       {showForm && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-40 p-4">
           <div className="bg-card rounded-lg p-8 max-w-xl w-full max-h-96 overflow-y-auto">

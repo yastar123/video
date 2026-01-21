@@ -11,43 +11,56 @@ import Link from 'next/link'
 import { MobileMenu } from '@/components/mobile-menu'
 
 export default function KategoriPage() {
-  const [selectedCategory, setSelectedCategory] = useState<string>('Action')
+  const [categoriesList, setCategoriesList] = useState<Category[]>([])
+  const [selectedCategory, setSelectedCategory] = useState<string>('')
   const [filteredVideos, setFilteredVideos] = useState<Video[]>([])
   const [currentPage, setCurrentPage] = useState(1)
   const [totalPages, setTotalPages] = useState(1)
   const [sort, setSort] = useState('newest')
+  const [loading, setLoading] = useState(true)
   const limit = 8
 
   useEffect(() => {
-    let filtered = videos.filter((v) => v.category === selectedCategory)
+    fetch('/api/categories')
+      .then((res) => res.json())
+      .then((data) => {
+        const cats = Array.isArray(data) ? data : []
+        setCategoriesList(cats)
+        if (cats.length > 0 && !selectedCategory) {
+          setSelectedCategory(cats[0].name)
+        }
+        setLoading(false)
+      })
+      .catch((err) => {
+        console.error('Failed to fetch categories:', err)
+        setCategoriesList([])
+        setLoading(false)
+      })
+  }, [])
 
-    // Apply sorting
-    switch (sort) {
-      case 'popular':
-        filtered = filtered.sort((a, b) => b.rating - a.rating)
-        break
-      case 'mostViewed':
-        filtered = filtered.sort((a, b) => b.views - a.views)
-        break
-      case 'oldest':
-        filtered = filtered.sort(
-          (a, b) =>
-            new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
-        )
-        break
-      case 'newest':
-      default:
-        filtered = filtered.sort(
-          (a, b) =>
-            new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-        )
-    }
+  useEffect(() => {
+    if (!selectedCategory) return
 
-    // Apply pagination
-    const total = filtered.length
-    setTotalPages(Math.ceil(total / limit))
-    const offset = (currentPage - 1) * limit
-    setFilteredVideos(filtered.slice(offset, offset + limit))
+    setLoading(true)
+    const params = new URLSearchParams({
+      category: selectedCategory,
+      sort,
+      page: currentPage.toString(),
+      limit: limit.toString()
+    })
+
+    fetch(`/api/videos?${params}`)
+      .then((res) => res.json())
+      .then((data) => {
+        setFilteredVideos(Array.isArray(data.videos) ? data.videos : [])
+        setTotalPages(data.pagination?.totalPages || 1)
+        setLoading(false)
+      })
+      .catch((err) => {
+        console.error('Failed to fetch videos:', err)
+        setFilteredVideos([])
+        setLoading(false)
+      })
   }, [selectedCategory, sort, currentPage])
 
   // Reset to page 1 when category changes
@@ -77,7 +90,7 @@ export default function KategoriPage() {
         <section className="mb-12">
           <h2 className="text-lg font-semibold mb-4">Browse by Category</h2>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
-            {categories.map((category) => (
+            {categoriesList.map((category) => (
               <button
                 key={category.id}
                 onClick={() => setSelectedCategory(category.name)}

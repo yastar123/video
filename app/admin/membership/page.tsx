@@ -20,9 +20,10 @@ export default function MembershipManagementPage() {
     try {
       const response = await fetch('/api/membership/manage')
       const data = await response.json()
-      setMemberships(data)
+      setMemberships(Array.isArray(data) ? data : [])
     } catch (error) {
       console.error('Fetch error:', error)
+      setMemberships([])
     } finally {
       setLoading(false)
     }
