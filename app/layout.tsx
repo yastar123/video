@@ -4,8 +4,15 @@ import { Geist, Geist_Mono } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
 import './globals.css'
 
-const _geist = Geist({ subsets: ["latin"] });
-const _geistMono = Geist_Mono({ subsets: ["latin"] });
+const geistSans = Geist({
+  subsets: ["latin"],
+  variable: "--font-geist-sans",
+});
+
+const geistMono = Geist_Mono({
+  subsets: ["latin"],
+  variable: "--font-geist-mono",
+});
 
 export const metadata: Metadata = {
   title: 'StreamFlix - Watch Videos Online',
@@ -36,8 +43,8 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en">
-      <body className={`font-sans antialiased`}>
+    <html lang="en" className="dark">
+      <body className={`${geistSans.variable} ${geistMono.variable} font-sans antialiased bg-background text-foreground selection:bg-primary selection:text-primary-foreground`}>
         {children}
         <Analytics />
       </body>
