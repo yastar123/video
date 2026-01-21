@@ -27,7 +27,6 @@ export function VideoForm({
     description: video?.description || '',
     thumbnail: video?.thumbnail || '',
     category: video?.category || '',
-    duration: video?.duration || 3600,
     url: video?.url || '',
   })
 
@@ -39,9 +38,15 @@ export function VideoForm({
     const { name, value } = e.target
     setFormData((prev) => ({
       ...prev,
-      [name]:
-        name === 'duration' ? parseInt(value) || 0 : value,
+      [name]: value,
     }))
+  }
+
+  const handleThumbnailFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (file) {
+      setFormData(prev => ({ ...prev, thumbnail: URL.createObjectURL(file) }))
+    }
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -141,41 +146,48 @@ export function VideoForm({
             </select>
           </div>
 
-          {/* Thumbnail URL */}
+          {/* Thumbnail */}
           <div>
             <label className="block text-sm font-medium mb-1">
-              Thumbnail URL
+              Thumbnail
             </label>
-            <input
-              type="url"
-              name="thumbnail"
-              value={formData.thumbnail}
-              onChange={handleChange}
-              className="w-full px-3 py-2 border border-input rounded-lg focus:outline-none focus:ring-2 focus:ring-primary bg-background"
-              placeholder="https://example.com/image.jpg"
-            />
+            <div className="space-y-3">
+              <input
+                type="url"
+                name="thumbnail"
+                value={formData.thumbnail}
+                onChange={handleChange}
+                className="w-full px-3 py-2 border border-input rounded-lg focus:outline-none focus:ring-2 focus:ring-primary bg-background"
+                placeholder="Thumbnail URL (e.g., https://example.com/image.jpg)"
+              />
+              <div className="relative">
+                <div className="absolute inset-0 flex items-center">
+                  <div className="w-full border-t border-border" />
+                </div>
+                <div className="relative flex justify-center text-xs">
+                  <span className="px-2 bg-card text-muted-foreground">or upload image</span>
+                </div>
+              </div>
+              <div className="border-2 border-dashed border-border rounded-lg p-4 text-center hover:border-primary/50 transition cursor-pointer">
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={handleThumbnailFileSelect}
+                  className="hidden"
+                  id="thumbnail-file"
+                />
+                <label htmlFor="thumbnail-file" className="cursor-pointer">
+                  <p className="text-sm font-medium">Click to upload thumbnail</p>
+                </label>
+              </div>
+            </div>
             {formData.thumbnail && (
               <img
-                src={formData.thumbnail || "/placeholder.svg"}
+                src={formData.thumbnail}
                 alt="Preview"
-                className="mt-2 h-32 object-cover rounded"
+                className="mt-2 h-32 w-full object-cover rounded border border-border"
               />
             )}
-          </div>
-
-          {/* Duration */}
-          <div>
-            <label className="block text-sm font-medium mb-1">
-              Duration (seconds)
-            </label>
-            <input
-              type="number"
-              name="duration"
-              value={formData.duration}
-              onChange={handleChange}
-              min="0"
-              className="w-full px-3 py-2 border border-input rounded-lg focus:outline-none focus:ring-2 focus:ring-primary bg-background"
-            />
           </div>
 
           {/* Video URL or File */}
@@ -223,11 +235,10 @@ export function VideoForm({
                 <div className="border-2 border-dashed border-border rounded-lg p-8 text-center hover:border-foreground/50 transition-colors">
                   <input
                     type="file"
-                    accept="video/*"
+                    accept="video/*,.m3u8,.mpd"
                     onChange={(e) => {
                       const file = e.target.files?.[0]
                       if (file) {
-                        // In a real app, you'd upload here
                         setFormData(prev => ({ ...prev, url: URL.createObjectURL(file) }))
                       }
                     }}
@@ -236,7 +247,7 @@ export function VideoForm({
                   />
                   <label htmlFor="video-file" className="cursor-pointer">
                     <p className="text-sm font-medium">Click to upload video</p>
-                    <p className="text-xs text-muted-foreground mt-1">MP4, WebM or Ogg</p>
+                    <p className="text-xs text-muted-foreground mt-1">MP4, HLS (.m3u8), DASH (.mpd)</p>
                   </label>
                 </div>
               )}
