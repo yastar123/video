@@ -71,7 +71,7 @@ export default async function Home({
     getVideos(search, selectedCategory, currentPage, sort)
   ])
 
-  const currentUser = getCurrentUser() // Note: This might need adjustment if it relies on browser cookies/localStorage
+  const currentUser: any = null // getCurrentUser() is client-only as it uses localStorage
 
   return (
     <main className="min-h-screen bg-background">

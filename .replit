@@ -23,7 +23,7 @@ author = "agent"
 
 [[workflows.workflow.tasks]]
 task = "shell.exec"
-args = "pnpm dev"
+args = "npm dev"
 waitForPort = 5000
 
 [workflows.workflow.metadata]
@@ -35,8 +35,8 @@ externalPort = 80
 
 [deployment]
 deploymentTarget = "autoscale"
-run = ["pnpm", "start"]
-build = ["pnpm", "build"]
+run = ["npm", "start"]
+build = ["npm", "run", "build"]
 
 [userenv]
 

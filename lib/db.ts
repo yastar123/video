@@ -11,7 +11,7 @@ export interface Video {
   views: number
   rating: number // 1-5
   url: string
-  createdAt: string
+  created_at: string
 }
 
 export interface Category {
