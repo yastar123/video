@@ -1,10 +1,8 @@
+'use client'
+
 import React from "react"
 import { AdminSidebar } from '@/components/admin-sidebar'
-
-export const metadata = {
-  title: 'Admin Dashboard - StreamFlix',
-  description: 'Manage your video streaming platform',
-}
+import { AdminAuthGuard } from '@/components/admin-auth-guard'
 
 export default function AdminLayout({
   children,
@@ -12,11 +10,13 @@ export default function AdminLayout({
   children: React.ReactNode
 }) {
   return (
-    <div className="flex h-screen bg-background overflow-hidden">
-      <AdminSidebar />
-      <div className="flex-1 overflow-auto">
-        {children}
+    <AdminAuthGuard>
+      <div className="flex h-screen bg-background overflow-hidden">
+        <AdminSidebar />
+        <div className="flex-1 overflow-auto">
+          {children}
+        </div>
       </div>
-    </div>
+    </AdminAuthGuard>
   )
 }

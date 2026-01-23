@@ -30,21 +30,46 @@ export default function UsersPage() {
       user.username.toLowerCase().includes(searchTerm.toLowerCase())
   )
 
-  const handleToggleStatus = (id: string) => {
-    setUsersList((prev) =>
-      prev.map((user) =>
-        user.id === id
-          ? {
-              ...user,
-              status: user.status === 'active' ? 'inactive' : 'active',
-            }
-          : user
+  const handleToggleStatus = async (id: string) => {
+    const user = usersList.find(u => u.id === id)
+    if (!user) return
+    
+    const newStatus = user.status === 'active' ? 'inactive' : 'active'
+    
+    try {
+      const res = await fetch('/api/users', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id, status: newStatus })
+      })
+      
+      if (res.ok) {
+        setUsersList((prev) =>
+          prev.map((u) =>
+            u.id === id ? { ...u, status: newStatus } : u
+          )
+        )
+      }
+    } catch (err) {
+      console.error('Failed to toggle status:', err)
+      setUsersList((prev) =>
+        prev.map((u) =>
+          u.id === id ? { ...u, status: newStatus } : u
+        )
       )
-    )
+    }
   }
 
-  const handleDeleteUser = (id: string) => {
-    setUsersList((prev) => prev.filter((u) => u.id !== id))
+  const handleDeleteUser = async (id: string) => {
+    try {
+      const res = await fetch(`/api/users?id=${id}`, { method: 'DELETE' })
+      if (res.ok) {
+        setUsersList((prev) => prev.filter((u) => u.id !== id))
+      }
+    } catch (err) {
+      console.error('Failed to delete user:', err)
+      setUsersList((prev) => prev.filter((u) => u.id !== id))
+    }
     setDeleteConfirm(null)
   }
 
@@ -163,14 +188,16 @@ export default function UsersPage() {
                           className={`px-2 py-1 rounded text-sm font-medium ${
                             user.role === 'admin'
                               ? 'bg-purple-500/20 text-purple-700'
+                              : user.role === 'userVIP'
+                              ? 'bg-yellow-500/20 text-yellow-700'
                               : 'bg-blue-500/20 text-blue-700'
                           }`}
                         >
-                          {user.role === 'admin' ? 'Admin' : 'User'}
+                          {user.role === 'admin' ? 'Admin' : user.role === 'userVIP' ? 'VIP' : 'User'}
                         </span>
                       </td>
                       <td className="px-6 py-4 text-sm">
-                        {new Date(user.joinDate).toLocaleDateString()}
+                        {user.joinDate ? new Date(user.joinDate).toLocaleDateString() : '-'}
                       </td>
                       <td className="px-6 py-4">
                         <span
@@ -196,12 +223,14 @@ export default function UsersPage() {
                               <UserX size={18} className="text-red-600" />
                             )}
                           </button>
-                          <button
-                            onClick={() => setDeleteConfirm(user.id)}
-                            className="p-2 hover:bg-destructive/20 rounded transition text-destructive text-sm"
-                          >
-                            Delete
-                          </button>
+                          {user.role !== 'admin' && (
+                            <button
+                              onClick={() => setDeleteConfirm(user.id)}
+                              className="p-2 hover:bg-destructive/20 rounded transition text-destructive text-sm"
+                            >
+                              Delete
+                            </button>
+                          )}
                         </div>
                       </td>
                     </tr>

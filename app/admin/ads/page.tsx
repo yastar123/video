@@ -10,66 +10,120 @@ export default function AdsPage() {
   const [showForm, setShowForm] = useState(false)
   const [editingAd, setEditingAd] = useState<Advertisement | null>(null)
   const [deleteConfirm, setDeleteConfirm] = useState<string | null>(null)
+  const [formData, setFormData] = useState({
+    title: '',
+    category: '',
+    position: 'top' as 'top' | 'sidebar' | 'bottom',
+    image: '',
+    link: ''
+  })
 
   useEffect(() => {
-    fetch('/api/ads')
-      .then((res) => res.json())
-      .then((data) => {
-        setAds(Array.isArray(data) ? data : [])
-        setLoading(false)
-      })
-      .catch((err) => {
-        console.error('Failed to fetch ads:', err)
-        setAds([])
-        setLoading(false)
-      })
+    fetchAds()
   }, [])
 
-  const handleToggleStatus = (id: string) => {
-    setAds((prev) =>
-      prev.map((ad) =>
-        ad.id === id
-          ? { ...ad, status: ad.status === 'active' ? 'inactive' : 'active' }
-          : ad
-      )
-    )
+  const fetchAds = async () => {
+    try {
+      const res = await fetch('/api/ads')
+      const data = await res.json()
+      setAds(Array.isArray(data) ? data : [])
+    } catch (err) {
+      console.error('Failed to fetch ads:', err)
+      setAds([])
+    } finally {
+      setLoading(false)
+    }
   }
 
-  const handleDeleteAd = (id: string) => {
-    setAds((prev) => prev.filter((a) => a.id !== id))
+  const handleToggleStatus = async (id: string, currentStatus: string) => {
+    const newStatus = currentStatus === 'active' ? 'inactive' : 'active'
+    const ad = ads.find(a => a.id === id)
+    if (!ad) return
+
+    try {
+      const res = await fetch('/api/ads', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...ad, id, status: newStatus })
+      })
+      if (res.ok) {
+        setAds((prev) =>
+          prev.map((a) =>
+            a.id === id ? { ...a, status: newStatus } : a
+          )
+        )
+      }
+    } catch (err) {
+      console.error('Failed to toggle status:', err)
+    }
+  }
+
+  const handleDeleteAd = async (id: string) => {
+    try {
+      const res = await fetch(`/api/ads?id=${id}`, { method: 'DELETE' })
+      if (res.ok) {
+        setAds((prev) => prev.filter((a) => a.id !== id))
+      }
+    } catch (err) {
+      console.error('Failed to delete ad:', err)
+    }
     setDeleteConfirm(null)
   }
 
-  const handleSubmit = (formData: Partial<Advertisement>) => {
-    if (editingAd) {
-      setAds((prev) =>
-        prev.map((ad) =>
-          ad.id === editingAd.id ? { ...ad, ...formData } : ad
-        )
-      )
-    } else {
-      const newAd: Advertisement = {
-        id: Date.now().toString(),
-        title: formData.title || '',
-        image: formData.image || '',
-        link: formData.link || '',
-        category: formData.category || '',
-        position: formData.position || 'top',
-        impressions: 0,
-        clicks: 0,
-        revenue: 0,
-        status: 'active',
-        createdAt: new Date().toISOString(),
+  const handleSubmit = async () => {
+    try {
+      if (editingAd) {
+        const res = await fetch('/api/ads', {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ ...formData, id: editingAd.id, status: editingAd.status })
+        })
+        if (res.ok) {
+          const updated = await res.json()
+          setAds((prev) =>
+            prev.map((ad) => (ad.id === updated.id ? { ...ad, ...updated } : ad))
+          )
+        }
+      } else {
+        const res = await fetch('/api/ads', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(formData)
+        })
+        if (res.ok) {
+          const newAd = await res.json()
+          setAds((prev) => [{ ...newAd, impressions: 0, clicks: 0, revenue: 0 }, ...prev])
+        }
       }
-      setAds((prev) => [newAd, ...prev])
+    } catch (err) {
+      console.error('Failed to save ad:', err)
     }
     setShowForm(false)
     setEditingAd(null)
+    setFormData({ title: '', category: '', position: 'top', image: '', link: '' })
   }
 
-  const totalImpressions = ads.reduce((sum, ad) => sum + ad.impressions, 0)
-  const totalClicks = ads.reduce((sum, ad) => sum + ad.clicks, 0)
-  const totalRevenue = ads.reduce((sum, ad) => sum + ad.revenue, 0)
+  const openEditForm = (ad: Advertisement) => {
+    setEditingAd(ad)
+    setFormData({
+      title: ad.title,
+      category: ad.category || '',
+      position: ad.position,
+      image: ad.image || '',
+      link: ad.link || ''
+    })
+    setShowForm(true)
+  }
+
+  const openNewForm = () => {
+    setEditingAd(null)
+    setFormData({ title: '', category: '', position: 'top', image: '', link: '' })
+    setShowForm(true)
+  }
+
+  const totalImpressions = ads.reduce((sum, ad) => sum + (ad.impressions || 0), 0)
+  const totalClicks = ads.reduce((sum, ad) => sum + (ad.clicks || 0), 0)
+  const totalRevenue = ads.reduce((sum, ad) => sum + (Number(ad.revenue) || 0), 0)
   const ctr = totalImpressions > 0 ? ((totalClicks / totalImpressions) * 100).toFixed(2) : '0'
 
   return (
@@ -83,7 +137,7 @@ export default function AdsPage() {
             </p>
           </div>
           <button
-            onClick={() => setShowForm(true)}
+            onClick={openNewForm}
             className="px-4 py-2 bg-primary text-primary-foreground rounded-lg hover:opacity-90 transition flex items-center gap-2 whitespace-nowrap"
           >
             <Plus size={20} />
@@ -157,6 +211,17 @@ export default function AdsPage() {
           <div className="flex items-center justify-center py-12">
             <div className="animate-spin w-8 h-8 border-4 border-muted border-t-primary rounded-full" />
           </div>
+        ) : ads.length === 0 ? (
+          <div className="text-center py-12 bg-card rounded-lg border border-border">
+            <p className="text-muted-foreground mb-4">No advertisements yet.</p>
+            <button
+              onClick={openNewForm}
+              className="px-4 py-2 bg-primary text-primary-foreground rounded-lg hover:opacity-90 transition inline-flex items-center gap-2"
+            >
+              <Plus size={20} />
+              Add Ad
+            </button>
+          </div>
         ) : (
           <div className="bg-card rounded-lg overflow-hidden border border-border">
             <div className="overflow-x-auto">
@@ -199,30 +264,32 @@ export default function AdsPage() {
                     >
                       <td className="px-6 py-4">
                         <div className="flex items-center gap-3">
-                          <img
-                            src={ad.image || "/placeholder.svg"}
-                            alt={ad.title}
-                            className="w-12 h-12 rounded object-cover"
-                          />
+                          {ad.image && (
+                            <img
+                              src={ad.image || "/placeholder.svg"}
+                              alt={ad.title}
+                              className="w-12 h-12 rounded object-cover"
+                            />
+                          )}
                           <p className="font-medium">{ad.title}</p>
                         </div>
                       </td>
                       <td className="px-6 py-4">
                         <span className="px-2 py-1 bg-muted rounded text-sm">
-                          {ad.category}
+                          {ad.category || '-'}
                         </span>
                       </td>
                       <td className="px-6 py-4 text-sm capitalize">
                         {ad.position}
                       </td>
                       <td className="px-6 py-4 text-sm">
-                        {ad.impressions.toLocaleString()}
+                        {(ad.impressions || 0).toLocaleString()}
                       </td>
                       <td className="px-6 py-4 text-sm">
-                        {ad.clicks.toLocaleString()}
+                        {(ad.clicks || 0).toLocaleString()}
                       </td>
                       <td className="px-6 py-4 text-sm font-medium">
-                        ${ad.revenue.toLocaleString()}
+                        ${(Number(ad.revenue) || 0).toLocaleString()}
                       </td>
                       <td className="px-6 py-4">
                         <span
@@ -238,16 +305,13 @@ export default function AdsPage() {
                       <td className="px-6 py-4">
                         <div className="flex items-center gap-2">
                           <button
-                            onClick={() => handleToggleStatus(ad.id)}
+                            onClick={() => handleToggleStatus(ad.id, ad.status)}
                             className="p-2 hover:bg-muted rounded transition text-blue-500 text-sm"
                           >
                             {ad.status === 'active' ? 'Pause' : 'Resume'}
                           </button>
                           <button
-                            onClick={() => {
-                              setEditingAd(ad)
-                              setShowForm(true)
-                            }}
+                            onClick={() => openEditForm(ad)}
                             className="p-2 hover:bg-muted rounded transition text-blue-500"
                           >
                             <Edit size={18} />
@@ -296,7 +360,7 @@ export default function AdsPage() {
 
       {showForm && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-40 p-4">
-          <div className="bg-card rounded-lg p-8 max-w-xl w-full max-h-96 overflow-y-auto">
+          <div className="bg-card rounded-lg p-8 max-w-xl w-full max-h-[90vh] overflow-y-auto">
             <h3 className="text-2xl font-bold mb-6">
               {editingAd ? 'Edit Ad' : 'Add New Ad'}
             </h3>
@@ -307,7 +371,30 @@ export default function AdsPage() {
                 <input
                   type="text"
                   placeholder="Ad title"
-                  defaultValue={editingAd?.title || ''}
+                  value={formData.title}
+                  onChange={(e) => setFormData({...formData, title: e.target.value})}
+                  className="w-full px-4 py-2 border border-input rounded-lg bg-background focus:outline-none focus:ring-2 focus:ring-primary"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium mb-2">Image URL</label>
+                <input
+                  type="text"
+                  placeholder="https://example.com/image.jpg"
+                  value={formData.image}
+                  onChange={(e) => setFormData({...formData, image: e.target.value})}
+                  className="w-full px-4 py-2 border border-input rounded-lg bg-background focus:outline-none focus:ring-2 focus:ring-primary"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium mb-2">Link URL</label>
+                <input
+                  type="text"
+                  placeholder="https://example.com"
+                  value={formData.link}
+                  onChange={(e) => setFormData({...formData, link: e.target.value})}
                   className="w-full px-4 py-2 border border-input rounded-lg bg-background focus:outline-none focus:ring-2 focus:ring-primary"
                 />
               </div>
@@ -319,7 +406,8 @@ export default function AdsPage() {
                 <input
                   type="text"
                   placeholder="Ad category"
-                  defaultValue={editingAd?.category || ''}
+                  value={formData.category}
+                  onChange={(e) => setFormData({...formData, category: e.target.value})}
                   className="w-full px-4 py-2 border border-input rounded-lg bg-background focus:outline-none focus:ring-2 focus:ring-primary"
                 />
               </div>
@@ -329,7 +417,8 @@ export default function AdsPage() {
                   Position
                 </label>
                 <select
-                  defaultValue={editingAd?.position || 'top'}
+                  value={formData.position}
+                  onChange={(e) => setFormData({...formData, position: e.target.value as any})}
                   className="w-full px-4 py-2 border border-input rounded-lg bg-background focus:outline-none focus:ring-2 focus:ring-primary"
                 >
                   <option value="top">Top Banner</option>
@@ -344,21 +433,16 @@ export default function AdsPage() {
                 onClick={() => {
                   setShowForm(false)
                   setEditingAd(null)
+                  setFormData({ title: '', category: '', position: 'top', image: '', link: '' })
                 }}
                 className="px-4 py-2 border border-input rounded-lg hover:bg-muted transition"
               >
                 Cancel
               </button>
               <button
-                onClick={() => {
-                  const formData = {
-                    title: 'Sample Ad',
-                    category: 'Sample',
-                    position: 'top' as const,
-                  }
-                  handleSubmit(formData)
-                }}
-                className="px-4 py-2 bg-primary text-primary-foreground rounded-lg hover:opacity-90 transition"
+                onClick={handleSubmit}
+                disabled={!formData.title}
+                className="px-4 py-2 bg-primary text-primary-foreground rounded-lg hover:opacity-90 transition disabled:opacity-50"
               >
                 {editingAd ? 'Update' : 'Create'}
               </button>
