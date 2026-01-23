@@ -14,6 +14,7 @@ const nextConfig = {
   },
   allowedDevOrigins: [
     'https://*.replit.dev',
+    'https://*.spock.replit.dev',
     'https://*.janeway.replit.dev',
     'http://127.0.0.1',
     'http://localhost',
