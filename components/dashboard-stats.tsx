@@ -157,31 +157,6 @@ export function DashboardStats({ categories }: { categories: Category[] }) {
           </CardContent>
         </Card>
       </div>
-
-      {/* Ad Performance */}
-      <Card>
-        <CardHeader>
-          <CardTitle>Active Ad Performance</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <ResponsiveContainer width="100%" height={300}>
-            <BarChart data={adPerformance}>
-              <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" />
-              <XAxis dataKey="name" stroke="var(--muted-foreground)" />
-              <YAxis stroke="var(--muted-foreground)" />
-              <Tooltip
-                contentStyle={{
-                  backgroundColor: 'var(--card)',
-                  border: '1px solid var(--border)',
-                }}
-              />
-              <Legend />
-              <Bar dataKey="impressions" fill="#3b82f6" radius={[8, 8, 0, 0]} />
-              <Bar dataKey="clicks" fill="#10b981" radius={[8, 8, 0, 0]} />
-            </BarChart>
-          </ResponsiveContainer>
-        </CardContent>
-      </Card>
     </div>
   )
 }
