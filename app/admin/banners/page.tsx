@@ -41,27 +41,22 @@ export default function BannersPage() {
 
     setUploading(true)
     try {
-      const res = await fetch('/api/uploads/request-url', {
+      const formData = new FormData()
+      formData.append('file', file)
+      formData.append('type', 'banner')
+      
+      const res = await fetch('/api/uploads/file', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          name: file.name,
-          size: file.size,
-          contentType: file.type,
-          type: 'banner'
-        })
-      })
-      const { uploadURL, objectPath } = await res.json()
-      
-      await fetch(uploadURL, {
-        method: 'PUT',
-        body: file,
-        headers: { 'Content-Type': file.type }
+        body: formData,
       })
       
+      if (!res.ok) throw new Error('Upload failed')
+      
+      const { objectPath } = await res.json()
       setFormData(prev => ({ ...prev, image: objectPath }))
     } catch (err) {
       console.error('Upload failed:', err)
+      alert('Upload failed: ' + (err instanceof Error ? err.message : 'Unknown error'))
     } finally {
       setUploading(false)
     }
@@ -133,7 +128,7 @@ export default function BannersPage() {
               <div key={banner.id} className="bg-card border border-border rounded-lg overflow-hidden flex flex-col md:flex-row">
                 <div className="w-full md:w-64 h-48 relative">
                   <img 
-                    src={banner.image.startsWith('/') ? banner.image : `/uploads/${banner.image}`} 
+                    src={banner.image} 
                     alt={banner.title} 
                     className="w-full h-full object-cover" 
                   />
@@ -205,7 +200,7 @@ export default function BannersPage() {
                 />
                 {formData.image && (
                   <img 
-                    src={formData.image.startsWith('/') ? formData.image : `/uploads/${formData.image}`} 
+                    src={formData.image} 
                     className="mt-2 h-32 object-contain" 
                     alt="Preview" 
                   />

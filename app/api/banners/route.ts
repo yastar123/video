@@ -3,7 +3,7 @@ import { query } from '@/lib/postgres'
 
 export async function GET() {
   try {
-    const { rows } = await query('SELECT * FROM banners ORDER BY id DESC')
+    const { rows } = await query('SELECT * FROM banners ORDER BY created_at DESC')
     return NextResponse.json(rows)
   } catch (error) {
     console.error('Database error:', error)
