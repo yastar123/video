@@ -69,18 +69,12 @@ export function DashboardStats({ categories }: { categories: Category[] }) {
       icon: Users,
       color: 'bg-purple-500/10 text-purple-600',
     },
-    {
-      title: 'Revenue',
-      value: `$${totalRevenue.toLocaleString()}`,
-      icon: DollarSign,
-      color: 'bg-amber-500/10 text-amber-600',
-    },
   ]
 
   return (
     <div className="space-y-6">
       {/* Stats Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         {statCards.map((stat, idx) => {
           const Icon = stat.icon
           return (

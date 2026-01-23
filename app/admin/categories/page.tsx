@@ -11,8 +11,7 @@ export default function CategoriesPage() {
   const [editingCategory, setEditingCategory] = useState<Category | null>(null)
   const [deleteConfirm, setDeleteConfirm] = useState<string | null>(null)
   const [formData, setFormData] = useState({
-    name: '',
-    icon: ''
+    name: ''
   })
 
   useEffect(() => {
@@ -44,7 +43,7 @@ export default function CategoriesPage() {
         fetchCategories()
         setShowForm(false)
         setEditingCategory(null)
-        setFormData({ name: '', icon: '' })
+        setFormData({ name: '' })
       }
     } catch (err) {
       console.error('Failed to save category:', err)
@@ -74,7 +73,7 @@ export default function CategoriesPage() {
           <button
             onClick={() => {
               setEditingCategory(null)
-              setFormData({ name: '', icon: '' })
+              setFormData({ name: '' })
               setShowForm(true)
             }}
             className="px-4 py-2 bg-primary text-primary-foreground rounded-lg hover:opacity-90 transition flex items-center gap-2"
@@ -97,7 +96,6 @@ export default function CategoriesPage() {
             <table className="w-full">
               <thead className="bg-muted border-b border-border">
                 <tr>
-                  <th className="px-6 py-3 text-left text-sm font-semibold">Icon</th>
                   <th className="px-6 py-3 text-left text-sm font-semibold">Name</th>
                   <th className="px-6 py-3 text-left text-sm font-semibold">Actions</th>
                 </tr>
@@ -105,14 +103,13 @@ export default function CategoriesPage() {
               <tbody>
                 {categories.map((category) => (
                   <tr key={category.id} className="border-b border-border hover:bg-muted/50 transition">
-                    <td className="px-6 py-4 text-2xl">{category.icon}</td>
                     <td className="px-6 py-4 font-medium">{category.name}</td>
                     <td className="px-6 py-4">
                       <div className="flex gap-2">
                         <button
                           onClick={() => {
                             setEditingCategory(category)
-                            setFormData({ name: category.name, icon: category.icon || '' })
+                            setFormData({ name: category.name })
                             setShowForm(true)
                           }}
                           className="p-2 hover:bg-muted rounded transition text-blue-500"
@@ -147,16 +144,6 @@ export default function CategoriesPage() {
                   value={formData.name}
                   onChange={e => setFormData({...formData, name: e.target.value})}
                   className="w-full px-4 py-2 border rounded-lg bg-background"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium mb-1">Icon (Emoji)</label>
-                <input
-                  type="text"
-                  value={formData.icon}
-                  onChange={e => setFormData({...formData, icon: e.target.value})}
-                  className="w-full px-4 py-2 border rounded-lg bg-background"
-                  placeholder="e.g. 🎭"
                 />
               </div>
               <div className="flex gap-3 justify-end mt-8">
