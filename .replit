@@ -1,4 +1,4 @@
-modules = ["nodejs-20", "web"]
+modules = ["nodejs-20", "web", "postgresql-16"]
 [agent]
 expertMode = true
 integrations = ["javascript_object_storage:2.0.0"]
@@ -55,3 +55,4 @@ NEXTAUTH_URL = "https://video.seyiki.com"
 NODE_ENV = "production"
 PORT = "3005"
 NEXTAUTH_SECRET = "2670db856738c847a4f7d147490bfd3c20ecd21ebf10c99e3fba6ef0a7ebd8f1"
+PRIVATE_OBJECT_DIR = "/replit-objstore-26642c4d-3bc2-4643-a60e-5119f4132a2c"

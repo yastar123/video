@@ -7,7 +7,7 @@ export async function GET(request: NextRequest) {
   const status = searchParams.get('status')
 
   try {
-    let sql = 'SELECT id, title, image, link, position, status, category, impressions, clicks, revenue, created_at as "createdAt" FROM advertisements WHERE 1=1'
+    let sql = 'SELECT id, title, image, link, position, status, created_at as "createdAt" FROM advertisements WHERE 1=1'
     const params: any[] = []
 
     if (position) {
@@ -33,11 +33,11 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   try {
     const data = await request.json()
-    const { title, image, link, position, category } = data
+    const { title, image, link, position } = data
 
     const { rows } = await query(
-      'INSERT INTO advertisements (title, image, link, position, category, status) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *',
-      [title, image || '', link || '', position || 'top', category || '', 'active']
+      'INSERT INTO advertisements (title, image, link, position, status) VALUES ($1, $2, $3, $4, $5) RETURNING *',
+      [title, image || '', link || '', position || 'top', 'active']
     )
 
     return NextResponse.json(rows[0])
@@ -50,11 +50,11 @@ export async function POST(request: NextRequest) {
 export async function PUT(request: NextRequest) {
   try {
     const data = await request.json()
-    const { id, title, image, link, position, category, status } = data
+    const { id, title, image, link, position, status } = data
 
     const { rows } = await query(
-      'UPDATE advertisements SET title = $1, image = $2, link = $3, position = $4, category = $5, status = $6 WHERE id = $7 RETURNING *',
-      [title, image || '', link || '', position || 'top', category || '', status || 'active', id]
+      'UPDATE advertisements SET title = $1, image = $2, link = $3, position = $4, status = $5 WHERE id = $6 RETURNING *',
+      [title, image || '', link || '', position || 'top', status || 'active', id]
     )
 
     return NextResponse.json(rows[0])
