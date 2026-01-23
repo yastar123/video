@@ -40,19 +40,26 @@ export default function BannersPage() {
     if (!file) return
 
     setUploading(true)
-    const uploadFormData = new FormData()
-    uploadFormData.append('file', file)
-    uploadFormData.append('type', 'banner')
-
     try {
-      const res = await fetch('/api/uploads/file', {
+      const res = await fetch('/api/uploads/request-url', {
         method: 'POST',
-        body: uploadFormData
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: file.name,
+          size: file.size,
+          contentType: file.type,
+          type: 'banner'
+        })
       })
-      const data = await res.json()
-      if (data.success) {
-        setFormData(prev => ({ ...prev, image: data.objectPath }))
-      }
+      const { uploadURL, objectPath } = await res.json()
+      
+      await fetch(uploadURL, {
+        method: 'PUT',
+        body: file,
+        headers: { 'Content-Type': file.type }
+      })
+      
+      setFormData(prev => ({ ...prev, image: objectPath }))
     } catch (err) {
       console.error('Upload failed:', err)
     } finally {
