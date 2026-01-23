@@ -122,20 +122,20 @@ export default function BannersPage() {
             <p className="text-muted-foreground">No banners found.</p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {banners.map((banner) => (
-              <div key={banner.id} className="bg-card border border-border rounded-lg overflow-hidden flex flex-col md:flex-row">
-                <div className="w-full md:w-64 h-48 relative">
+              <div key={banner.id} className="bg-card border border-border rounded-lg overflow-hidden flex flex-col">
+                <div className="w-full h-40 relative">
                   <img 
                     src={banner.image} 
                     alt={banner.title} 
                     className="w-full h-full object-cover" 
                   />
                 </div>
-                <div className="p-6 flex-1 flex flex-col justify-between">
+                <div className="p-4 flex-1 flex flex-col justify-between">
                   <div>
-                    <h3 className="text-xl font-bold">{banner.title}</h3>
-                    {banner.link && <p className="text-sm text-primary mt-2">{banner.link}</p>}
+                    <h3 className="text-lg font-bold line-clamp-1">{banner.title}</h3>
+                    {banner.link && <p className="text-xs text-primary mt-1 truncate">{banner.link}</p>}
                   </div>
                   <div className="flex gap-2 mt-4">
                     <button
