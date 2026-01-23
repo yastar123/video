@@ -4,7 +4,7 @@ import React from "react"
 
 import type { Video, Category } from '@/lib/db'
 import { useState } from 'react'
-import { X, Upload, Loader2 } from 'lucide-react'
+import { X, Upload, Loader2, Trash2 } from 'lucide-react'
 
 interface VideoFormProps {
   video?: Video
@@ -307,15 +307,25 @@ export function VideoForm({
               </div>
             </div>
             {formData.thumbnail && (
-              <div className="mt-2">
+              <div className="mt-2 relative group">
                 <p className="text-xs text-muted-foreground mb-1">
                   {formData.thumbnail.startsWith('/uploads') ? 'Uploaded file' : 'URL preview'}
                 </p>
-                <img
-                  src={formData.thumbnail}
-                  alt="Preview"
-                  className="h-32 w-full object-cover rounded border border-border"
-                />
+                <div className="relative">
+                  <img
+                    src={formData.thumbnail}
+                    alt="Preview"
+                    className="h-32 w-full object-cover rounded border border-border"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setFormData(prev => ({ ...prev, thumbnail: '' }))}
+                    className="absolute top-2 right-2 p-1.5 bg-destructive text-destructive-foreground rounded-full opacity-0 group-hover:opacity-100 transition-opacity shadow-lg"
+                    title="Remove thumbnail"
+                  >
+                    <Trash2 size={14} />
+                  </button>
+                </div>
               </div>
             )}
           </div>

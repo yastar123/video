@@ -1,73 +1,67 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { videos } from '@/lib/db'
-
-// Simulasi state in-memory untuk demo
-let videosState = [...videos]
+import { query } from '@/lib/postgres'
 
 export async function GET() {
-  return NextResponse.json(videosState)
+  try {
+    const { rows } = await query('SELECT v.*, c.name as category FROM videos v LEFT JOIN categories c ON v.category_id = c.id ORDER BY v.created_at DESC')
+    return NextResponse.json(rows)
+  } catch (error) {
+    console.error('Database error:', error)
+    return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 })
+  }
 }
 
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
+    const { title, description, thumbnail, category, url } = body
 
-    // Validate required fields
-    if (!body.title || !body.category) {
-      return NextResponse.json(
-        { error: 'Missing required fields' },
-        { status: 400 }
-      )
+    if (!title || !category) {
+      return NextResponse.json({ error: 'Missing required fields' }, { status: 400 })
     }
 
-    const newVideo = {
-      id: Date.now().toString(),
-      title: body.title,
-      description: body.description || '',
-      thumbnail: body.thumbnail || 'https://via.placeholder.com/500x300',
-      category: body.category,
-      duration: 0,
-      views: 0,
-      rating: 0,
-      url: body.url || '',
-      createdAt: new Date().toISOString(),
-    }
+    // Find category ID
+    const catRes = await query('SELECT id FROM categories WHERE name = $1', [category])
+    const categoryId = catRes.rows[0]?.id
 
-    videosState.push(newVideo)
-    return NextResponse.json(newVideo, { status: 201 })
-  } catch (error) {
-    return NextResponse.json(
-      { error: 'Failed to create video' },
-      { status: 500 }
+    const { rows } = await query(
+      'INSERT INTO videos (title, description, thumbnail, category_id, url) VALUES ($1, $2, $3, $4, $5) RETURNING *',
+      [title, description || '', thumbnail || '', categoryId, url || '']
     )
+
+    return NextResponse.json({ ...rows[0], category }, { status: 201 })
+  } catch (error) {
+    console.error('Database error:', error)
+    return NextResponse.json({ error: 'Failed to create video' }, { status: 500 })
   }
 }
 
 export async function PUT(request: NextRequest) {
   try {
     const body = await request.json()
+    const { id, title, description, thumbnail, category, url } = body
 
-    const index = videosState.findIndex((v) => v.id === body.id)
-    if (index === -1) {
-      return NextResponse.json(
-        { error: 'Video not found' },
-        { status: 404 }
-      )
+    if (!id) {
+      return NextResponse.json({ error: 'ID is required' }, { status: 400 })
     }
 
-    videosState[index] = {
-      ...videosState[index],
-      ...body,
-      id: videosState[index].id, // Prevent ID change
-      createdAt: videosState[index].createdAt, // Prevent date change
-    }
+    // Find category ID
+    const catRes = await query('SELECT id FROM categories WHERE name = $1', [category])
+    const categoryId = catRes.rows[0]?.id
 
-    return NextResponse.json(videosState[index])
-  } catch (error) {
-    return NextResponse.json(
-      { error: 'Failed to update video' },
-      { status: 500 }
+    const { rows } = await query(
+      'UPDATE videos SET title = $1, description = $2, thumbnail = $3, category_id = $4, url = $5, updated_at = NOW() WHERE id = $6 RETURNING *',
+      [title, description || '', thumbnail || '', categoryId, url || '', id]
     )
+
+    if (rows.length === 0) {
+      return NextResponse.json({ error: 'Video not found' }, { status: 404 })
+    }
+
+    return NextResponse.json({ ...rows[0], category })
+  } catch (error) {
+    console.error('Database error:', error)
+    return NextResponse.json({ error: 'Failed to update video' }, { status: 500 })
   }
 }
 
@@ -77,18 +71,13 @@ export async function DELETE(request: NextRequest) {
     const id = searchParams.get('id')
 
     if (!id) {
-      return NextResponse.json(
-        { error: 'ID is required' },
-        { status: 400 }
-      )
+      return NextResponse.json({ error: 'ID is required' }, { status: 400 })
     }
 
-    videosState = videosState.filter((v) => v.id !== id)
+    await query('DELETE FROM videos WHERE id = $1', [id])
     return NextResponse.json({ success: true })
   } catch (error) {
-    return NextResponse.json(
-      { error: 'Failed to delete video' },
-      { status: 500 }
-    )
+    console.error('Database error:', error)
+    return NextResponse.json({ error: 'Failed to delete video' }, { status: 500 })
   }
 }
