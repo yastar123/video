@@ -58,9 +58,8 @@ export default function LoginPage() {
               <h1 className="text-3xl font-bold mb-2">Ruang Malam</h1>
               <p className="text-muted-foreground">Sign in to access VIP content</p>
             </div>
-            {/* ... rest of the form ... */}
 
-          <form onSubmit={handleLogin} className="space-y-4 mb-6">
+            <form onSubmit={handleLogin} className="space-y-4 mb-6">
             {error && <div className="text-destructive text-sm text-center">{error}</div>}
             <div>
               <label className="text-sm font-medium">Email</label>
@@ -111,7 +110,7 @@ export default function LoginPage() {
             </Link>
           </div>
         </div>
-      </div>
-    </main>
+      </main>
+    </>
   )
 }

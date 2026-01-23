@@ -369,9 +369,10 @@ export default function KategoriPage({ params }: { params: { slug?: string } }) 
                     <Star className="w-12 h-12 text-orange-400 mx-auto mb-4" />
                     <h3 className="text-2xl font-bold text-white mb-2">Gratis Selamanya</h3>
                     <p className="text-white/80">Nonton bokep {selectedCategory} tanpa biaya</p>
+                  </div>
                 </div>
               </div>
-            </div>
+            </section>
           )}
         </div>
       </main>
