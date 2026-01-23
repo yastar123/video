@@ -275,7 +275,6 @@ export default function KategoriPage({ params }: { params: { slug?: string } }) 
               <SortFilter 
                 currentSort={sort} 
                 onSortChange={setSort}
-                className="min-w-[200px]"
               />
             </div>
 
