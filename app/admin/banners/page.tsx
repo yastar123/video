@@ -14,7 +14,6 @@ export default function BannersPage() {
   const [formData, setFormData] = useState({
     title: '',
     image: '',
-    description: '',
     link: ''
   })
 
@@ -74,7 +73,7 @@ export default function BannersPage() {
         fetchBanners()
         setShowForm(false)
         setEditingBanner(null)
-        setFormData({ title: '', image: '', description: '', link: '' })
+        setFormData({ title: '', image: '', link: '' })
       }
     } catch (err) {
       console.error('Failed to save banner:', err)
@@ -104,7 +103,7 @@ export default function BannersPage() {
           <button
             onClick={() => {
               setEditingBanner(null)
-              setFormData({ title: '', image: '', description: '', link: '' })
+              setFormData({ title: '', image: '', link: '' })
               setShowForm(true)
             }}
             className="px-4 py-2 bg-primary text-primary-foreground rounded-lg hover:opacity-90 transition flex items-center gap-2"
@@ -136,7 +135,6 @@ export default function BannersPage() {
                 <div className="p-6 flex-1 flex flex-col justify-between">
                   <div>
                     <h3 className="text-xl font-bold">{banner.title}</h3>
-                    <p className="text-muted-foreground mt-1 line-clamp-2">{banner.description}</p>
                     {banner.link && <p className="text-sm text-primary mt-2">{banner.link}</p>}
                   </div>
                   <div className="flex gap-2 mt-4">
@@ -146,7 +144,6 @@ export default function BannersPage() {
                         setFormData({
                           title: banner.title,
                           image: banner.image,
-                          description: banner.description || '',
                           link: banner.link || ''
                         })
                         setShowForm(true)
@@ -205,14 +202,6 @@ export default function BannersPage() {
                     alt="Preview" 
                   />
                 )}
-              </div>
-              <div>
-                <label className="block text-sm font-medium mb-1">Description</label>
-                <textarea
-                  value={formData.description}
-                  onChange={e => setFormData({...formData, description: e.target.value})}
-                  className="w-full px-4 py-2 border rounded-lg bg-background"
-                />
               </div>
               <div>
                 <label className="block text-sm font-medium mb-1">Link URL</label>

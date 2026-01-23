@@ -63,17 +63,6 @@ export function HeroBanner() {
           <h2 className="text-2xl sm:text-3xl md:text-5xl font-extrabold text-white mb-2 sm:mb-4 text-balance leading-tight tracking-tight">
             {banner.title}
           </h2>
-          <p className="text-gray-200 text-xs sm:text-sm md:text-lg mb-4 sm:mb-8 max-w-xl line-clamp-2 leading-relaxed opacity-90">
-            {banner.description}
-          </p>
-          {banner.link && (
-            <Link 
-              href={banner.link}
-              className="bg-white text-black px-5 sm:px-8 py-2 sm:py-3 rounded-full text-sm sm:text-base font-bold hover:scale-105 transition-all duration-200 w-fit flex items-center gap-2 shadow-2xl"
-            >
-              Watch Now
-            </Link>
-          )}
         </div>
       </div>
 
