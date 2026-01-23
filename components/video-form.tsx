@@ -4,13 +4,44 @@ import React from "react"
 
 import type { Video, Category } from '@/lib/db'
 import { useState } from 'react'
-import { X } from 'lucide-react'
+import { X, Upload, Loader2 } from 'lucide-react'
 
 interface VideoFormProps {
   video?: Video
   categories: Category[]
   onSubmit: (video: Partial<Video>) => Promise<void>
   onClose: () => void
+}
+
+async function uploadFile(file: File, type: 'video' | 'thumbnail'): Promise<string> {
+  const res = await fetch('/api/uploads/request-url', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      name: file.name,
+      size: file.size,
+      contentType: file.type,
+      type,
+    }),
+  })
+  
+  if (!res.ok) {
+    throw new Error('Failed to get upload URL')
+  }
+  
+  const { uploadURL, objectPath } = await res.json()
+  
+  const uploadRes = await fetch(uploadURL, {
+    method: 'PUT',
+    body: file,
+    headers: { 'Content-Type': file.type },
+  })
+  
+  if (!uploadRes.ok) {
+    throw new Error('Failed to upload file')
+  }
+  
+  return objectPath
 }
 
 export function VideoForm({
@@ -21,10 +52,12 @@ export function VideoForm({
 }: VideoFormProps) {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
-  const [useUrl, setUseUrl] = useState(!video?.url?.startsWith('blob:'))
+  const [useUrl, setUseUrl] = useState(true)
+  const [uploadingVideo, setUploadingVideo] = useState(false)
+  const [uploadingThumbnail, setUploadingThumbnail] = useState(false)
+  const [videoFileName, setVideoFileName] = useState('')
   const [formData, setFormData] = useState({
     title: video?.title || '',
-    description: video?.description || '',
     thumbnail: video?.thumbnail || '',
     category: video?.category || '',
     url: video?.url || '',
@@ -55,13 +88,10 @@ export function VideoForm({
       })
       if (!res.ok) throw new Error('Failed to create category')
       const category = await res.json()
-      // We expect the parent to refresh categories, but for immediate UX:
       setFormData(prev => ({ ...prev, category: category.name }))
       setIsAddingCategory(false)
       setNewCategory('')
-      // Trigger a refresh of the categories list in the parent if possible
-      // In this simple MVP, we'll assume the user might need to reopen or the parent handles it via state
-      window.location.reload() // Simple way to sync for now
+      window.location.reload()
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to add category')
     } finally {
@@ -69,10 +99,39 @@ export function VideoForm({
     }
   }
 
-  const handleThumbnailFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleThumbnailFileSelect = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
-    if (file) {
-      setFormData(prev => ({ ...prev, thumbnail: URL.createObjectURL(file) }))
+    if (!file) return
+    
+    setUploadingThumbnail(true)
+    setError('')
+    
+    try {
+      const objectPath = await uploadFile(file, 'thumbnail')
+      setFormData(prev => ({ ...prev, thumbnail: objectPath }))
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to upload thumbnail')
+    } finally {
+      setUploadingThumbnail(false)
+    }
+  }
+
+  const handleVideoFileSelect = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+    
+    setUploadingVideo(true)
+    setError('')
+    setVideoFileName(file.name)
+    
+    try {
+      const objectPath = await uploadFile(file, 'video')
+      setFormData(prev => ({ ...prev, url: objectPath }))
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to upload video')
+      setVideoFileName('')
+    } finally {
+      setUploadingVideo(false)
     }
   }
 
@@ -100,7 +159,6 @@ export function VideoForm({
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
       <div className="bg-card rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-        {/* Header */}
         <div className="flex items-center justify-between p-6 border-b-2 border-border sticky top-0 bg-card">
           <h2 className="text-xl font-bold">
             {video ? 'Edit Video' : 'Add New Video'}
@@ -113,7 +171,6 @@ export function VideoForm({
           </button>
         </div>
 
-        {/* Form */}
         <form onSubmit={handleSubmit} className="p-6 space-y-4">
           {error && (
             <div className="bg-destructive/10 text-destructive px-4 py-2 rounded">
@@ -121,7 +178,6 @@ export function VideoForm({
             </div>
           )}
 
-          {/* Title */}
           <div>
             <label className="block text-sm font-medium mb-1">
               Title *
@@ -137,22 +193,6 @@ export function VideoForm({
             />
           </div>
 
-          {/* Description */}
-          <div>
-            <label className="block text-sm font-medium mb-1">
-              Description
-            </label>
-            <textarea
-              name="description"
-              value={formData.description}
-              onChange={handleChange}
-              rows={3}
-              className="w-full px-3 py-2 border border-input rounded-lg focus:outline-none focus:ring-2 focus:ring-primary bg-background resize-none"
-              placeholder="Enter video description"
-            />
-          </div>
-
-          {/* Category */}
           <div>
             <label className="block text-sm font-medium mb-1">
               Category *
@@ -201,7 +241,6 @@ export function VideoForm({
             )}
           </div>
 
-          {/* Thumbnail */}
           <div>
             <label className="block text-sm font-medium mb-1">
               Thumbnail
@@ -210,7 +249,7 @@ export function VideoForm({
               <input
                 type="url"
                 name="thumbnail"
-                value={formData.thumbnail}
+                value={formData.thumbnail.startsWith('/objects') ? '' : formData.thumbnail}
                 onChange={handleChange}
                 className="w-full px-3 py-2 border border-input rounded-lg focus:outline-none focus:ring-2 focus:ring-primary bg-background"
                 placeholder="Thumbnail URL (e.g., https://example.com/image.jpg)"
@@ -230,22 +269,37 @@ export function VideoForm({
                   onChange={handleThumbnailFileSelect}
                   className="hidden"
                   id="thumbnail-file"
+                  disabled={uploadingThumbnail}
                 />
-                <label htmlFor="thumbnail-file" className="cursor-pointer">
-                  <p className="text-sm font-medium">Click to upload thumbnail</p>
+                <label htmlFor="thumbnail-file" className="cursor-pointer flex items-center justify-center gap-2">
+                  {uploadingThumbnail ? (
+                    <>
+                      <Loader2 size={16} className="animate-spin" />
+                      <span className="text-sm">Uploading...</span>
+                    </>
+                  ) : (
+                    <>
+                      <Upload size={16} />
+                      <span className="text-sm font-medium">Click to upload thumbnail</span>
+                    </>
+                  )}
                 </label>
               </div>
             </div>
             {formData.thumbnail && (
-              <img
-                src={formData.thumbnail}
-                alt="Preview"
-                className="mt-2 h-32 w-full object-cover rounded border border-border"
-              />
+              <div className="mt-2">
+                <p className="text-xs text-muted-foreground mb-1">
+                  {formData.thumbnail.startsWith('/objects') ? 'Uploaded file' : 'URL preview'}
+                </p>
+                <img
+                  src={formData.thumbnail.startsWith('/objects') ? `/api${formData.thumbnail}` : formData.thumbnail}
+                  alt="Preview"
+                  className="h-32 w-full object-cover rounded border border-border"
+                />
+              </div>
             )}
           </div>
 
-          {/* Video URL or File */}
           <div>
             <label className="block text-sm font-medium mb-1">
               Video Source *
@@ -272,7 +326,7 @@ export function VideoForm({
                       : 'bg-background text-foreground border-border hover:bg-muted'
                   }`}
                 >
-                  File
+                  Upload File
                 </button>
               </div>
 
@@ -280,9 +334,9 @@ export function VideoForm({
                 <input
                   type="url"
                   name="url"
-                  value={formData.url}
+                  value={formData.url.startsWith('/objects') ? '' : formData.url}
                   onChange={handleChange}
-                  required
+                  required={useUrl && !formData.url}
                   className="w-full px-3 py-2 border border-input rounded-lg focus:outline-none focus:ring-1 focus:ring-foreground bg-background"
                   placeholder="https://example.com/video.mp4"
                 />
@@ -291,37 +345,49 @@ export function VideoForm({
                   <input
                     type="file"
                     accept="video/*,.m3u8,.mpd"
-                    onChange={(e) => {
-                      const file = e.target.files?.[0]
-                      if (file) {
-                        setFormData(prev => ({ ...prev, url: URL.createObjectURL(file) }))
-                      }
-                    }}
+                    onChange={handleVideoFileSelect}
                     className="hidden"
                     id="video-file"
+                    disabled={uploadingVideo}
                   />
-                  <label htmlFor="video-file" className="cursor-pointer">
-                    <p className="text-sm font-medium">Click to upload video</p>
-                    <p className="text-xs text-muted-foreground mt-1">MP4, HLS (.m3u8), DASH (.mpd)</p>
+                  <label htmlFor="video-file" className="cursor-pointer flex flex-col items-center gap-2">
+                    {uploadingVideo ? (
+                      <>
+                        <Loader2 size={24} className="animate-spin" />
+                        <p className="text-sm font-medium">Uploading video...</p>
+                        <p className="text-xs text-muted-foreground">{videoFileName}</p>
+                      </>
+                    ) : formData.url.startsWith('/objects') ? (
+                      <>
+                        <Upload size={24} className="text-green-500" />
+                        <p className="text-sm font-medium text-green-500">Video uploaded successfully</p>
+                        <p className="text-xs text-muted-foreground">Click to replace</p>
+                      </>
+                    ) : (
+                      <>
+                        <Upload size={24} />
+                        <p className="text-sm font-medium">Click to upload video</p>
+                        <p className="text-xs text-muted-foreground">MP4, HLS (.m3u8), DASH (.mpd)</p>
+                      </>
+                    )}
                   </label>
                 </div>
               )}
             </div>
           </div>
 
-          {/* Buttons */}
           <div className="flex gap-3 justify-end pt-4">
             <button
               type="button"
               onClick={onClose}
-              disabled={loading}
+              disabled={loading || uploadingVideo || uploadingThumbnail}
               className="px-4 py-2 border border-input rounded-lg hover:bg-muted transition disabled:opacity-50"
             >
               Cancel
             </button>
             <button
               type="submit"
-              disabled={loading}
+              disabled={loading || uploadingVideo || uploadingThumbnail || !formData.url}
               className="px-4 py-2 bg-primary text-primary-foreground rounded-lg hover:opacity-90 transition disabled:opacity-50"
             >
               {loading ? 'Saving...' : video ? 'Update' : 'Create'}

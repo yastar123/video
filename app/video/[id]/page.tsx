@@ -71,9 +71,6 @@ export default async function VideoDetail({ params }: { params: Promise<{ id: st
             <h1 className="text-3xl md:text-4xl font-bold mb-4 text-balance">
               {video.title}
             </h1>
-            <p className="text-muted-foreground text-lg leading-relaxed">
-              {video.description}
-            </p>
           </div>
 
           {/* Stats Grid */}
