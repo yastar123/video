@@ -16,9 +16,33 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: 'Ruang Malam - Watch Videos Online',
-  description: 'Stream your favorite videos across all categories',
-  generator: 'v0.app',
+  title: 'Ruang Malam - Nonton Video Online Terlengkap',
+  description: 'Nonton bokep Indonesia, Jepang, China terlengkap dan terbaru hanya di Ruang Malam. Streaming video kualitas HD tanpa VPN.',
+  keywords: 'ruang malam, nonton video, bokep indonesia, bokep jepang, bokep china, streaming video terbaru',
+  openGraph: {
+    title: 'Ruang Malam - Nonton Video Online Terlengkap',
+    description: 'Nonton bokep Indonesia, Jepang, China terlengkap dan terbaru hanya di Ruang Malam. Streaming video kualitas HD tanpa VPN.',
+    url: 'https://ruangmalam.com',
+    siteName: 'Ruang Malam',
+    locale: 'id_ID',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Ruang Malam - Nonton Video Online Terlengkap',
+    description: 'Nonton bokep Indonesia, Jepang, China terlengkap dan terbaru hanya di Ruang Malam. Streaming video kualitas HD tanpa VPN.',
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
   verification: {
     google: 'jTDyD3S0yhakpG9iaHwfV5n16t3854m99wFZp3KwIeY',
   },

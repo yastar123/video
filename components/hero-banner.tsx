@@ -74,7 +74,7 @@ export function HeroBanner() {
         <meta property="og:description" content={seoDescription} />
         <meta property="og:type" content="video.other" />
         <meta property="og:image" content={banner.image || "/placeholder.svg"} />
-        <meta property="og:url" content={window.location.href} />
+        <meta property="og:url" content={typeof window !== 'undefined' ? window.location.href : ''} />
         
         {/* Twitter Card */}
         <meta name="twitter:card" content="summary_large_image" />
@@ -96,8 +96,8 @@ export function HeroBanner() {
               "description": seoDescription,
               "thumbnailUrl": banner.image,
               "uploadDate": new Date().toISOString().split('T')[0],
-              "contentUrl": window.location.href,
-              "embedUrl": window.location.href,
+              "contentUrl": typeof window !== 'undefined' ? window.location.href : '',
+              "embedUrl": typeof window !== 'undefined' ? window.location.href : '',
               "genre": ["Adult", "Pornography"],
               "inLanguage": "id",
               "isFamilyFriendly": false
@@ -107,40 +107,62 @@ export function HeroBanner() {
       </head>
 
       <div className="relative w-full h-[180px] sm:h-[260px] md:h-[320px] overflow-hidden rounded-2xl group border border-border/50">
-        {/* Banner Image dengan SEO alt text */}
-        <img
-          src={banner.image || "/placeholder.svg"}
-          alt={`Nonton ${banner.title} - Video Bokep Terbaru Indonesia Jepang China Gratis HD`}
-          title={`Nonton ${banner.title} Bokep Terupdate 2026`}
-          loading="eager"
-          decoding="async"
-          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-          width={1200}
-          height={400}
-        />
-
-        {/* SEO Optimized Overlay dengan keyword-rich content */}
-        <div className="absolute inset-0 bg-gradient-to-t from-background via-background/20 to-transparent flex flex-col justify-end p-6 sm:p-8 md:p-12">
-          <div className="animate-in fade-in slide-in-from-bottom-4 duration-700">
-            {/* H1 dengan primary keyword (penting untuk SEO) */}
-            <h1 className="text-2xl sm:text-3xl md:text-5xl font-extrabold text-white mb-2 sm:mb-4 text-balance leading-tight tracking-tight">
-              {banner.title}
-            </h1>
-            
-            {/* Keyword-rich subtitle untuk dwell time & SEO */}
-            <p className="text-lg sm:text-xl md:text-2xl text-white/90 font-semibold mb-4 hidden md:block">
-              Nonton Bokep Terbaru Indonesia • Jepang • China • Gratis HD 2026
-            </p>
-            
-            {/* CTA dengan keyword anchor text */}
-            <Link 
-              href={`/search?q=${encodeURIComponent('bokep terbaru')}`}
-              className="inline-flex items-center bg-red-600 hover:bg-red-700 text-white px-6 py-3 rounded-xl font-bold text-lg transition-all duration-300 shadow-lg hover:shadow-xl"
-            >
-              Nonton Sekarang Bokep Gratis →
-            </Link>
-          </div>
-        </div>
+        {banner.link ? (
+          <Link href={banner.link} className="block w-full h-full relative group">
+            <img
+              src={banner.image || "/placeholder.svg"}
+              alt={`Nonton ${banner.title} - Video Bokep Terbaru Indonesia Jepang China Gratis HD`}
+              title={`Nonton ${banner.title} Bokep Terupdate 2026`}
+              loading="eager"
+              decoding="async"
+              className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+              width={1200}
+              height={400}
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-background via-background/20 to-transparent flex flex-col justify-end p-6 sm:p-8 md:p-12">
+              <div className="animate-in fade-in slide-in-from-bottom-4 duration-700">
+                <h1 className="text-2xl sm:text-3xl md:text-5xl font-extrabold text-white mb-2 sm:mb-4 text-balance leading-tight tracking-tight">
+                  {banner.title}
+                </h1>
+                <p className="text-lg sm:text-xl md:text-2xl text-white/90 font-semibold mb-4 hidden md:block">
+                  Nonton Bokep Terbaru Indonesia • Jepang • China • Gratis HD 2026
+                </p>
+                <div className="inline-flex items-center bg-red-600 hover:bg-red-700 text-white px-6 py-3 rounded-xl font-bold text-lg transition-all duration-300 shadow-lg hover:shadow-xl">
+                  Nonton Sekarang Bokep Gratis →
+                </div>
+              </div>
+            </div>
+          </Link>
+        ) : (
+          <>
+            <img
+              src={banner.image || "/placeholder.svg"}
+              alt={`Nonton ${banner.title} - Video Bokep Terbaru Indonesia Jepang China Gratis HD`}
+              title={`Nonton ${banner.title} Bokep Terupdate 2026`}
+              loading="eager"
+              decoding="async"
+              className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+              width={1200}
+              height={400}
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-background via-background/20 to-transparent flex flex-col justify-end p-6 sm:p-8 md:p-12">
+              <div className="animate-in fade-in slide-in-from-bottom-4 duration-700">
+                <h1 className="text-2xl sm:text-3xl md:text-5xl font-extrabold text-white mb-2 sm:mb-4 text-balance leading-tight tracking-tight">
+                  {banner.title}
+                </h1>
+                <p className="text-lg sm:text-xl md:text-2xl text-white/90 font-semibold mb-4 hidden md:block">
+                  Nonton Bokep Terbaru Indonesia • Jepang • China • Gratis HD 2026
+                </p>
+                <Link 
+                  href={`/search?q=${encodeURIComponent('bokep terbaru')}`}
+                  className="inline-flex items-center bg-red-600 hover:bg-red-700 text-white px-6 py-3 rounded-xl font-bold text-lg transition-all duration-300 shadow-lg hover:shadow-xl"
+                >
+                  Nonton Sekarang Bokep Gratis →
+                </Link>
+              </div>
+            </div>
+          </>
+        )}
 
         {/* Navigation Buttons */}
         {banners.length > 1 && (
