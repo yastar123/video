@@ -32,7 +32,11 @@ export default function VideoPlayer({ url, thumbnail }: VideoPlayerProps) {
             ? 'application/x-mpegURL' 
             : url.includes('.mpd') 
               ? 'application/dash+xml' 
-              : 'video/mp4'
+              : url.includes('.webm')
+                ? 'video/webm'
+                : url.includes('.ogg')
+                  ? 'video/ogg'
+                  : 'video/mp4'
         }]
       }, () => {
         console.log('player is ready')
@@ -45,7 +49,11 @@ export default function VideoPlayer({ url, thumbnail }: VideoPlayerProps) {
           ? 'application/x-mpegURL' 
           : url.includes('.mpd') 
             ? 'application/dash+xml' 
-            : 'video/mp4'
+            : url.includes('.webm')
+              ? 'video/webm'
+              : url.includes('.ogg')
+                ? 'video/ogg'
+                : 'video/mp4'
       })
       if (thumbnail) player.poster(thumbnail)
     }
