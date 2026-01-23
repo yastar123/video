@@ -65,15 +65,15 @@ export async function PUT(request: NextRequest) {
 }
 
 export async function DELETE(request: NextRequest) {
-  const searchParams = request.nextUrl.searchParams
-  const id = searchParams.get('id')
-
-  if (!id) {
-    return NextResponse.json({ error: 'ID is required' }, { status: 400 })
-  }
-
   try {
-    await query('DELETE FROM advertisements WHERE id = $1', [id])
+    const { searchParams } = new URL(request.url)
+    const id = searchParams.get('id')
+
+    if (!id) {
+      return NextResponse.json({ error: 'ID is required' }, { status: 400 })
+    }
+
+    await query('DELETE FROM advertisements WHERE id = $1', [parseInt(id)])
     return NextResponse.json({ success: true })
   } catch (error) {
     console.error('Database error:', error)
