@@ -10,6 +10,14 @@ const nextConfig = {
         protocol: 'https',
         hostname: 'storage.googleapis.com',
       },
+      {
+        protocol: 'http',
+        hostname: 'video.seyiki.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'video.seyiki.com',
+      },
     ],
   },
   allowedDevOrigins: [
@@ -19,6 +27,7 @@ const nextConfig = {
     'https://*.riker.replit.dev',
     'http://127.0.0.1',
     'http://localhost',
+    'video.seyiki.com',
   ],
 }
 
