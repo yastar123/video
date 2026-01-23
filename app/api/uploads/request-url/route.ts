@@ -5,7 +5,7 @@ import { ObjectStorageService } from '@/lib/replit_integrations/object_storage/o
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
-    const { name, size, contentType: fileContentType, type } = body
+    const { name, size, contentType: fileContentType } = body
 
     if (!name) {
       return NextResponse.json(
@@ -16,10 +16,22 @@ export async function POST(request: NextRequest) {
 
     const objectId = randomUUID()
     const extension = name.split('.').pop() || ''
-    const fileName = `${objectId}.${extension}`
+    const fileName = `uploads/${objectId}.${extension}`
     
     // Use Replit Object Storage
     const storage = new ObjectStorageService()
+    
+    // Check if storage is configured
+    try {
+      storage.getPrivateObjectDir()
+    } catch (e) {
+      console.error('Storage configuration error:', e)
+      return NextResponse.json(
+        { error: 'Storage is not configured on the server. Please set PRIVATE_OBJECT_DIR.' },
+        { status: 500 }
+      )
+    }
+
     const uploadURL = await storage.getPresignedUploadUrl(fileName, fileContentType)
     const publicUrl = await storage.getPublicUrl(fileName)
 
@@ -33,7 +45,7 @@ export async function POST(request: NextRequest) {
   } catch (error) {
     console.error('Error handling upload request:', error)
     return NextResponse.json(
-      { error: 'Failed to process upload request' },
+      { error: 'Failed to process upload request: ' + (error instanceof Error ? error.message : String(error)) },
       { status: 500 }
     )
   }
