@@ -91,29 +91,13 @@ export default async function VideoDetail({ params }: { params: Promise<{ id: st
           </div>
 
           {/* Stats Grid */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="bg-muted p-4 rounded-lg">
               <div className="flex items-center gap-2 text-sm text-muted-foreground mb-2">
                 <Eye size={16} />
                 Views
               </div>
               <p className="text-2xl font-bold">{formatViews(video.views)}</p>
-            </div>
-
-            <div className="bg-muted p-4 rounded-lg">
-              <div className="flex items-center gap-2 text-sm text-muted-foreground mb-2">
-                <Star size={16} />
-                Rating
-              </div>
-              <p className="text-2xl font-bold">{Number(video.rating).toFixed(1)}/5</p>
-            </div>
-
-            <div className="bg-muted p-4 rounded-lg">
-              <div className="flex items-center gap-2 text-sm text-muted-foreground mb-2">
-                <Clock size={16} />
-                Duration
-              </div>
-              <p className="text-2xl font-bold">{formatDuration(video.duration)}</p>
             </div>
 
             <div className="bg-muted p-4 rounded-lg">
