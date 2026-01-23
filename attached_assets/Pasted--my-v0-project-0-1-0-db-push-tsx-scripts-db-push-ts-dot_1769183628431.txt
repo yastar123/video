@@ -1,0 +1,117 @@
+
+> my-v0-project@0.1.0 db:push
+> tsx scripts/db-push.ts
+
+[dotenv@17.2.3] injecting env (10) from .env -- tip: ⚙️  enable debug logging with { debug: true }
+Starting database push...
+Database push failed: error: insert or update on table "videos" violates foreign key constraint "videos_category_id_fkey"
+    at /var/www/video.seyiki.com/node_modules/pg/lib/client.js:588:17
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async query (/var/www/video.seyiki.com/lib/postgres.ts:25:12)
+    at async dbPush (/var/www/video.seyiki.com/scripts/db-push.ts:11:7) {
+  length: 263,
+  severity: 'ERROR',
+  code: '23503',
+  detail: 'Key (category_id)=(4) is not present in table "categories".',
+  hint: undefined,
+  position: undefined,
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: 'public',
+  table: 'videos',
+  column: undefined,
+  dataType: undefined,
+  constraint: 'videos_category_id_fkey',
+  file: 'ri_triggers.c',
+  line: '2528',
+  routine: 'ri_ReportViolation'
+}
+
+> my-v0-project@0.1.0 seed
+> tsx scripts/seed-runner.ts
+
+[dotenv@17.2.3] injecting env (10) from .env -- tip: 🔐 encrypt with Dotenvx: https://dotenvx.com
+Starting seed...
+Users seeded successfully
+Seed completed successfully
+
+> my-v0-project@0.1.0 build
+> next build
+
+   ▲ Next.js 15.5.7
+   - Environments: .env
+
+   Creating an optimized production build ...
+ ✓ Compiled successfully in 9.3s
+   Skipping validation of types
+ ✓ Linting
+   Collecting page data  .[dotenv@17.2.3] injecting env (0) from .env -- tip: ⚙️  specify custom .env file path with { path: '/custom/path/.env' }
+ ✓ Collecting page data
+[dotenv@17.2.3] injecting env (0) from .env -- tip: 📡 add observability to secrets: https://dotenvx.com/ops
+ ✓ Generating static pages (30/30)
+ ✓ Collecting build traces
+ ✓ Finalizing page optimization
+
+Route (app)                                 Size  First Load JS
+┌ ƒ /                                    4.91 kB         116 kB
+├ ○ /_not-found                             1 kB         103 kB
+├ ○ /admin                                 164 B         102 kB
+├ ○ /admin/ads                           4.01 kB         106 kB
+├ ○ /admin/banners                       2.82 kB         105 kB
+├ ○ /admin/categories                    2.43 kB         105 kB
+├ ○ /admin/dashboard                      117 kB         219 kB
+├ ○ /admin/membership                     1.7 kB         104 kB
+├ ○ /admin/users                          2.8 kB         105 kB
+├ ○ /admin/videos                        4.97 kB         107 kB
+├ ƒ /api/admin/videos                      164 B         102 kB
+├ ƒ /api/auth/google                       164 B         102 kB
+├ ƒ /api/auth/login                        164 B         102 kB
+├ ƒ /api/auth/logout                       164 B         102 kB
+├ ƒ /api/banners                           164 B         102 kB
+├ ƒ /api/categories                        164 B         102 kB
+├ ƒ /api/membership/manage                 164 B         102 kB
+├ ƒ /api/membership/upload                 164 B         102 kB
+├ ƒ /api/objects/[...path]                 164 B         102 kB
+├ ƒ /api/promotions                        164 B         102 kB
+├ ƒ /api/seed                              164 B         102 kB
+├ ƒ /api/uploads/file                      164 B         102 kB
+├ ƒ /api/uploads/request-url               164 B         102 kB
+├ ƒ /api/users                             164 B         102 kB
+├ ƒ /api/videos                            164 B         102 kB
+├ ○ /auth/login                          1.84 kB         107 kB
+├ ○ /kategori                            3.76 kB         115 kB
+├ ○ /profile                             3.12 kB         109 kB
+└ ● /video/[id]                          3.46 kB         115 kB
+    └ /video/111
++ First Load JS shared by all             102 kB
+  ├ chunks/493-e6ba6b5016936a6e.js       45.4 kB
+  ├ chunks/4bd1b696-1c88c00269cf164c.js  54.2 kB
+  └ other shared chunks (total)          2.55 kB
+
+
+ƒ Middleware                               34 kB
+
+○  (Static)   prerendered as static content
+●  (SSG)      prerendered as static HTML (uses generateStaticParams)
+ƒ  (Dynamic)  server-rendered on demand
+
+Use --update-env to update environment variables
+[PM2] Applying action restartProcessId on app [all](ids: [ 0, 2, 12, 15, 16, 21 ])
+[PM2] [iot-backend](0) ✓
+[PM2] [seyiki-main](2) ✓
+[PM2] [survei-seyiki](15) ✓
+[PM2] [seyiki-docs](12) ✓
+[PM2] [lhpp-seyiki](16) ✓
+[PM2] [video-seyiki](21) ✓
+┌────┬────────────────────┬──────────┬──────┬───────────┬──────────┬──────────┐
+│ id │ name               │ mode     │ ↺    │ status    │ cpu      │ memory   │
+├────┼────────────────────┼──────────┼──────┼───────────┼──────────┼──────────┤
+│ 0  │ iot-backend        │ fork     │ 133  │ online    │ 0%       │ 50.8mb   │
+│ 16 │ lhpp-seyiki        │ cluster  │ 15   │ online    │ 0%       │ 48.5mb   │
+│ 12 │ seyiki-docs        │ fork     │ 54   │ online    │ 0%       │ 47.8mb   │
+│ 2  │ seyiki-main        │ fork     │ 55   │ online    │ 0%       │ 46.9mb   │
+│ 15 │ survei-seyiki      │ cluster  │ 481  │ online    │ 0%       │ 48.7mb   │
+│ 21 │ video-seyiki       │ cluster  │ 8    │ online    │ 0%       │ 38.2mb   │
+└────┴────────────────────┴──────────┴──────┴───────────┴──────────┴──────────┘
+root@server:/var/www/video.seyiki.com#
