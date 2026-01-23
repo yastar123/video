@@ -104,6 +104,7 @@ export function VideoForm({
       const objectPath = await uploadFile(file, 'thumbnail')
       setFormData(prev => ({ ...prev, thumbnail: objectPath }))
     } catch (err) {
+      console.error('Thumbnail upload error:', err)
       setError(err instanceof Error ? err.message : 'Failed to upload thumbnail')
     } finally {
       setUploadingThumbnail(false)
