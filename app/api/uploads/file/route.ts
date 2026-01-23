@@ -20,7 +20,18 @@ export async function POST(request: NextRequest) {
 
     const objectId = randomUUID()
     const extension = file.name.split('.').pop() || ''
-    const folder = customFolder || (type === 'thumbnail' ? 'thumbnails' : 'videos')
+    
+    // Map types to folders
+    let folder = customFolder
+    if (!folder) {
+      switch (type) {
+        case 'thumbnail': folder = 'thumbnails'; break;
+        case 'ad': folder = 'ads'; break;
+        case 'banner': folder = 'banners'; break;
+        default: folder = 'videos';
+      }
+    }
+    
     const fileName = customFileName || `${objectId}.${extension}`
     const relativePath = `/uploads/${folder}/${fileName}`
     const absolutePath = path.join(process.cwd(), 'public', 'uploads', folder, fileName)

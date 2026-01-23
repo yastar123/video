@@ -125,7 +125,11 @@ export default function BannersPage() {
             {banners.map((banner) => (
               <div key={banner.id} className="bg-card border border-border rounded-lg overflow-hidden flex flex-col md:flex-row">
                 <div className="w-full md:w-64 h-48 relative">
-                  <img src={banner.image} alt={banner.title} className="w-full h-full object-cover" />
+                  <img 
+                    src={banner.image.startsWith('/') ? banner.image : `/uploads/banners/${banner.image}`} 
+                    alt={banner.title} 
+                    className="w-full h-full object-cover" 
+                  />
                 </div>
                 <div className="p-6 flex-1 flex flex-col justify-between">
                   <div>
@@ -192,7 +196,13 @@ export default function BannersPage() {
                   placeholder="Or image URL"
                   className="w-full px-4 py-2 border rounded-lg bg-background"
                 />
-                {formData.image && <img src={formData.image} className="mt-2 h-32 object-contain" alt="Preview" />}
+                {formData.image && (
+                  <img 
+                    src={formData.image.startsWith('/') ? formData.image : `/uploads/banners/${formData.image}`} 
+                    className="mt-2 h-32 object-contain" 
+                    alt="Preview" 
+                  />
+                )}
               </div>
               <div>
                 <label className="block text-sm font-medium mb-1">Description</label>
