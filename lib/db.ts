@@ -1,27 +1,29 @@
-// Mock Database - Video Streaming App
-// Dalam production, ganti dengan koneksi PostgreSQL real
+// Database Interfaces - Video Streaming App
+// Data fetched from PostgreSQL database
 
 export interface Video {
   id: string
   title: string
   description: string
   thumbnail: string
-  category: string
-  duration: number // dalam detik
+  category_id: number
+  category?: string
+  duration: number
   views: number
-  rating: number // 1-5
+  rating: number
   url: string
   created_at: string
 }
 
 export interface Category {
-  id: string
+  id: number
   name: string
   icon: string
+  slug?: string
 }
 
 export interface Banner {
-  id: string
+  id: number
   title: string
   image: string
   description: string
@@ -29,34 +31,24 @@ export interface Banner {
 }
 
 export interface User {
-  id: string
+  id: number
   email: string
   username: string
   created_at: string
-  status: 'active' | 'inactive'
-  role: 'user' | 'admin' | 'userVIP'
-  googleId?: string
-  image?: string
-  membershipStatus?: 'none' | 'pending' | 'approved'
-  membershipPaymentProof?: string
-  membershipDate?: string
+  role: string
 }
 
 export interface Advertisement {
-  id: string
+  id: number
   title: string
   image: string
   link: string
-  category: string
-  position: 'top' | 'sidebar' | 'bottom'
-  impressions: number
-  clicks: number
-  revenue: number
-  status: 'active' | 'inactive'
-  createdAt: string
+  position: string
+  status: string
+  created_at: string
 }
 
-// Data dummy telah dihapus. Pastikan environment variable DATABASE_URL sudah terkonfigurasi.
+// These are kept for type compatibility but will be empty as data comes from DB
 export const categories: Category[] = []
 export const videos: Video[] = []
 export const banners: Banner[] = []

@@ -1,7 +1,6 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { categories, videos } from '@/lib/db'
 import type { Category, Video } from '@/lib/db'
 import { VideoCard } from '@/components/video-card'
 import { SortFilter } from '@/components/sort-filter'
