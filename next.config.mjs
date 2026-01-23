@@ -25,6 +25,7 @@ const nextConfig = {
     'https://*.spock.replit.dev',
     'https://*.janeway.replit.dev',
     'https://*.riker.replit.dev',
+    'https://*.worf.replit.dev',
     'http://127.0.0.1',
     'http://localhost',
     'video.seyiki.com',
