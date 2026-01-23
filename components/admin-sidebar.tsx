@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { LayoutDashboard, Film, Users, Megaphone, LogOut, Heart } from 'lucide-react'
+import { LayoutDashboard, Film, Users, Megaphone, LogOut, Heart, Image as ImageIcon, Tag } from 'lucide-react'
 
 export function AdminSidebar() {
   const pathname = usePathname()
@@ -10,6 +10,8 @@ export function AdminSidebar() {
   const menuItems = [
     { label: 'Dashboard', href: '/admin', icon: LayoutDashboard },
     { label: 'Videos', href: '/admin/videos', icon: Film },
+    { label: 'Categories', href: '/admin/categories', icon: Tag },
+    { label: 'Banners', href: '/admin/banners', icon: ImageIcon },
     { label: 'Users', href: '/admin/users', icon: Users },
     { label: 'Advertisements', href: '/admin/ads', icon: Megaphone },
     { label: 'Memberships', href: '/admin/membership', icon: Heart },
