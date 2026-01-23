@@ -197,7 +197,7 @@ export default function UsersPage() {
                         </span>
                       </td>
                       <td className="px-6 py-4 text-sm">
-                        {user.joinDate ? new Date(user.joinDate).toLocaleDateString() : '-'}
+                        {user.created_at ? new Date(user.created_at).toLocaleDateString() : '-'}
                       </td>
                       <td className="px-6 py-4">
                         <span
