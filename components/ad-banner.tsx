@@ -30,7 +30,7 @@ export function AdBanner({ position = 'top', maxItems = 1 }: AdBannerProps) {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    fetch(`/api/ads?position=${position}&status=active`)
+    fetch(`/api/promotions?position=${position}&status=active`)
       .then((res) => res.json())
       .then((data) => {
         setAds(Array.isArray(data) ? data : [])

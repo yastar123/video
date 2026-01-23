@@ -10,7 +10,6 @@ export async function POST(request: NextRequest) {
     if (contentType.includes('multipart/form-data')) {
       const formData = await request.formData()
       const file = formData.get('file') as File | null
-      const type = formData.get('type') as string || 'video'
 
       if (!file) {
         return NextResponse.json(
@@ -21,10 +20,9 @@ export async function POST(request: NextRequest) {
 
       const objectId = randomUUID()
       const extension = file.name.split('.').pop() || ''
-      const folder = type === 'thumbnail' ? 'thumbnails' : 'videos'
       const fileName = `${objectId}.${extension}`
-      const relativePath = `/uploads/${folder}/${fileName}`
-      const absolutePath = path.join(process.cwd(), 'public', 'uploads', folder, fileName)
+      const relativePath = `/uploads/${fileName}`
+      const absolutePath = path.join(process.cwd(), 'public', 'uploads', fileName)
 
       await mkdir(path.dirname(absolutePath), { recursive: true })
 
@@ -63,7 +61,6 @@ export async function POST(request: NextRequest) {
       objectPath: relativePath,
       objectId,
       fileName,
-      folder,
       metadata: { name, size, contentType: fileContentType },
     })
   } catch (error) {
