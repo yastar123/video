@@ -12,29 +12,36 @@ export default function VideosPage() {
   const [showForm, setShowForm] = useState(false)
   const [editingVideo, setEditingVideo] = useState<Video | undefined>()
   const [deleteConfirm, setDeleteConfirm] = useState<string | null>(null)
+  
+  // Pagination state
+  const [currentPage, setCurrentPage] = useState(1)
+  const [totalPages, setTotalPages] = useState(1)
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const [videosRes, categoriesRes] = await Promise.all([
-          fetch('/api/admin/videos'),
-          fetch('/api/categories'),
-        ])
-        const videosData = await videosRes.json()
-        const categoriesData = await categoriesRes.json()
-        setVideos(Array.isArray(videosData) ? videosData : [])
-        setCategories(Array.isArray(categoriesData) ? categoriesData : [])
-      } catch (err) {
-        console.error('Failed to fetch data:', err)
-        setVideos([])
-        setCategories([])
-      } finally {
-        setLoading(false)
-      }
-    }
-
     fetchData()
-  }, [])
+  }, [currentPage])
+
+  const fetchData = async () => {
+    setLoading(true)
+    try {
+      const [videosRes, categoriesRes] = await Promise.all([
+        fetch(`/api/admin/videos?page=${currentPage}&limit=8`),
+        fetch('/api/categories'),
+      ])
+      const videosData = await videosRes.json()
+      const categoriesData = await categoriesRes.json()
+      
+      setVideos(videosData.videos || [])
+      setTotalPages(videosData.pagination?.totalPages || 1)
+      setCategories(Array.isArray(categoriesData) ? categoriesData : [])
+    } catch (err) {
+      console.error('Failed to fetch data:', err)
+      setVideos([])
+      setCategories([])
+    } finally {
+      setLoading(false)
+    }
+  }
 
   const handleCreateVideo = async (formData: Partial<Video>) => {
     const response = await fetch('/api/admin/videos', {
@@ -44,9 +51,7 @@ export default function VideosPage() {
     })
 
     if (!response.ok) throw new Error('Failed to create video')
-
-    const newVideo = await response.json()
-    setVideos((prev) => [newVideo, ...prev])
+    await fetchData()
   }
 
   const handleUpdateVideo = async (formData: Partial<Video>) => {
@@ -57,11 +62,7 @@ export default function VideosPage() {
     })
 
     if (!response.ok) throw new Error('Failed to update video')
-
-    const updatedVideo = await response.json()
-    setVideos((prev) =>
-      prev.map((v) => (v.id === updatedVideo.id ? updatedVideo : v))
-    )
+    await fetchData()
   }
 
   const handleDeleteVideo = async (id: string) => {
@@ -70,8 +71,7 @@ export default function VideosPage() {
     })
 
     if (!response.ok) throw new Error('Failed to delete video')
-
-    setVideos((prev) => prev.filter((v) => v.id !== id))
+    await fetchData()
     setDeleteConfirm(null)
   }
 

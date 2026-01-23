@@ -1,10 +1,30 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { query } from '@/lib/postgres'
 
-export async function GET() {
+export async function GET(request: NextRequest) {
   try {
-    const { rows } = await query('SELECT v.*, c.name as category FROM videos v LEFT JOIN categories c ON v.category_id = c.id ORDER BY v.created_at DESC')
-    return NextResponse.json(rows)
+    const { searchParams } = new URL(request.url)
+    const page = parseInt(searchParams.get('page') || '1')
+    const limit = parseInt(searchParams.get('limit') || '8')
+    const offset = (page - 1) * limit
+
+    const { rows: videos } = await query(
+      'SELECT v.*, c.name as category FROM videos v LEFT JOIN categories c ON v.category_id = c.id ORDER BY v.created_at DESC LIMIT $1 OFFSET $2',
+      [limit, offset]
+    )
+    
+    const { rows: countRows } = await query('SELECT COUNT(*) FROM videos')
+    const totalCount = parseInt(countRows[0].count)
+
+    return NextResponse.json({
+      videos,
+      pagination: {
+        totalCount,
+        totalPages: Math.ceil(totalCount / limit),
+        currentPage: page,
+        limit
+      }
+    })
   } catch (error) {
     console.error('Database error:', error)
     return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 })
