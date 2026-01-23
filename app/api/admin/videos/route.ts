@@ -20,6 +20,10 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Missing required fields' }, { status: 400 })
     }
 
+    if (thumbnail && thumbnail.startsWith('data:')) {
+      return NextResponse.json({ error: 'Base64 data URLs are not allowed. Please upload the image file first.' }, { status: 400 })
+    }
+
     // Find category ID
     const catRes = await query('SELECT id FROM categories WHERE name = $1', [category])
     const categoryId = catRes.rows[0]?.id
@@ -43,6 +47,10 @@ export async function PUT(request: NextRequest) {
 
     if (!id) {
       return NextResponse.json({ error: 'ID is required' }, { status: 400 })
+    }
+
+    if (thumbnail && thumbnail.startsWith('data:')) {
+      return NextResponse.json({ error: 'Base64 data URLs are not allowed. Please upload the image file first.' }, { status: 400 })
     }
 
     // Find category ID

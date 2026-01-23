@@ -59,6 +59,12 @@ export function VideoForm({
     >
   ) => {
     const { name, value } = e.target
+    
+    if (name === 'thumbnail' && value.startsWith('data:')) {
+      setError('Data URLs tidak didukung. Silakan gunakan tombol upload atau masukkan URL gambar yang valid.')
+      return
+    }
+    
     setFormData((prev) => ({
       ...prev,
       [name]: value,
