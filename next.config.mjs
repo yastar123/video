@@ -30,6 +30,7 @@ const nextConfig = {
     'https://*.janeway.replit.dev',
     'https://*.riker.replit.dev',
     'https://*.worf.replit.dev',
+    'https://*.picard.replit.dev',
     'http://127.0.0.1',
     'http://localhost',
     'video.seyiki.com',
