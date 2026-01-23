@@ -4,7 +4,6 @@ import { SearchBar } from '@/components/search-bar'
 import { MobileMenu } from '@/components/mobile-menu'
 import { Pagination } from '@/components/pagination'
 import { SortFilter } from '@/components/sort-filter'
-import { AdBanner } from '@/components/ad-banner'
 import { query } from '@/lib/postgres'
 import { ChevronDown, LogIn, User } from 'lucide-react'
 import { Suspense } from 'react'
@@ -108,11 +107,6 @@ export default async function Home({
           <HeroBanner />
         </section>
 
-        {/* Top Advertisement Banner */}
-        <section className="mb-12">
-          <AdBanner position="top" />
-        </section>
-
         {/* Search and Filter Section */}
         <section className="mb-16">
           {/* Category Tabs */}
@@ -189,11 +183,6 @@ export default async function Home({
               totalPages={pagination.totalPages}
             />
           )}
-        </section>
-
-        {/* Bottom Advertisement */}
-        <section className="mt-12">
-          <AdBanner position="bottom" />
         </section>
       </div>
     </main>

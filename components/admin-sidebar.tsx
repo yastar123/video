@@ -13,7 +13,6 @@ export function AdminSidebar() {
     { label: 'Categories', href: '/admin/categories', icon: Tag },
     { label: 'Banners', href: '/admin/banners', icon: ImageIcon },
     { label: 'Users', href: '/admin/users', icon: Users },
-    { label: 'Advertisements', href: '/admin/ads', icon: Megaphone },
     { label: 'Memberships', href: '/admin/membership', icon: Heart },
   ]
 

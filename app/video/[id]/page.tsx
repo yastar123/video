@@ -1,7 +1,6 @@
 import { query } from '@/lib/postgres'
 import { Star, Eye, Clock, ArrowLeft } from 'lucide-react'
 import { RandomVideos } from '@/components/random-videos'
-import { AdBanner } from '@/components/ad-banner'
 import { VideoPlayerWrapper } from '@/components/video-player-wrapper'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
@@ -136,19 +135,9 @@ export default async function VideoDetail({ params }: { params: Promise<{ id: st
           </div>
         </section>
 
-        {/* Advertisement Banner */}
-        <section className="my-8">
-          <AdBanner position="bottom" />
-        </section>
-
         {/* Random Videos Section */}
         <section>
           <RandomVideos />
-        </section>
-
-        {/* Bottom Advertisement Banner */}
-        <section className="mt-8">
-          <AdBanner position="bottom" />
         </section>
       </div>
     </main>
