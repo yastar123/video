@@ -53,7 +53,7 @@ export function VideoCard({ video, onClick, isLink, priority }: VideoCardProps) 
     <div
       ref={cardRef}
       onClick={onClick}
-      className="group cursor-pointer space-y-4"
+      className="group cursor-pointer space-y-3 sm:space-y-4"
     >
       {/* Thumbnail */}
       <div className="relative aspect-video rounded-xl overflow-hidden border border-border bg-secondary transition-all duration-300 group-hover:border-primary group-hover:shadow-2xl group-hover:shadow-primary/10 group-hover:-translate-y-1">
@@ -80,19 +80,19 @@ export function VideoCard({ video, onClick, isLink, priority }: VideoCardProps) 
       </div>
 
       {/* Content */}
-      <div className="space-y-2 px-1">
-        <h3 className="font-bold text-base leading-tight line-clamp-2 group-hover:text-primary transition-colors duration-200">
+      <div className="space-y-1.5 sm:space-y-2 px-1">
+        <h3 className="font-bold text-sm sm:text-base leading-tight line-clamp-2 group-hover:text-primary transition-colors duration-200">
           {video.title}
         </h3>
 
         {/* Stats */}
-        <div className="flex items-center gap-3 text-xs text-muted-foreground font-medium">
-          <span className="flex items-center gap-1.5 bg-secondary/50 px-2 py-1 rounded-md" title="Views">
-            <Eye size={12} className="text-primary" />
+        <div className="flex items-center gap-2 sm:gap-3 text-[10px] sm:text-xs text-muted-foreground font-medium">
+          <span className="flex items-center gap-1 sm:gap-1.5 bg-secondary/50 px-1.5 sm:px-2 py-0.5 sm:py-1 rounded-md" title="Views">
+            <Eye size={10} className="sm:w-[12px] sm:h-[12px] text-primary" />
             {formatViews(video.views || 0)}
           </span>
-          <span className="flex items-center gap-1.5">
-            <Clock size={12} />
+          <span className="flex items-center gap-1 sm:gap-1.5">
+            <Clock size={10} className="sm:w-[12px] sm:h-[12px]" />
             {new Date(video.created_at).toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}
           </span>
         </div>

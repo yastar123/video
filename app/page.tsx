@@ -76,24 +76,24 @@ export default async function Home({
   return (
     <main className="min-h-screen bg-background vercel-gradient">
       <header className="sticky top-0 z-50 bg-background/80 backdrop-blur-md border-b-2 border-border">
-        <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
-          <div className="flex items-center gap-10">
-            <Link href="/" className="flex items-center gap-2.5 group">
-              <div className="w-8 h-8 bg-foreground rounded-lg flex items-center justify-center group-hover:scale-105 transition-transform duration-200 shadow-lg shadow-foreground/10">
-                <div className="w-4 h-4 bg-background transform rotate-45 rounded-sm" />
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+          <div className="flex items-center gap-4 sm:gap-10">
+            <Link href="/" className="flex items-center gap-2 group">
+              <div className="w-7 h-7 sm:w-8 sm:h-8 bg-foreground rounded-lg flex items-center justify-center group-hover:scale-105 transition-transform duration-200 shadow-lg shadow-foreground/10">
+                <div className="w-3 h-3 sm:w-4 sm:h-4 bg-background transform rotate-45 rounded-sm" />
               </div>
-              <span className="text-xl font-bold tracking-tight">StreamFlix</span>
+              <span className="text-lg sm:text-xl font-bold tracking-tight">StreamFlix</span>
             </Link>
             <nav className="hidden md:flex gap-8 text-sm font-medium text-muted-foreground">
               <Link href="/" className="hover:text-foreground transition-all hover:translate-y-[-1px]">Home</Link>
               <Link href="/kategori" className="hover:text-foreground transition-all hover:translate-y-[-1px]">Categories</Link>
             </nav>
           </div>
-          <div className="flex items-center gap-5">
-            <div className="hidden md:block w-72">
+          <div className="flex items-center gap-2 sm:gap-5">
+            <div className="hidden sm:block w-48 md:w-72">
               <SearchBar initialValue={search} />
             </div>
-            <div className="h-6 w-[1px] bg-border/50 hidden md:block" />
+            <div className="h-6 w-[1px] bg-border/50 hidden sm:block" />
             <HeaderUser />
             <MobileMenu />
           </div>
@@ -158,7 +158,7 @@ export default async function Home({
                <SortFilter currentSort={sort} />
             </div>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-8 gap-y-12">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-4 sm:gap-x-8 gap-y-8 sm:gap-y-12">
             {videos.length > 0 ? (
               videos.map((video: any, index: number) => (
                 <Link
