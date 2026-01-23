@@ -85,13 +85,6 @@ export default function VideosPage() {
     setShowForm(false)
   }
 
-  const formatDuration = (seconds: number) => {
-    const hours = Math.floor(seconds / 3600)
-    const minutes = Math.floor((seconds % 3600) / 60)
-    if (hours > 0) return `${hours}:${minutes.toString().padStart(2, '0')}`
-    return `${minutes}:${(seconds % 60).toString().padStart(2, '0')}`
-  }
-
   const formatViews = (views: number) => {
     if (views >= 1000000) return `${(views / 1000000).toFixed(1)}M`
     if (views >= 1000) return `${(views / 1000).toFixed(1)}K`
@@ -124,14 +117,14 @@ export default function VideosPage() {
         ) : videos.length === 0 ? (
           <div className="text-center py-12 bg-card rounded-lg border border-border">
             <p className="text-muted-foreground mb-4">
-              No videos yet. Create your first video.
+              Belum ada video. Buat video pertama Anda.
             </p>
             <button
               onClick={() => setShowForm(true)}
               className="px-4 py-2 bg-primary text-primary-foreground rounded-lg hover:opacity-90 transition inline-flex items-center gap-2"
             >
               <Plus size={20} />
-              Add Video
+              Tambah Video
             </button>
           </div>
         ) : (
@@ -140,21 +133,11 @@ export default function VideosPage() {
               <table className="w-full">
                 <thead className="bg-muted border-b border-border">
                   <tr>
-                    <th className="px-6 py-3 text-left text-sm font-semibold">
-                      Title
-                    </th>
-                    <th className="px-6 py-3 text-left text-sm font-semibold">
-                      Category
-                    </th>
-                    <th className="px-6 py-3 text-left text-sm font-semibold">
-                      Views
-                    </th>
-                    <th className="px-6 py-3 text-left text-sm font-semibold">
-                      Rating
-                    </th>
-                    <th className="px-6 py-3 text-left text-sm font-semibold">
-                      Actions
-                    </th>
+                    <th className="px-6 py-3 text-left text-sm font-semibold">Title</th>
+                    <th className="px-6 py-3 text-left text-sm font-semibold">Category</th>
+                    <th className="px-6 py-3 text-left text-sm font-semibold">Views</th>
+                    <th className="px-6 py-3 text-left text-sm font-semibold">Rating</th>
+                    <th className="px-6 py-3 text-left text-sm font-semibold">Actions</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -173,29 +156,21 @@ export default function VideosPage() {
                             className="w-12 h-12 rounded object-cover"
                           />
                           <div className="flex-1 min-w-0">
-                            <p className="font-medium truncate">
-                              {video.title}
-                            </p>
-                            <p className="text-xs text-muted-foreground truncate">
-                              {video.description}
-                            </p>
+                            <p className="font-medium truncate">{video.title}</p>
+                            <p className="text-xs text-muted-foreground truncate">{video.description}</p>
                           </div>
                         </div>
                       </td>
                       <td className="px-6 py-4">
-                        <span className="px-2 py-1 bg-muted rounded text-sm">
-                          {video.category}
-                        </span>
+                        <span className="px-2 py-1 bg-muted rounded text-sm">{video.category}</span>
                       </td>
                       <td className="px-6 py-4 text-sm">
                         <div className="flex items-center gap-1">
                           <Eye size={16} />
-                          {formatViews(video.views)}
+                          {formatViews(video.views || 0)}
                         </div>
                       </td>
-                      <td className="px-6 py-4 text-sm">
-                        {'⭐'} {Number(video.rating).toFixed(1)}
-                      </td>
+                      <td className="px-6 py-4 text-sm">⭐ {Number(video.rating).toFixed(1)}</td>
                       <td className="px-6 py-4">
                         <div className="flex items-center gap-2">
                           <button
@@ -204,14 +179,12 @@ export default function VideosPage() {
                               setShowForm(true)
                             }}
                             className="p-2 hover:bg-muted rounded transition text-blue-500"
-                            title="Edit"
                           >
                             <Edit size={18} />
                           </button>
                           <button
                             onClick={() => setDeleteConfirm(video.id)}
                             className="p-2 hover:bg-destructive/20 rounded transition text-destructive"
-                            title="Delete"
                           >
                             <Trash2 size={18} />
                           </button>
@@ -222,37 +195,58 @@ export default function VideosPage() {
                 </tbody>
               </table>
             </div>
+
+            {/* Pagination Controls */}
+            {totalPages > 1 && (
+              <div className="flex items-center justify-between px-6 py-4 border-t border-border bg-muted/30">
+                <div className="text-sm text-muted-foreground">
+                  Halaman <span className="font-medium text-foreground">{currentPage}</span> dari <span className="font-medium text-foreground">{totalPages}</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
+                    disabled={currentPage === 1}
+                    className="px-4 py-2 text-sm font-medium border border-border rounded-md hover:bg-muted disabled:opacity-50 transition-colors"
+                  >
+                    Sebelumnya
+                  </button>
+                  <button
+                    onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
+                    disabled={currentPage === totalPages}
+                    className="px-4 py-2 text-sm font-medium border border-border rounded-md hover:bg-muted disabled:opacity-50 transition-colors"
+                  >
+                    Selanjutnya
+                  </button>
+                </div>
+              </div>
+            )}
           </div>
         )}
       </div>
 
-      {/* Delete Confirmation */}
       {deleteConfirm && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-40 p-4">
           <div className="bg-card rounded-lg p-6 max-w-sm">
-            <h3 className="text-lg font-bold mb-2">Delete Video?</h3>
-            <p className="text-muted-foreground mb-6">
-              This action cannot be undone.
-            </p>
+            <h3 className="text-lg font-bold mb-2">Hapus Video?</h3>
+            <p className="text-muted-foreground mb-6">Tindakan ini tidak dapat dibatalkan.</p>
             <div className="flex gap-3 justify-end">
               <button
                 onClick={() => setDeleteConfirm(null)}
                 className="px-4 py-2 border border-input rounded-lg hover:bg-muted transition"
               >
-                Cancel
+                Batal
               </button>
               <button
                 onClick={() => handleDeleteVideo(deleteConfirm)}
                 className="px-4 py-2 bg-destructive text-destructive-foreground rounded-lg hover:opacity-90 transition"
               >
-                Delete
+                Hapus
               </button>
             </div>
           </div>
         </div>
       )}
 
-      {/* Video Form Modal */}
       {showForm && (
         <VideoForm
           video={editingVideo}
