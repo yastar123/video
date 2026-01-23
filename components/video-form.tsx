@@ -136,9 +136,15 @@ export function VideoForm({
     setLoading(true)
 
     try {
+      const finalUrl = useUrl ? formData.url : (formData.url.startsWith('/uploads') ? formData.url : '')
+      
+      if (!finalUrl) {
+        throw new Error('Video URL is required')
+      }
+
       const submitData = video
-        ? { id: video.id, ...formData }
-        : formData
+        ? { id: video.id, ...formData, url: finalUrl }
+        : { ...formData, url: finalUrl }
 
       await onSubmit(submitData)
       onClose()

@@ -39,15 +39,6 @@ export function VideoCard({ video, onClick, isLink, priority }: VideoCardProps) 
     return () => observer.disconnect()
   }, [priority])
 
-  const formatDuration = (seconds: number) => {
-    const hours = Math.floor(seconds / 3600)
-    const minutes = Math.floor((seconds % 3600) / 60)
-    if (hours > 0) {
-      return `${hours}:${minutes.toString().padStart(2, '0')}`
-    }
-    return `${minutes}:${(seconds % 60).toString().padStart(2, '0')}`
-  }
-
   const formatViews = (views: number) => {
     if (views >= 1000000) {
       return `${(views / 1000000).toFixed(1)}M`
@@ -85,11 +76,6 @@ export function VideoCard({ video, onClick, isLink, priority }: VideoCardProps) 
           <div className="w-12 h-12 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center scale-75 group-hover:scale-100 transition-transform duration-300 border border-white/30">
             <div className="w-0 h-0 border-t-[8px] border-t-transparent border-l-[12px] border-l-white border-b-[8px] border-b-transparent ml-1" />
           </div>
-        </div>
-
-        {/* Duration */}
-        <div className="absolute bottom-3 right-3 bg-black/70 backdrop-blur-md text-[10px] font-bold px-2 py-1 rounded-md border border-white/10 text-white shadow-lg">
-          {formatDuration(video.duration)}
         </div>
       </div>
 

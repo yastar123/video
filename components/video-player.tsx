@@ -26,6 +26,14 @@ export default function VideoPlayer({ url, thumbnail }: VideoPlayerProps) {
         responsive: true,
         fluid: true,
         poster: thumbnail,
+        html5: {
+          vhs: {
+            overrideNative: true
+          },
+          nativeVideoTracks: false,
+          nativeAudioTracks: false,
+          nativeTextTracks: false
+        },
         sources: [{
           src: url,
           type: url.includes('.m3u8') 
