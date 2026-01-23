@@ -5,6 +5,7 @@ import { Search, X, Play, Flame } from 'lucide-react'
 import { useState, useRef } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
+import Script from 'next/script'
 
 interface SearchBarProps {
   onSearch?: (query: string) => void
