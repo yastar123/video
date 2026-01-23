@@ -3,13 +3,15 @@
 import { useEffect, useState } from 'react'
 import type { Video, Category } from '@/lib/db'
 import { VideoForm } from '@/components/video-form'
-import { Plus, Edit, Trash2, Eye, Clock } from 'lucide-react'
+import { BulkImportForm } from '@/components/bulk-import-form'
+import { Plus, Edit, Trash2, Eye, Clock, FileSpreadsheet } from 'lucide-react'
 
 export default function VideosPage() {
   const [videos, setVideos] = useState<Video[]>([])
   const [categories, setCategories] = useState<Category[]>([])
   const [loading, setLoading] = useState(true)
   const [showForm, setShowForm] = useState(false)
+  const [showBulkImport, setShowBulkImport] = useState(false)
   const [editingVideo, setEditingVideo] = useState<Video | undefined>()
   const [deleteConfirm, setDeleteConfirm] = useState<string | null>(null)
   
@@ -101,13 +103,22 @@ export default function VideosPage() {
               Manage and upload your video content
             </p>
           </div>
-          <button
-            onClick={() => setShowForm(true)}
-            className="px-4 py-2 bg-foreground text-background font-medium rounded-md hover:bg-foreground/90 transition-colors flex items-center gap-2"
-          >
-            <Plus size={18} />
-            Add Video
-          </button>
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => setShowBulkImport(true)}
+              className="px-4 py-2 border border-border font-medium rounded-md hover:bg-muted transition-colors flex items-center gap-2"
+            >
+              <FileSpreadsheet size={18} />
+              Bulk Import
+            </button>
+            <button
+              onClick={() => setShowForm(true)}
+              className="px-4 py-2 bg-foreground text-background font-medium rounded-md hover:bg-foreground/90 transition-colors flex items-center gap-2"
+            >
+              <Plus size={18} />
+              Add Video
+            </button>
+          </div>
         </div>
 
         {loading ? (
@@ -254,6 +265,14 @@ export default function VideosPage() {
             setShowForm(false)
             setEditingVideo(undefined)
           }}
+        />
+      )}
+
+      {showBulkImport && (
+        <BulkImportForm
+          categories={categories}
+          onSuccess={() => fetchData()}
+          onClose={() => setShowBulkImport(false)}
         />
       )}
     </div>
