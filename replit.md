@@ -2,7 +2,16 @@
 
 ## Overview
 
-StreamFlix is a video streaming platform MVP built with Next.js 16, TypeScript, and Tailwind CSS. The application provides a Netflix-like experience with video browsing, categorization, search, filtering, and an admin dashboard for content management. Currently uses mock data with PostgreSQL integration prepared for production use.
+StreamFlix is a video streaming platform MVP built with Next.js 16, TypeScript, and Tailwind CSS. The application provides a Netflix-like experience with video browsing, categorization, search, filtering, and an admin dashboard for content management. Uses PostgreSQL database for data persistence.
+
+## Recent Changes (January 2026)
+
+- Implemented admin authentication guard - only admin users can access /admin pages
+- Added admin user seeding (admin@streamflix.com / admin123) 
+- Fixed user management with proper API endpoints for CRUD operations
+- Fixed advertisement management with proper API endpoints
+- Updated users table with additional fields for Google OAuth, membership status, and profile images
+- Fixed membership management for VIP user approvals
 
 ## User Preferences
 
