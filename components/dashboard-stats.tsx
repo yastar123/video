@@ -1,7 +1,6 @@
 'use client'
 
-import { videos, users, advertisements } from '@/lib/db'
-import type { Category } from '@/lib/db'
+import { useEffect, useState } from 'react'
 import {
   BarChart,
   Bar,
@@ -9,38 +8,48 @@ import {
   YAxis,
   CartesianGrid,
   Tooltip,
-  Legend,
   ResponsiveContainer,
   PieChart,
   Pie,
   Cell,
 } from 'recharts'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Film, Users, TrendingUp, DollarSign } from 'lucide-react'
+import { Film, Users } from 'lucide-react'
 
-export function DashboardStats({ categories }: { categories: Category[] }) {
-  // Calculate statistics
-  const totalVideos = videos.length
-  const totalUsers = users.length
-  const activeUsers = users.filter((u) => u.status === 'active').length
-  const totalRevenue = advertisements.reduce((sum, ad) => sum + ad.revenue, 0)
+interface StatsData {
+  totalVideos: number
+  totalUsers: number
+  activeUsers: number
+  videosPerCategory: { name: string; count: number }[]
+}
 
-  // Videos per category
-  const videosPerCategory = categories.map((cat) => ({
-    name: cat.name,
-    count: videos.filter((v) => v.category === cat.name).length,
-  }))
+export function DashboardStats({ categories }: { categories: any[] }) {
+  const [stats, setStats] = useState<StatsData | null>(null)
+  const [loading, setLoading] = useState(true)
 
-  // Ad performance data
-  const adPerformance = advertisements
-    .filter((ad) => ad.status === 'active')
-    .map((ad) => ({
-      name: ad.title.substring(0, 10),
-      impressions: ad.impressions,
-      clicks: ad.clicks,
-    }))
+  useEffect(() => {
+    fetch('/api/stats')
+      .then(res => res.json())
+      .then(data => {
+        setStats(data)
+        setLoading(false)
+      })
+      .catch(err => {
+        console.error('Failed to fetch stats:', err)
+        setLoading(false)
+      })
+  }, [])
 
-  // Colors for pie chart
+  if (loading || !stats) {
+    return (
+      <div className="flex justify-center py-12">
+        <div className="animate-spin w-8 h-8 border-4 border-muted border-t-primary rounded-full" />
+      </div>
+    )
+  }
+
+  const { totalVideos, totalUsers, activeUsers, videosPerCategory } = stats
+
   const COLORS = [
     '#3b82f6',
     '#ef4444',
