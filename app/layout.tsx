@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: 'StreamFlix - Watch Videos Online',
+  title: 'Ruang Malam - Watch Videos Online',
   description: 'Stream your favorite videos across all categories',
   generator: 'v0.app',
   icons: {

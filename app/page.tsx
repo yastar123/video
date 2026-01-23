@@ -79,10 +79,10 @@ export default async function Home({
         <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
           <div className="flex items-center gap-4 sm:gap-10">
             <Link href="/" className="flex items-center gap-2 group">
-              <div className="w-7 h-7 sm:w-8 sm:h-8 bg-foreground rounded-lg flex items-center justify-center group-hover:scale-105 transition-transform duration-200 shadow-lg shadow-foreground/10">
-                <div className="w-3 h-3 sm:w-4 sm:h-4 bg-background transform rotate-45 rounded-sm" />
+              <div className="w-7 h-7 sm:w-8 sm:h-8 overflow-hidden rounded-lg flex items-center justify-center group-hover:scale-105 transition-transform duration-200 shadow-lg shadow-foreground/10">
+                <img src="/assets/logo.jpg" alt="Ruang Malam Logo" className="w-full h-full object-cover" />
               </div>
-              <span className="text-lg sm:text-xl font-bold tracking-tight">StreamFlix</span>
+              <span className="text-lg sm:text-xl font-bold tracking-tight">Ruang Malam</span>
             </Link>
             <nav className="hidden md:flex gap-8 text-sm font-medium text-muted-foreground">
               <Link href="/" className="hover:text-foreground transition-all hover:translate-y-[-1px]">Home</Link>
