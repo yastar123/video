@@ -287,7 +287,7 @@ export default function AdsPage() {
                         <div className="flex items-center gap-3">
                           {ad.image && (
                             <img
-                              src={ad.image.startsWith('/') ? ad.image : `/uploads/ads/${ad.image}`}
+                              src={ad.image.startsWith('/') ? ad.image : `/uploads/${ad.image}`}
                               alt={ad.title}
                               className="w-12 h-12 rounded object-cover"
                             />

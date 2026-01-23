@@ -51,9 +51,8 @@ export async function POST(request: NextRequest) {
 
     const objectId = randomUUID()
     const extension = name.split('.').pop() || ''
-    const folder = type === 'thumbnail' ? 'thumbnails' : 'videos'
     const fileName = `${objectId}.${extension}`
-    const relativePath = `/uploads/${folder}/${fileName}`
+    const relativePath = `/uploads/${fileName}`
 
     const baseUrl = process.env.NEXT_PUBLIC_APP_URL || (process.env.REPLIT_DEV_DOMAIN ? `https://${process.env.REPLIT_DEV_DOMAIN}` : '')
     

@@ -126,7 +126,7 @@ export default function BannersPage() {
               <div key={banner.id} className="bg-card border border-border rounded-lg overflow-hidden flex flex-col md:flex-row">
                 <div className="w-full md:w-64 h-48 relative">
                   <img 
-                    src={banner.image.startsWith('/') ? banner.image : `/uploads/banners/${banner.image}`} 
+                    src={banner.image.startsWith('/') ? banner.image : `/uploads/${banner.image}`} 
                     alt={banner.title} 
                     className="w-full h-full object-cover" 
                   />
@@ -198,7 +198,7 @@ export default function BannersPage() {
                 />
                 {formData.image && (
                   <img 
-                    src={formData.image.startsWith('/') ? formData.image : `/uploads/banners/${formData.image}`} 
+                    src={formData.image.startsWith('/') ? formData.image : `/uploads/${formData.image}`} 
                     className="mt-2 h-32 object-contain" 
                     alt="Preview" 
                   />
