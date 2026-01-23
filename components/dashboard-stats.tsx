@@ -31,7 +31,12 @@ export function DashboardStats({ categories }: { categories: any[] }) {
     fetch('/api/stats')
       .then(res => res.json())
       .then(data => {
-        setStats(data)
+        if (data.error) {
+          console.error('API Error:', data.error)
+          setStats(null)
+        } else {
+          setStats(data)
+        }
         setLoading(false)
       })
       .catch(err => {
@@ -40,7 +45,7 @@ export function DashboardStats({ categories }: { categories: any[] }) {
       })
   }, [])
 
-  if (loading || !stats) {
+  if (loading) {
     return (
       <div className="flex justify-center py-12">
         <div className="animate-spin w-8 h-8 border-4 border-muted border-t-primary rounded-full" />
@@ -48,7 +53,24 @@ export function DashboardStats({ categories }: { categories: any[] }) {
     )
   }
 
-  const { totalVideos, totalUsers, activeUsers, videosPerCategory } = stats
+  if (!stats) {
+    return (
+      <Card className="border-destructive/50 bg-destructive/5">
+        <CardContent className="p-6 text-center">
+          <p className="text-destructive font-medium">Failed to load dashboard statistics.</p>
+          <p className="text-sm text-muted-foreground mt-1">Please check if the database is properly initialized.</p>
+          <button 
+            onClick={() => window.location.reload()}
+            className="mt-4 px-4 py-2 bg-primary text-primary-foreground rounded-md text-sm"
+          >
+            Retry
+          </button>
+        </CardContent>
+      </Card>
+    )
+  }
+
+  const { totalVideos = 0, totalUsers = 0, activeUsers = 0, videosPerCategory = [] } = stats
 
   const COLORS = [
     '#3b82f6',
