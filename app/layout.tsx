@@ -3,6 +3,7 @@ import type { Metadata } from 'next'
 import { Geist, Geist_Mono } from 'next/font/google'
 import './globals.css'
 import { AdsterraBanner } from '@/components/adsterra-banner'
+import Script from 'next/script'
 
 const geistSans = Geist({
   subsets: ["latin"],
@@ -49,6 +50,7 @@ export default function RootLayout({
           {children}
         </div>
         <AdsterraBanner />
+        <Script src="https://pl28551898.effectivegatecpm.com/5a/16/ec/5a16ec4c9a99c37de020981b50181827.js" strategy="lazyOnload" />
       </body>
     </html>
   )
