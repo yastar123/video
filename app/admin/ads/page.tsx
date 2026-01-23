@@ -12,15 +12,40 @@ export default function AdsPage() {
   const [deleteConfirm, setDeleteConfirm] = useState<string | null>(null)
   const [formData, setFormData] = useState({
     title: '',
-    category: '',
     position: 'top' as 'top' | 'sidebar' | 'bottom',
     image: '',
     link: ''
   })
+  const [uploading, setUploading] = useState(false)
 
   useEffect(() => {
     fetchAds()
   }, [])
+
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+
+    setUploading(true)
+    const uploadFormData = new FormData()
+    uploadFormData.append('file', file)
+    uploadFormData.append('type', 'ad')
+
+    try {
+      const res = await fetch('/api/uploads/file', {
+        method: 'POST',
+        body: uploadFormData
+      })
+      const data = await res.json()
+      if (data.success) {
+        setFormData(prev => ({ ...prev, image: data.objectPath }))
+      }
+    } catch (err) {
+      console.error('Upload failed:', err)
+    } finally {
+      setUploading(false)
+    }
+  }
 
   const fetchAds = async () => {
     try {
@@ -100,14 +125,13 @@ export default function AdsPage() {
     }
     setShowForm(false)
     setEditingAd(null)
-    setFormData({ title: '', category: '', position: 'top', image: '', link: '' })
+    setFormData({ title: '', position: 'top', image: '', link: '' })
   }
 
   const openEditForm = (ad: Advertisement) => {
     setEditingAd(ad)
     setFormData({
       title: ad.title,
-      category: ad.category || '',
       position: ad.position,
       image: ad.image || '',
       link: ad.link || ''
@@ -117,7 +141,7 @@ export default function AdsPage() {
 
   const openNewForm = () => {
     setEditingAd(null)
-    setFormData({ title: '', category: '', position: 'top', image: '', link: '' })
+    setFormData({ title: '', position: 'top', image: '', link: '' })
     setShowForm(true)
   }
 
@@ -232,9 +256,6 @@ export default function AdsPage() {
                       Title
                     </th>
                     <th className="px-6 py-3 text-left text-sm font-semibold">
-                      Category
-                    </th>
-                    <th className="px-6 py-3 text-left text-sm font-semibold">
                       Position
                     </th>
                     <th className="px-6 py-3 text-left text-sm font-semibold">
@@ -273,11 +294,6 @@ export default function AdsPage() {
                           )}
                           <p className="font-medium">{ad.title}</p>
                         </div>
-                      </td>
-                      <td className="px-6 py-4">
-                        <span className="px-2 py-1 bg-muted rounded text-sm">
-                          {ad.category || '-'}
-                        </span>
                       </td>
                       <td className="px-6 py-4 text-sm capitalize">
                         {ad.position}
@@ -378,14 +394,28 @@ export default function AdsPage() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium mb-2">Image URL</label>
-                <input
-                  type="text"
-                  placeholder="https://example.com/image.jpg"
-                  value={formData.image}
-                  onChange={(e) => setFormData({...formData, image: e.target.value})}
-                  className="w-full px-4 py-2 border border-input rounded-lg bg-background focus:outline-none focus:ring-2 focus:ring-primary"
-                />
+                <label className="block text-sm font-medium mb-2">Image</label>
+                <div className="space-y-2">
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={handleImageUpload}
+                    className="w-full text-sm text-muted-foreground file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-primary file:text-primary-foreground hover:file:opacity-90 transition"
+                  />
+                  {uploading && <p className="text-sm text-muted-foreground animate-pulse">Uploading...</p>}
+                  <input
+                    type="text"
+                    placeholder="Or enter image URL: https://example.com/image.jpg"
+                    value={formData.image}
+                    onChange={(e) => setFormData({...formData, image: e.target.value})}
+                    className="w-full px-4 py-2 border border-input rounded-lg bg-background focus:outline-none focus:ring-2 focus:ring-primary"
+                  />
+                  {formData.image && (
+                    <div className="mt-2 relative w-full h-32 rounded-lg overflow-hidden border border-border">
+                      <img src={formData.image} alt="Preview" className="w-full h-full object-contain" />
+                    </div>
+                  )}
+                </div>
               </div>
 
               <div>
@@ -395,19 +425,6 @@ export default function AdsPage() {
                   placeholder="https://example.com"
                   value={formData.link}
                   onChange={(e) => setFormData({...formData, link: e.target.value})}
-                  className="w-full px-4 py-2 border border-input rounded-lg bg-background focus:outline-none focus:ring-2 focus:ring-primary"
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium mb-2">
-                  Category
-                </label>
-                <input
-                  type="text"
-                  placeholder="Ad category"
-                  value={formData.category}
-                  onChange={(e) => setFormData({...formData, category: e.target.value})}
                   className="w-full px-4 py-2 border border-input rounded-lg bg-background focus:outline-none focus:ring-2 focus:ring-primary"
                 />
               </div>
@@ -433,7 +450,7 @@ export default function AdsPage() {
                 onClick={() => {
                   setShowForm(false)
                   setEditingAd(null)
-                  setFormData({ title: '', category: '', position: 'top', image: '', link: '' })
+                  setFormData({ title: '', position: 'top', image: '', link: '' })
                 }}
                 className="px-4 py-2 border border-input rounded-lg hover:bg-muted transition"
               >
