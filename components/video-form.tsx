@@ -31,6 +31,26 @@ async function uploadFile(file: File, type: 'video' | 'thumbnail'): Promise<stri
   
   const { uploadURL, objectPath } = await res.json()
   
+  // Ensure uploadURL is valid
+  if (!uploadURL || uploadURL.includes('undefined')) {
+    // Fallback to relative path if URL is broken
+    const formData = new FormData()
+    formData.append('file', file)
+    formData.append('type', type)
+    
+    const uploadRes = await fetch('/api/uploads/file', {
+      method: 'POST',
+      body: formData,
+    })
+    
+    if (!uploadRes.ok) {
+      throw new Error('Failed to upload file')
+    }
+    
+    const data = await uploadRes.json()
+    return data.objectPath
+  }
+  
   const uploadRes = await fetch(uploadURL, {
     method: 'PUT',
     body: file,
@@ -249,7 +269,7 @@ export function VideoForm({
               <input
                 type="url"
                 name="thumbnail"
-                value={formData.thumbnail.startsWith('/objects') ? '' : formData.thumbnail}
+                value={formData.thumbnail.startsWith('/uploads') ? '' : formData.thumbnail}
                 onChange={handleChange}
                 className="w-full px-3 py-2 border border-input rounded-lg focus:outline-none focus:ring-2 focus:ring-primary bg-background"
                 placeholder="Thumbnail URL (e.g., https://example.com/image.jpg)"
@@ -289,10 +309,10 @@ export function VideoForm({
             {formData.thumbnail && (
               <div className="mt-2">
                 <p className="text-xs text-muted-foreground mb-1">
-                  {formData.thumbnail.startsWith('/objects') ? 'Uploaded file' : 'URL preview'}
+                  {formData.thumbnail.startsWith('/uploads') ? 'Uploaded file' : 'URL preview'}
                 </p>
                 <img
-                  src={formData.thumbnail.startsWith('/objects') ? `/api${formData.thumbnail}` : formData.thumbnail}
+                  src={formData.thumbnail}
                   alt="Preview"
                   className="h-32 w-full object-cover rounded border border-border"
                 />
@@ -334,7 +354,7 @@ export function VideoForm({
                 <input
                   type="url"
                   name="url"
-                  value={formData.url.startsWith('/objects') ? '' : formData.url}
+                  value={formData.url.startsWith('/uploads') ? '' : formData.url}
                   onChange={handleChange}
                   required={useUrl && !formData.url}
                   className="w-full px-3 py-2 border border-input rounded-lg focus:outline-none focus:ring-1 focus:ring-foreground bg-background"
@@ -357,7 +377,7 @@ export function VideoForm({
                         <p className="text-sm font-medium">Uploading video...</p>
                         <p className="text-xs text-muted-foreground">{videoFileName}</p>
                       </>
-                    ) : formData.url.startsWith('/objects') ? (
+                    ) : formData.url.startsWith('/uploads') ? (
                       <>
                         <Upload size={24} className="text-green-500" />
                         <p className="text-sm font-medium text-green-500">Video uploaded successfully</p>

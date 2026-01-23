@@ -55,9 +55,7 @@ export async function POST(request: NextRequest) {
     const fileName = `${objectId}.${extension}`
     const relativePath = `/uploads/${folder}/${fileName}`
 
-    const baseUrl = process.env.NEXTAUTH_URL || process.env.REPLIT_DEV_DOMAIN 
-      ? `https://${process.env.REPLIT_DEV_DOMAIN}` 
-      : 'http://localhost:5000'
+    const baseUrl = process.env.NEXT_PUBLIC_APP_URL || (process.env.REPLIT_DEV_DOMAIN ? `https://${process.env.REPLIT_DEV_DOMAIN}` : 'http://localhost:5000')
     
     const uploadURL = `${baseUrl}/api/uploads/file`
 
