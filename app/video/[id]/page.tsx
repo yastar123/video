@@ -18,6 +18,23 @@ async function getVideo(id: string) {
   return rows[0] || null
 }
 
+// Client component wrapper for views increment
+function ViewsIncrement({ videoId }: { videoId: string }) {
+  return (
+    <script dangerouslySetInnerHTML={{
+      __html: `
+        setTimeout(() => {
+          fetch('/api/videos/views', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ videoId: ${videoId} })
+          }).catch(console.error);
+        }, 2000);
+      `
+    }} />
+  )
+}
+
 export default async function VideoDetail({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
   const video = await getVideo(id)
@@ -47,6 +64,7 @@ export default async function VideoDetail({ params }: { params: Promise<{ id: st
 
   return (
     <main className="min-h-screen bg-background">
+      <ViewsIncrement videoId={id} />
       {/* Header */}
       <header className="sticky top-0 z-50 bg-background/80 backdrop-blur border-b border-border">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">

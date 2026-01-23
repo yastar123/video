@@ -14,7 +14,7 @@ export function SortFilter({ currentSort, onSortChange }: SortFilterProps) {
   
   const sortOptions = [
     { value: 'newest', label: 'Terbaru' },
-    { value: 'popular', label: 'Populer' },
+    { value: 'popular', label: 'Populer (Paling Banyak Ditonton)' },
     { value: 'oldest', label: 'Terlama' },
     { value: 'rating', label: 'Rating Tertinggi' },
   ]

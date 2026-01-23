@@ -87,9 +87,9 @@ export function VideoCard({ video, onClick, isLink, priority }: VideoCardProps) 
 
         {/* Stats */}
         <div className="flex items-center gap-3 text-xs text-muted-foreground font-medium">
-          <span className="flex items-center gap-1.5 bg-secondary/50 px-2 py-1 rounded-md">
-            <Eye size={12} />
-            {formatViews(video.views)}
+          <span className="flex items-center gap-1.5 bg-secondary/50 px-2 py-1 rounded-md" title="Views">
+            <Eye size={12} className="text-primary" />
+            {formatViews(video.views || 0)}
           </span>
           <span className="flex items-center gap-1.5">
             <Clock size={12} />
