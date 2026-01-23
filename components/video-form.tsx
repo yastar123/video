@@ -14,54 +14,22 @@ interface VideoFormProps {
 }
 
 async function uploadFile(file: File, type: 'video' | 'thumbnail'): Promise<string> {
-  const res = await fetch('/api/uploads/request-url', {
+  const formData = new FormData()
+  formData.append('file', file)
+  formData.append('type', type)
+  
+  const uploadRes = await fetch('/api/uploads/file', {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      name: file.name,
-      size: file.size,
-      contentType: file.type,
-      type,
-    }),
-  })
-  
-  if (!res.ok) {
-    throw new Error('Failed to get upload URL')
-  }
-  
-  const { uploadURL, objectPath } = await res.json()
-  
-  // Ensure uploadURL is valid
-  if (!uploadURL || uploadURL.includes('undefined')) {
-    // Fallback to relative path if URL is broken
-    const formData = new FormData()
-    formData.append('file', file)
-    formData.append('type', type)
-    
-    const uploadRes = await fetch('/api/uploads/file', {
-      method: 'POST',
-      body: formData,
-    })
-    
-    if (!uploadRes.ok) {
-      throw new Error('Failed to upload file')
-    }
-    
-    const data = await uploadRes.json()
-    return data.objectPath
-  }
-  
-  const uploadRes = await fetch(uploadURL, {
-    method: 'PUT',
-    body: file,
-    headers: { 'Content-Type': file.type },
+    body: formData,
   })
   
   if (!uploadRes.ok) {
-    throw new Error('Failed to upload file')
+    const errorData = await uploadRes.json()
+    throw new Error(errorData.error || 'Failed to upload file')
   }
   
-  return objectPath
+  const data = await uploadRes.json()
+  return data.objectPath
 }
 
 export function VideoForm({
