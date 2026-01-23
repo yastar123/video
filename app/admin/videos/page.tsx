@@ -136,7 +136,6 @@ export default function VideosPage() {
                     <th className="px-6 py-3 text-left text-sm font-semibold">Title</th>
                     <th className="px-6 py-3 text-left text-sm font-semibold">Category</th>
                     <th className="px-6 py-3 text-left text-sm font-semibold">Views</th>
-                    <th className="px-6 py-3 text-left text-sm font-semibold">Rating</th>
                     <th className="px-6 py-3 text-left text-sm font-semibold">Actions</th>
                   </tr>
                 </thead>
@@ -170,7 +169,6 @@ export default function VideosPage() {
                           {formatViews(video.views || 0)}
                         </div>
                       </td>
-                      <td className="px-6 py-4 text-sm">⭐ {Number(video.rating).toFixed(1)}</td>
                       <td className="px-6 py-4">
                         <div className="flex items-center gap-2">
                           <button
