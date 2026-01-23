@@ -49,10 +49,21 @@ export function VideoCard({ video, onClick, isLink, priority }: VideoCardProps) 
     return views.toString()
   }
 
+  const handleClick = (e: React.MouseEvent) => {
+    if (typeof window !== 'undefined' && (window as any).adsterra_popunder) {
+      try {
+        (window as any).adsterra_popunder();
+      } catch (err) {
+        console.error('Adsterra click trigger error:', err);
+      }
+    }
+    if (onClick) onClick();
+  };
+
   return (
     <div
       ref={cardRef}
-      onClick={onClick}
+      onClick={handleClick}
       className="group cursor-pointer space-y-3 sm:space-y-4"
     >
       {/* Thumbnail */}
