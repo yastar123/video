@@ -49,7 +49,7 @@ export function HeroBanner() {
   const banner = banners[currentIndex]
 
   return (
-    <div className="relative w-full h-[250px] sm:h-[350px] md:h-[450px] overflow-hidden rounded-2xl group border border-border/50">
+    <div className="relative w-full h-[180px] sm:h-[260px] md:h-[320px] overflow-hidden rounded-2xl group border border-border/50">
       {/* Banner Image */}
       <img
         src={banner.image || "/placeholder.svg"}
