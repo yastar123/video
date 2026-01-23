@@ -1,0 +1,55 @@
+# 5. Pastikan folder uploads punya permission yang benar
+sudo chown -R www-data:www-data /var/www/video.seyiki.com/uploads
+sudo chmod -R 755 /var/www/video.seyiki.com/uploads
+sudo: unable to resolve host server.seyiki.com: Name or service not known
+nginx: the configuration file /etc/nginx/nginx.conf syntax is ok
+nginx: configuration file /etc/nginx/nginx.conf test is successful
+sudo: unable to resolve host server.seyiki.com: Name or service not known
+sudo: unable to resolve host server.seyiki.com: Name or service not known
+sudo: unable to resolve host server.seyiki.com: Name or service not known
+root@server:/var/www/video.seyiki.com# nano /etc/nginx/sites-available/video.seyiki.com
+root@server:/var/www/video.seyiki.com# sudo mkdir -p /var/www/video.seyiki.com/public/uploads
+# 2. Set permission
+sudo chown -R www-data:www-data /var/www/video.seyiki.com/public/uploads
+sudo chmod -R 755 /var/www/video.seyiki.com/public/uploads
+sudo: unable to resolve host server.seyiki.com: Name or service not known
+sudo: unable to resolve host server.seyiki.com: Name or service not known
+sudo: unable to resolve host server.seyiki.com: Name or service not known
+root@server:/var/www/video.seyiki.com# sudo nginx -t
+sudo systemctl restart nginx
+# 6. Cek apakah file upload ada
+ls -la /var/www/video.seyiki.com/public/uploads/
+sudo: unable to resolve host server.seyiki.com: Name or service not known
+nginx: the configuration file /etc/nginx/nginx.conf syntax is ok
+nginx: configuration file /etc/nginx/nginx.conf test is successful
+sudo: unable to resolve host server.seyiki.com: Name or service not known
+total 31396
+drwxr-xr-x 3 www-data www-data     4096 Jan 24 00:00 .
+drwxr-xr-x 3 root     root         4096 Jan 23 22:24 ..
+-rwxr-xr-x 1 www-data www-data       96 Jan 23 23:07 00bb3eb3-84a5-4659-a043-3f7f0b533cf4.m3u8
+-rwxr-xr-x 1 www-data www-data       96 Jan 23 23:32 0b23e2cc-705a-44ed-806d-3f90b3e12f8f.m3u8
+-rwxr-xr-x 1 www-data www-data       96 Jan 23 23:16 0cd7220b-1239-4938-b6c6-5499f9d6fc59.m3u8
+-rwxr-xr-x 1 www-data www-data    90497 Jan 23 23:16 43524ec2-8074-419d-b78b-b6155b9f6a18.jpeg
+-rwxr-xr-x 1 www-data www-data  5402870 Jan 24 00:00 6829ec21-4358-4752-a0c4-7263fdef39e8.mp4
+-rwxr-xr-x 1 www-data www-data    85102 Jan 23 23:17 7397830f-4b70-4514-8e34-7cd846bc92c6.jpeg
+-rwxr-xr-x 1 www-data www-data    80136 Jan 24 00:00 73b8b9c5-3c80-44af-9526-1de91e97500c.jpeg
+-rwxr-xr-x 1 www-data www-data     3789 Jan 23 22:41 95623014-831d-4421-8a55-755bd32749db.jpg
+-rwxr-xr-x 1 www-data www-data     3789 Jan 23 22:42 a209abdf-266f-4b21-856c-d079fb803f61.jpg
+-rwxr-xr-x 1 www-data www-data    90497 Jan 23 23:32 a6573911-3254-446e-818e-e55dd86fb9bc.jpeg
+-rwxr-xr-x 1 www-data www-data  5402870 Jan 23 23:49 a7a90fee-3b3a-4c6a-8126-7cb7342c29c9.mp4
+-rwxr-xr-x 1 www-data www-data       96 Jan 23 23:19 cd1f52e1-0971-4ada-83ed-04e849560f36.m3u8
+-rwxr-xr-x 1 www-data www-data    85102 Jan 23 23:07 cdf4f6b6-5354-4e03-b6bd-48146a6a6cc3.jpeg
+-rwxr-xr-x 1 www-data www-data       96 Jan 23 23:41 f3aaf857-dd60-40cd-ad69-4a62af7aff0e.m3u8
+-rwxr-xr-x 1 www-data www-data 20849605 Jan 23 23:39 fea66367-3bd2-4cb0-8992-2a181ac2b292.mp4
+drwxr-xr-x 2 www-data www-data     4096 Jan 23 22:26 videos
+root@server:/var/www/video.seyiki.com# ls -la /var/www/video.seyiki.com/public/
+total 32
+drwxr-xr-x  3 root     root     4096 Jan 23 22:24 .
+drwxr-xr-x 16 root     root     4096 Jan 23 23:45 ..
+-rw-r--r--  1 root     root      760 Jan 23 20:30 placeholder-logo.png
+-rw-r--r--  1 root     root     3208 Jan 23 20:30 placeholder-logo.svg
+-rw-r--r--  1 root     root     2180 Jan 23 20:30 placeholder-user.jpg
+-rw-r--r--  1 root     root     1420 Jan 23 20:30 placeholder.jpg
+-rw-r--r--  1 root     root     3253 Jan 23 20:30 placeholder.svg
+drwxr-xr-x  3 www-data www-data 4096 Jan 24 00:00 uploads
+root@server:/var/www/video.seyiki.com#
