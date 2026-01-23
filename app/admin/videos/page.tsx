@@ -194,7 +194,7 @@ export default function VideosPage() {
                         </div>
                       </td>
                       <td className="px-6 py-4 text-sm">
-                        {'⭐'} {video.rating.toFixed(1)}
+                        {'⭐'} {Number(video.rating).toFixed(1)}
                       </td>
                       <td className="px-6 py-4">
                         <div className="flex items-center gap-2">

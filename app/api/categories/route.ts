@@ -62,7 +62,9 @@ export async function DELETE(request: NextRequest) {
   }
 
   try {
-    await query('DELETE FROM categories WHERE id = $1', [id])
+    // Set category_id to NULL for videos in this category before deleting
+    await query('UPDATE videos SET category_id = NULL WHERE category_id = $1', [parseInt(id)])
+    await query('DELETE FROM categories WHERE id = $1', [parseInt(id)])
     return NextResponse.json({ success: true })
   } catch (error) {
     console.error('Database error:', error)

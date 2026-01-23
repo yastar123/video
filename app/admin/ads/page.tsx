@@ -49,7 +49,7 @@ export default function AdsPage() {
 
   const fetchAds = async () => {
     try {
-      const res = await fetch('/api/ads')
+      const res = await fetch('/api/promotions')
       const data = await res.json()
       setAds(Array.isArray(data) ? data : [])
     } catch (err) {
@@ -66,7 +66,7 @@ export default function AdsPage() {
     if (!ad) return
 
     try {
-      const res = await fetch('/api/ads', {
+      const res = await fetch('/api/promotions', {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ ...ad, id, status: newStatus })
@@ -85,7 +85,7 @@ export default function AdsPage() {
 
   const handleDeleteAd = async (id: string) => {
     try {
-      const res = await fetch(`/api/ads?id=${id}`, { method: 'DELETE' })
+      const res = await fetch(`/api/promotions?id=${id}`, { method: 'DELETE' })
       if (res.ok) {
         setAds((prev) => prev.filter((a) => a.id !== id))
       }
@@ -98,7 +98,7 @@ export default function AdsPage() {
   const handleSubmit = async () => {
     try {
       if (editingAd) {
-        const res = await fetch('/api/ads', {
+        const res = await fetch('/api/promotions', {
           method: 'PUT',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ ...formData, id: editingAd.id, status: editingAd.status })
@@ -110,7 +110,7 @@ export default function AdsPage() {
           )
         }
       } else {
-        const res = await fetch('/api/ads', {
+        const res = await fetch('/api/promotions', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(formData)
