@@ -42,7 +42,40 @@ export async function POST(request: NextRequest) {
       },
     })
   } catch (error) {
-    console.error('Error uploading file:', error)
+    console.error('Error uploading file (POST):', error)
+    return NextResponse.json(
+      { error: 'Failed to upload file' },
+      { status: 500 }
+    )
+  }
+}
+
+export async function PUT(request: NextRequest) {
+  try {
+    const { searchParams } = new URL(request.url)
+    const fileName = searchParams.get('filename')
+
+    if (!fileName) {
+      return NextResponse.json(
+        { error: 'Missing filename parameter' },
+        { status: 400 }
+      )
+    }
+
+    const absolutePath = path.join(process.cwd(), 'public', 'uploads', fileName)
+    await mkdir(path.dirname(absolutePath), { recursive: true })
+
+    const bytes = await request.arrayBuffer()
+    const buffer = Buffer.from(bytes)
+    await writeFile(absolutePath, buffer)
+
+    return NextResponse.json({
+      success: true,
+      objectPath: `/uploads/${fileName}`,
+      fileName,
+    })
+  } catch (error) {
+    console.error('Error uploading file (PUT):', error)
     return NextResponse.json(
       { error: 'Failed to upload file' },
       { status: 500 }

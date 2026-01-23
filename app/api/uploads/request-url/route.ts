@@ -54,7 +54,9 @@ export async function POST(request: NextRequest) {
 
     const baseUrl = process.env.NEXT_PUBLIC_APP_URL || (process.env.REPLIT_DEV_DOMAIN ? `https://${process.env.REPLIT_DEV_DOMAIN}` : '')
     
-    const uploadURL = baseUrl ? `${baseUrl}/api/uploads/file` : '/api/uploads/file'
+    const uploadURL = baseUrl 
+      ? `${baseUrl}/api/uploads/file?filename=${fileName}` 
+      : `/api/uploads/file?filename=${fileName}`
 
     return NextResponse.json({
       uploadURL,
