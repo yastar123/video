@@ -1,0 +1,88 @@
+
+[dotenv@17.2.3] injecting env (10) from .env -- tip: 🗂️ backup and recover secrets: https://dotenvx.com/ops
+Starting seed...
+Users seeded successfully
+Seed completed successfully
+
+> my-v0-project@0.1.0 build
+> next build
+
+   ▲ Next.js 15.5.7
+   - Environments: .env
+
+   Creating an optimized production build ...
+Failed to compile.
+
+./app/auth/login/page.tsx
+Error:   x Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+     ,-[/var/www/video.seyiki.com/app/auth/login/page.tsx:117:1]
+ 114 |       </div>
+ 115 |     </main>
+ 116 |   )
+ 117 | }
+     : ^
+     `----
+  x Unexpected eof
+     ,-[/var/www/video.seyiki.com/app/auth/login/page.tsx:117:3]
+ 115 |     </main>
+ 116 |   )
+ 117 | }
+     `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./app/auth/login/page.tsx
+
+./app/kategori/page.tsx
+Error:   x Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+     ,-[/var/www/video.seyiki.com/app/kategori/page.tsx:375:1]
+ 372 |                 </div>
+ 373 |               </div>
+ 374 |             </div>
+ 375 |           )}
+     :            ^
+ 376 |         </div>
+ 377 |       </main>
+ 378 |     </>
+     `----
+  x Expression expected
+     ,-[/var/www/video.seyiki.com/app/kategori/page.tsx:377:1]
+ 374 |             </div>
+ 375 |           )}
+ 376 |         </div>
+ 377 |       </main>
+     :       ^
+ 378 |     </>
+ 379 |   )
+ 380 | }
+     `----
+  x Unterminated regexp literal
+     ,-[/var/www/video.seyiki.com/app/kategori/page.tsx:377:1]
+ 374 |             </div>
+ 375 |           )}
+ 376 |         </div>
+ 377 |       </main>
+     :        ^^^^^^
+ 378 |     </>
+ 379 |   )
+ 380 | }
+     `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./app/kategori/page.tsx
+
+
+> Build failed because of webpack errors
+Use --update-env to update environment variables
+[PM2] Applying action restartProcessId on app [all](ids: [ 0, 2, 12, 15, 16, 21 ])
+[PM2] [iot-backend](0) ✓
+[PM2] [seyiki-main](2) ✓
+[PM2] [survei-seyiki](15) ✓
+[PM2] [seyiki-docs](12) ✓
+[PM2] [lhpp-seyiki](16) ✓
+[PM2] [video-seyiki](21) ✓
