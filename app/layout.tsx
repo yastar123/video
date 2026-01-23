@@ -51,6 +51,7 @@ export default function RootLayout({
         </div>
         <AdsterraBanner />
         <Script src="https://pl28551898.effectivegatecpm.com/5a/16/ec/5a16ec4c9a99c37de020981b50181827.js" strategy="lazyOnload" />
+        <Script src="https://pl28551950.effectivegatecpm.com/da/af/d9/daafd92f1c5ebec81553cc97b327f824.js" strategy="lazyOnload" />
       </body>
     </html>
   )
