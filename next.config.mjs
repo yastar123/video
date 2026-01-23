@@ -11,12 +11,16 @@ const nextConfig = {
         hostname: 'storage.googleapis.com',
       },
       {
+        protocol: 'https',
+        hostname: 'video.seyiki.com',
+      },
+      {
         protocol: 'http',
         hostname: 'video.seyiki.com',
       },
       {
         protocol: 'https',
-        hostname: 'video.seyiki.com',
+        hostname: 'images.unsplash.com',
       },
     ],
   },
