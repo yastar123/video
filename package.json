@@ -3,9 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev -H 0.0.0.0 -p 3002 --turbo",
+    "dev": "next dev -H 0.0.0.0 -p 3005 --turbo",
     "build": "next build",
-    "start": "next start -H 0.0.0.0 -p 3002",
+    "start": "next start -H 0.0.0.0 -p 3005",
     "lint": "eslint .",
     "seed": "tsx scripts/seed-runner.ts",
     "db:push": "tsx scripts/db-push.ts"
