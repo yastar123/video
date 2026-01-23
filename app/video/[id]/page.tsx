@@ -118,48 +118,10 @@ export default async function VideoDetail({ params }: { params: Promise<{ id: st
     notFound()
   }
 
-  const indonesianKeywords = [
-    'nonton bokep', 'streaming bokep', 'video porno gratis',
-    'bokep indonesia', 'bokep jepang', 'bokep china',
-    'film dewasa', 'cerita bokep', video.category || 'dewasa'
-  ]
-
-  const relatedSearches = [
-    `bokep ${video.category?.toLowerCase() || 'terbaru'}`,
-    `nonton ${video.category?.toLowerCase() || 'bokep'} gratis`,
-    `${video.category || 'bokep'} HD`,
-    `download ${video.category?.toLowerCase() || 'bokep'}`
-  ]
-
   return (
     <>
       <ViewsIncrement videoId={id} />
       
-      {/* Schema.org VideoObject JSON-LD */}
-      <script 
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "VideoObject",
-            "name": video.title,
-            "description": `Nonton ${video.title} - Video bokep ${video.category} terlengkap dan terupdate`,
-            "thumbnailUrl": video.thumbnail,
-            "uploadDate": video.created_at,
-            "contentUrl": video.url,
-            "duration": `PT${formatDuration(video.duration || 0)}`,
-            "interactionStatistic": {
-              "@type": "InteractionCounter",
-              "interactionType": "http://schema.org/WatchAction",
-              "userInteractionCount": video.views
-            },
-            "inLanguage": "id",
-            "genre": video.category,
-            "keywords": indonesianKeywords.join(', ')
-          })
-        }}
-      />
-
       <main className="min-h-screen bg-background">
         {/* Header with Breadcrumbs */}
         <header className="sticky top-0 z-50 bg-background/95 backdrop-blur border-b border-border">
@@ -188,9 +150,6 @@ export default async function VideoDetail({ params }: { params: Promise<{ id: st
           <header className="mb-8">
             <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 text-balance leading-tight">
               Nonton <span className="text-primary">{video.title}</span> 
-              <span className="block text-xl md:text-2xl text-muted-foreground mt-2">
-                Video Bokep {video.category} Terbaru & Gratis
-              </span>
             </h1>
           </header>
 
@@ -257,59 +216,16 @@ export default async function VideoDetail({ params }: { params: Promise<{ id: st
           {/* Content Expansion - Secondary Keywords */}
           <section className="mb-16">
             <div className="prose prose-headings:text-2xl prose-headings:font-bold prose-p:text-lg max-w-none">
-              <h2 className="text-3xl font-bold mb-8">Deskripsi Video Bokep {video.title}</h2>
+              <h2 className="text-3xl font-bold mb-8">Video Description {video.title}</h2>
               <p className="text-xl text-muted-foreground mb-8 leading-relaxed">
-                Nikmati streaming <strong>{video.title}</strong> video bokep{' '}
-                <strong>{video.category}</strong> terlengkap dengan kualitas HD. 
-                Tonton koleksi bokep Indonesia, Jepang, China dan berbagai kategori dewasa lainnya 
-                secara gratis tanpa buffering.
+                Enjoy streaming <strong>{video.title}</strong> video{' '}
+                <strong>{video.category}</strong> with HD quality. 
               </p>
-              
-              <div className="grid md:grid-cols-2 gap-8 mb-12">
-                <div>
-                  <h3 className="text-2xl font-bold mb-4 flex items-center gap-2">
-                    <Star className="w-6 h-6 text-yellow-500 fill-current" />
-                    Fitur Video
-                  </h3>
-                  <ul className="space-y-3 text-lg">
-                    <li>✅ Streaming HD 720p/1080p</li>
-                    <li>✅ Tanpa Iklan Mengganggu</li>
-                    <li>✅ Download Tersedia</li>
-                    <li>✅ Update Harian</li>
-                  </ul>
-                </div>
-                <div>
-                  <h3 className="text-2xl font-bold mb-4">Kategori Populer</h3>
-                  <p className="text-lg text-muted-foreground mb-4">
-                    {indonesianKeywords.slice(0, 4).join(', ')}
-                  </p>
-                </div>
-              </div>
             </div>
           </section>
 
-          {/* Related Searches Section - People Also Ask */}
-          <section className="mb-16">
-            <h2 className="text-3xl font-bold mb-8">Pencarian Terkait</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {relatedSearches.map((search, i) => (
-                <Link 
-                  key={i}
-                  href={`/search?q=${encodeURIComponent(search)}`}
-                  className="block p-6 bg-muted rounded-xl hover:bg-primary/5 border hover:border-primary/50 transition-all group"
-                >
-                  <span className="text-2xl font-bold group-hover:text-primary mb-2 block">
-                    {search}
-                  </span>
-                  <span className="text-sm text-muted-foreground">Cari video serupa</span>
-                </Link>
-              ))}
-            </div>
-          </section>
-
-          {/* Recommended Videos */}
           <section>
-            <h2 className="text-3xl font-bold mb-8">Video Bokep {video.category} Lainnya</h2>
+            <h2 className="text-3xl font-bold mb-8">Related Videos</h2>
             <RandomVideos />
           </section>
         </div>

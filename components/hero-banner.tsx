@@ -48,71 +48,26 @@ export function HeroBanner() {
 
   const banner = banners[currentIndex]
 
-  // SEO-optimized keywords untuk adult content Indonesia
+  // SEO-optimized keywords
   const seoKeywords = [
-    'nonton bokep', 'video porno indonesia', 'bokep terbaru', 
-    'memek viral', 'ngentot', 'jepang bokep', 'china bokep',
-    'bokep barat', 'streaming bokep gratis', 'bokep indo 2026'
+    'video streaming', 'latest videos', 'free streaming'
   ].join(', ')
 
-  // Dynamic title dengan high-search volume keywords
-  const seoTitle = `${banner.title} - Nonton Bokep Terbaru Indonesia Jepang China Gratis`
+  // Dynamic title
+  const seoTitle = `${banner.title} - Watch Latest Videos`
   
-  // Meta description optimized (155 chars)
-  const seoDescription = `Nonton ${banner.title.toLowerCase()} video bokep terbaru Indonesia, Jepang, China. Streaming gratis kualitas HD nonton bokep viral memek ngentot terupdate 2026.`
+  // Meta description
+  const seoDescription = `Watch ${banner.title.toLowerCase()} latest videos in HD quality.`
 
   return (
     <>
-      {/* SEO Meta Tags - Critical untuk Google ranking */}
-      <head>
-        <title>{seoTitle}</title>
-        <meta name="description" content={seoDescription} />
-        <meta name="keywords" content={seoKeywords} />
-        
-        {/* Open Graph untuk social sharing */}
-        <meta property="og:title" content={seoTitle} />
-        <meta property="og:description" content={seoDescription} />
-        <meta property="og:type" content="video.other" />
-        <meta property="og:image" content={banner.image || "/placeholder.svg"} />
-        <meta property="og:url" content={typeof window !== 'undefined' ? window.location.href : ''} />
-        
-        {/* Twitter Card */}
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content={seoTitle} />
-        <meta name="twitter:description" content={seoDescription} />
-        
-        {/* Adult Content Schema */}
-        <meta name="rating" content="Adult" />
-        <meta name="robots" content="index, follow" />
-        
-        {/* Structured Data untuk Video (rich snippets) */}
-        <script 
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "VideoObject",
-              "name": seoTitle,
-              "description": seoDescription,
-              "thumbnailUrl": banner.image,
-              "uploadDate": new Date().toISOString().split('T')[0],
-              "contentUrl": typeof window !== 'undefined' ? window.location.href : '',
-              "embedUrl": typeof window !== 'undefined' ? window.location.href : '',
-              "genre": ["Adult", "Pornography"],
-              "inLanguage": "id",
-              "isFamilyFriendly": false
-            })
-          }}
-        />
-      </head>
-
       <div className="relative w-full h-[180px] sm:h-[260px] md:h-[320px] overflow-hidden rounded-2xl group border border-border/50">
         {banner.link ? (
           <Link href={banner.link} className="block w-full h-full relative group">
             <img
               src={banner.image || "/placeholder.svg"}
-              alt={`Nonton ${banner.title} - Video Bokep Terbaru Indonesia Jepang China Gratis HD`}
-              title={`Nonton ${banner.title} Bokep Terupdate 2026`}
+              alt={banner.title}
+              title={banner.title}
               loading="eager"
               decoding="async"
               className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
@@ -124,11 +79,8 @@ export function HeroBanner() {
                 <h1 className="text-2xl sm:text-3xl md:text-5xl font-extrabold text-white mb-2 sm:mb-4 text-balance leading-tight tracking-tight">
                   {banner.title}
                 </h1>
-                <p className="text-lg sm:text-xl md:text-2xl text-white/90 font-semibold mb-4 hidden md:block">
-                  Nonton Bokep Terbaru Indonesia • Jepang • China • Gratis HD 2026
-                </p>
                 <div className="inline-flex items-center bg-red-600 hover:bg-red-700 text-white px-6 py-3 rounded-xl font-bold text-lg transition-all duration-300 shadow-lg hover:shadow-xl">
-                  Nonton Sekarang Bokep Gratis →
+                  Watch Now →
                 </div>
               </div>
             </div>
@@ -137,8 +89,8 @@ export function HeroBanner() {
           <>
             <img
               src={banner.image || "/placeholder.svg"}
-              alt={`Nonton ${banner.title} - Video Bokep Terbaru Indonesia Jepang China Gratis HD`}
-              title={`Nonton ${banner.title} Bokep Terupdate 2026`}
+              alt={banner.title}
+              title={banner.title}
               loading="eager"
               decoding="async"
               className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
@@ -150,15 +102,6 @@ export function HeroBanner() {
                 <h1 className="text-2xl sm:text-3xl md:text-5xl font-extrabold text-white mb-2 sm:mb-4 text-balance leading-tight tracking-tight">
                   {banner.title}
                 </h1>
-                <p className="text-lg sm:text-xl md:text-2xl text-white/90 font-semibold mb-4 hidden md:block">
-                  Nonton Bokep Terbaru Indonesia • Jepang • China • Gratis HD 2026
-                </p>
-                <Link 
-                  href={`/search?q=${encodeURIComponent('bokep terbaru')}`}
-                  className="inline-flex items-center bg-red-600 hover:bg-red-700 text-white px-6 py-3 rounded-xl font-bold text-lg transition-all duration-300 shadow-lg hover:shadow-xl"
-                >
-                  Nonton Sekarang Bokep Gratis →
-                </Link>
               </div>
             </div>
           </>
@@ -197,22 +140,6 @@ export function HeroBanner() {
             </div>
           </>
         )}
-      </div>
-
-      {/* Additional SEO content block - keyword density booster */}
-      <div className="mt-6 p-6 bg-gradient-to-r from-red-900/20 to-purple-900/20 rounded-2xl border border-red-500/30">
-        <h2 className="text-2xl font-bold text-white mb-4">Kategori Bokep Terpopuler</h2>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
-          {['Bokep Indo', 'Jepang Uncensored', 'China Viral', 'Barat HD'].map((cat) => (
-            <Link 
-              key={cat}
-              href={`/category/${cat.toLowerCase().replace(' ', '-')}`}
-              className="block p-3 bg-white/10 hover:bg-white/20 rounded-xl text-white font-semibold transition-all"
-            >
-              {cat}
-            </Link>
-          ))}
-        </div>
       </div>
     </>
   )

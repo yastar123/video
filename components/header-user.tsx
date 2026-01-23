@@ -70,7 +70,7 @@ export function HeaderUser() {
         <Link
           href="/admin"
           className="flex items-center gap-2 px-4 py-2 bg-red-600/20 hover:bg-red-600/40 text-red-300 hover:text-red-100 font-semibold text-sm rounded-xl backdrop-blur-sm border border-red-500/30 transition-all hover:scale-105 shadow-md"
-          title="Admin Panel - Kelola Konten Bokep"
+          title="Admin Panel"
         >
           <Settings size={16} />
           <span className="hidden sm:inline">Admin</span>
@@ -82,7 +82,7 @@ export function HeaderUser() {
         <Link 
           href="/favorites" 
           className="p-2 hover:bg-white/10 rounded-lg transition-all group"
-          title="Favorit Bokep"
+          title="Favorites"
         >
           <Heart 
             size={18} 
@@ -92,7 +92,7 @@ export function HeaderUser() {
         <Link 
           href="/profile/watch-history" 
           className="p-2 hover:bg-white/10 rounded-lg transition-all group"
-          title="Riwayat Tonton"
+          title="Watch History"
         >
           <Video 
             size={18} 
@@ -102,7 +102,7 @@ export function HeaderUser() {
         <Link 
           href="/profile/bookmarks" 
           className="p-2 hover:bg-white/10 rounded-lg transition-all group"
-          title="Bookmark Video"
+          title="Bookmarks"
         >
           <Bookmark 
             size={18} 
@@ -122,7 +122,7 @@ export function HeaderUser() {
             {currentUser.image ? (
               <img
                 src={currentUser.image}
-                alt={`Foto profil ${currentUser.username} - Member VIP StreamFlix Bokep`}
+                alt={`Profile ${currentUser.username}`}
                 className="w-12 h-12 rounded-2xl object-cover border-3 border-white/30 shadow-2xl hover:border-purple-400/70 transition-all group-hover:scale-110"
                 loading="lazy"
               />
