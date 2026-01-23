@@ -26,6 +26,7 @@ const nextConfig = {
   },
   allowedDevOrigins: [
     'https://*.replit.dev',
+    'https://*.kirk.replit.dev',
     'https://*.spock.replit.dev',
     'https://*.janeway.replit.dev',
     'https://*.riker.replit.dev',
