@@ -41,13 +41,6 @@ export function MobileMenu() {
             >
               Categories
             </Link>
-            <Link
-              href="/admin/dashboard"
-              onClick={() => setIsOpen(false)}
-              className="px-4 py-2 hover:bg-muted rounded-lg transition"
-            >
-              Admin
-            </Link>
             <div className="border-t border-border pt-3">
               {currentUser ? (
                 <Link

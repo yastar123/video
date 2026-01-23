@@ -88,7 +88,6 @@ export default async function Home({
             <nav className="hidden md:flex gap-8 text-sm font-medium text-muted-foreground">
               <Link href="/" className="hover:text-foreground transition-all hover:translate-y-[-1px]">Home</Link>
               <Link href="/kategori" className="hover:text-foreground transition-all hover:translate-y-[-1px]">Categories</Link>
-              <Link href="/admin" className="hover:text-foreground transition-all hover:translate-y-[-1px]">Dashboard</Link>
             </nav>
           </div>
           <div className="flex items-center gap-5">
