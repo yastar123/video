@@ -1,5 +1,15 @@
 -- Create tables for video streaming app with PostgreSQL
 
+-- Users table
+CREATE TABLE IF NOT EXISTS users (
+  id SERIAL PRIMARY KEY,
+  username VARCHAR(255) NOT NULL,
+  email VARCHAR(255) NOT NULL UNIQUE,
+  password VARCHAR(255) NOT NULL,
+  role VARCHAR(50) DEFAULT 'user',
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
 -- Categories table
 CREATE TABLE IF NOT EXISTS categories (
   id SERIAL PRIMARY KEY,
@@ -45,10 +55,10 @@ CREATE TABLE IF NOT EXISTS advertisements (
 );
 
 -- Create indexes for better query performance
-CREATE INDEX idx_videos_category ON videos(category_id);
-CREATE INDEX idx_videos_created_at ON videos(created_at DESC);
-CREATE INDEX idx_videos_views ON videos(views DESC);
-CREATE INDEX idx_videos_rating ON videos(rating DESC);
+CREATE INDEX IF NOT EXISTS idx_videos_category ON videos(category_id);
+CREATE INDEX IF NOT EXISTS idx_videos_created_at ON videos(created_at DESC);
+CREATE INDEX IF NOT EXISTS idx_videos_views ON videos(views DESC);
+CREATE INDEX IF NOT EXISTS idx_videos_rating ON videos(rating DESC);
 
 -- Insert default categories
 INSERT INTO categories (name, icon) VALUES
