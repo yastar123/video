@@ -1,0 +1,275 @@
+root@server:/var/www/video.seyiki.com# # Stop aplikasi dulu
+pm2 stop video-seyiki
+
+# Build aplikasi
+npm run build
+
+# Setelah build selesai, start lagi
+pm2 restart video-seyiki
+
+# Save
+pm2 save
+[PM2] Applying action stopProcessId on app [video-seyiki](ids: [ 19 ])
+[PM2] [video-seyiki](19) ✓
+┌────┬────────────────────┬──────────┬──────┬───────────┬──────────┬──────────┐
+│ id │ name               │ mode     │ ↺    │ status    │ cpu      │ memory   │
+├────┼────────────────────┼──────────┼──────┼───────────┼──────────┼──────────┤
+│ 0  │ iot-backend        │ fork     │ 122  │ online    │ 0%       │ 11.8mb   │
+│ 16 │ lhpp-seyiki        │ cluster  │ 4    │ online    │ 0%       │ 45.4mb   │
+│ 12 │ seyiki-docs        │ fork     │ 43   │ online    │ 0%       │ 39.3mb   │
+│ 2  │ seyiki-main        │ fork     │ 44   │ online    │ 0%       │ 28.2mb   │
+│ 15 │ survei-seyiki      │ cluster  │ 470  │ online    │ 0%       │ 29.9mb   │
+│ 19 │ video-seyiki       │ fork     │ 15   │ stopped   │ 0%       │ 0b       │
+└────┴────────────────────┴──────────┴──────┴───────────┴──────────┴──────────┘
+
+> my-v0-project@0.1.0 build
+> next build
+
+   ▲ Next.js 15.5.7
+   - Environments: .env
+
+   Creating an optimized production build ...
+Failed to compile.
+
+app/layout.tsx
+An error occurred in `next/font`.
+
+Error: Cannot find module '@tailwindcss/postcss'
+Require stack:
+- /var/www/video.seyiki.com/node_modules/next/dist/build/webpack/config/blocks/css/plugins.js
+- /var/www/video.seyiki.com/node_modules/next/dist/build/webpack/config/blocks/css/index.js
+- /var/www/video.seyiki.com/node_modules/next/dist/build/webpack/config/index.js
+- /var/www/video.seyiki.com/node_modules/next/dist/build/webpack-config.js
+- /var/www/video.seyiki.com/node_modules/next/dist/build/webpack-build/impl.js
+- /var/www/video.seyiki.com/node_modules/next/dist/compiled/jest-worker/processChild.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1207:15)
+    at /var/www/video.seyiki.com/node_modules/next/dist/server/require-hook.js:57:36
+    at Function.resolve (node:internal/modules/helpers:193:19)
+    at loadPlugin (/var/www/video.seyiki.com/node_modules/next/dist/build/webpack/config/blocks/css/plugins.js:53:32)
+    at /var/www/video.seyiki.com/node_modules/next/dist/build/webpack/config/blocks/css/plugins.js:185:56
+    at Array.map (<anonymous>)
+    at getPostCssPlugins (/var/www/video.seyiki.com/node_modules/next/dist/build/webpack/config/blocks/css/plugins.js:185:47)
+    at async /var/www/video.seyiki.com/node_modules/next/dist/build/webpack/config/blocks/css/index.js:125:36
+
+app/layout.tsx
+An error occurred in `next/font`.
+
+Error: Cannot find module '@tailwindcss/postcss'
+Require stack:
+- /var/www/video.seyiki.com/node_modules/next/dist/build/webpack/config/blocks/css/plugins.js
+- /var/www/video.seyiki.com/node_modules/next/dist/build/webpack/config/blocks/css/index.js
+- /var/www/video.seyiki.com/node_modules/next/dist/build/webpack/config/index.js
+- /var/www/video.seyiki.com/node_modules/next/dist/build/webpack-config.js
+- /var/www/video.seyiki.com/node_modules/next/dist/build/webpack-build/impl.js
+- /var/www/video.seyiki.com/node_modules/next/dist/compiled/jest-worker/processChild.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1207:15)
+    at /var/www/video.seyiki.com/node_modules/next/dist/server/require-hook.js:57:36
+    at Function.resolve (node:internal/modules/helpers:193:19)
+    at loadPlugin (/var/www/video.seyiki.com/node_modules/next/dist/build/webpack/config/blocks/css/plugins.js:53:32)
+    at /var/www/video.seyiki.com/node_modules/next/dist/build/webpack/config/blocks/css/plugins.js:185:56
+    at Array.map (<anonymous>)
+    at getPostCssPlugins (/var/www/video.seyiki.com/node_modules/next/dist/build/webpack/config/blocks/css/plugins.js:185:47)
+    at async /var/www/video.seyiki.com/node_modules/next/dist/build/webpack/config/blocks/css/index.js:125:36
+
+./app/admin/dashboard/page.tsx
+Module not found: Can't resolve '@/components/dashboard-stats'
+
+https://nextjs.org/docs/messages/module-not-found
+
+./app/admin/videos/page.tsx
+Module not found: Can't resolve '@/components/video-form'
+
+https://nextjs.org/docs/messages/module-not-found
+
+./app/auth/login/page.tsx
+Module not found: Can't resolve '@/components/google-login-button'
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+> Build failed because of webpack errors
+Use --update-env to update environment variables
+[PM2] Applying action restartProcessId on app [video-seyiki](ids: [ 19 ])
+[PM2] [video-seyiki](19) ✓
+┌────┬────────────────────┬──────────┬──────┬───────────┬──────────┬──────────┐
+│ id │ name               │ mode     │ ↺    │ status    │ cpu      │ memory   │
+├────┼────────────────────┼──────────┼──────┼───────────┼──────────┼──────────┤
+│ 0  │ iot-backend        │ fork     │ 122  │ online    │ 0%       │ 11.8mb   │
+│ 16 │ lhpp-seyiki        │ cluster  │ 4    │ online    │ 0%       │ 45.8mb   │
+│ 12 │ seyiki-docs        │ fork     │ 43   │ online    │ 0%       │ 39.3mb   │
+│ 2  │ seyiki-main        │ fork     │ 44   │ online    │ 0%       │ 29.0mb   │
+│ 15 │ survei-seyiki      │ cluster  │ 470  │ online    │ 0%       │ 29.1mb   │
+│ 19 │ video-seyiki       │ fork     │ 15   │ online    │ 0%       │ 16.4mb   │
+└────┴────────────────────┴──────────┴──────┴───────────┴──────────┴──────────┘
+[PM2] Saving current process list...
+[PM2] Successfully saved in /root/.pm2/dump.pm2
+root@server:/var/www/video.seyiki.com# git fetch origin
+git reset --hard origin/main
+npm install
+npm run db:push
+npm run seed
+npm run build
+remote: Enumerating objects: 5, done.
+remote: Counting objects: 100% (5/5), done.
+remote: Compressing objects: 100% (3/3), done.
+remote: Total 3 (delta 2), reused 0 (delta 0), pack-reused 0 (from 0)
+Unpacking objects: 100% (3/3), 965 bytes | 160.00 KiB/s, done.
+From https://github.com/yastar123/video
+   61aea84..4eddb46  main       -> origin/main
+HEAD is now at 4eddb46 Update package.json
+
+added 21 packages, and audited 250 packages in 8s
+
+30 packages are looking for funding
+  run `npm fund` for details
+
+1 high severity vulnerability
+
+To address all issues, run:
+  npm audit fix --force
+
+Run `npm audit` for details.
+
+> my-v0-project@0.1.0 db:push
+> tsx scripts/db-push.ts
+
+[dotenv@17.2.3] injecting env (10) from .env -- tip: 🗂️ backup and recover secrets: https://dotenvx.com/ops
+Starting database push...
+Database schema pushed successfully
+
+> my-v0-project@0.1.0 seed
+> tsx scripts/seed-runner.ts
+
+[dotenv@17.2.3] injecting env (10) from .env -- tip: 👥 sync secrets across teammates & machines: https://dotenvx.com/ops
+Starting seed...
+Users seeded successfully
+Seed completed successfully
+
+> my-v0-project@0.1.0 build
+> next build
+
+   ▲ Next.js 15.5.7
+   - Environments: .env
+
+   Creating an optimized production build ...
+Failed to compile.
+
+./app/video/[id]/page.tsx
+Error:   x `ssr: false` is not allowed with `next/dynamic` in Server Components. Please move it into a Client Component.
+    ,-[/var/www/video.seyiki.com/app/video/[id]/page.tsx:9:1]
+  6 |     import dynamic from 'next/dynamic'
+  7 |     import { notFound } from 'next/navigation'
+  8 |
+  9 | ,-> const VideoPlayer = dynamic(() => import('@/components/video-player'), {
+ 10 | |     ssr: false,
+ 11 | |     loading: () => (
+ 12 | |       <div className="aspect-video bg-muted flex items-center justify-center">
+ 13 | |         <div className="animate-spin w-8 h-8 border-4 border-muted border-t-primary rounded-full" />
+ 14 | |       </div>
+ 15 | |     )
+ 16 | `-> })
+ 17 |
+ 18 |     export async function generateStaticParams() {
+ 19 |       const { rows } = await query('SELECT id FROM videos LIMIT 50')
+    `----
+
+Import trace for requested module:
+./app/video/[id]/page.tsx
+
+
+> Build failed because of webpack errors
+root@server:/var/www/video.seyiki.com# pm2 stop video-seyiki
+pm2 delete video-seyiki
+pm2 start npm --name "video-seyiki" -- start
+pm2 save
+[PM2] Applying action stopProcessId on app [video-seyiki](ids: [ 19 ])
+[PM2] [video-seyiki](19) ✓
+┌────┬────────────────────┬──────────┬──────┬───────────┬──────────┬──────────┐
+│ id │ name               │ mode     │ ↺    │ status    │ cpu      │ memory   │
+├────┼────────────────────┼──────────┼──────┼───────────┼──────────┼──────────┤
+│ 0  │ iot-backend        │ fork     │ 122  │ online    │ 0%       │ 11.8mb   │
+│ 16 │ lhpp-seyiki        │ cluster  │ 4    │ online    │ 0%       │ 44.3mb   │
+│ 12 │ seyiki-docs        │ fork     │ 43   │ online    │ 0%       │ 37.1mb   │
+│ 2  │ seyiki-main        │ fork     │ 44   │ online    │ 0%       │ 26.2mb   │
+│ 15 │ survei-seyiki      │ cluster  │ 470  │ online    │ 0%       │ 26.8mb   │
+│ 19 │ video-seyiki       │ fork     │ 31   │ stopped   │ 0%       │ 0b       │
+└────┴────────────────────┴──────────┴──────┴───────────┴──────────┴──────────┘
+[PM2] Applying action deleteProcessId on app [video-seyiki](ids: [ 19 ])
+[PM2] [video-seyiki](19) ✓
+┌────┬────────────────────┬──────────┬──────┬───────────┬──────────┬──────────┐
+│ id │ name               │ mode     │ ↺    │ status    │ cpu      │ memory   │
+├────┼────────────────────┼──────────┼──────┼───────────┼──────────┼──────────┤
+│ 0  │ iot-backend        │ fork     │ 122  │ online    │ 0%       │ 11.8mb   │
+│ 16 │ lhpp-seyiki        │ cluster  │ 4    │ online    │ 0%       │ 44.3mb   │
+│ 12 │ seyiki-docs        │ fork     │ 43   │ online    │ 0%       │ 37.1mb   │
+│ 2  │ seyiki-main        │ fork     │ 44   │ online    │ 0%       │ 26.2mb   │
+│ 15 │ survei-seyiki      │ cluster  │ 470  │ online    │ 0%       │ 26.8mb   │
+└────┴────────────────────┴──────────┴──────┴───────────┴──────────┴──────────┘
+[PM2] Starting /usr/bin/npm in fork_mode (1 instance)
+[PM2] Done.
+┌────┬────────────────────┬──────────┬──────┬───────────┬──────────┬──────────┐
+│ id │ name               │ mode     │ ↺    │ status    │ cpu      │ memory   │
+├────┼────────────────────┼──────────┼──────┼───────────┼──────────┼──────────┤
+│ 0  │ iot-backend        │ fork     │ 122  │ online    │ 0%       │ 11.8mb   │
+│ 16 │ lhpp-seyiki        │ cluster  │ 4    │ online    │ 0%       │ 44.0mb   │
+│ 12 │ seyiki-docs        │ fork     │ 43   │ online    │ 0%       │ 36.6mb   │
+│ 2  │ seyiki-main        │ fork     │ 44   │ online    │ 0%       │ 26.5mb   │
+│ 15 │ survei-seyiki      │ cluster  │ 470  │ online    │ 0%       │ 26.8mb   │
+│ 20 │ video-seyiki       │ fork     │ 0    │ online    │ 0%       │ 16.4mb   │
+└────┴────────────────────┴──────────┴──────┴───────────┴──────────┴──────────┘
+[PM2] Saving current process list...
+[PM2] Successfully saved in /root/.pm2/dump.pm2
+root@server:/var/www/video.seyiki.com# curl http://localhost:3005
+curl: (7) Failed to connect to localhost port 3005 after 0 ms: Connection refused
+root@server:/var/www/video.seyiki.com# pm2 logs video-seyiki --lines 20
+
+# Test lokal
+curl http://localhost:3005
+[TAILING] Tailing last 20 lines for [video-seyiki] process (change the value with --lines option)
+/root/.pm2/logs/video-seyiki-out.log last 20 lines:
+20|video-s |
+20|video-s |  ✓ Starting...
+20|video-s |
+20|video-s | > my-v0-project@0.1.0 start
+20|video-s | > next start -H 0.0.0.0 -p 3005
+20|video-s |
+20|video-s |    ▲ Next.js 15.5.7
+20|video-s |    - Local:        http://localhost:3005
+20|video-s |    - Network:      http://0.0.0.0:3005
+20|video-s |
+20|video-s |  ✓ Starting...
+20|video-s |
+20|video-s | > my-v0-project@0.1.0 start
+20|video-s | > next start -H 0.0.0.0 -p 3005
+20|video-s |
+20|video-s |    ▲ Next.js 15.5.7
+20|video-s |    - Local:        http://localhost:3005
+20|video-s |    - Network:      http://0.0.0.0:3005
+20|video-s |
+20|video-s |  ✓ Starting...
+
+/root/.pm2/logs/video-seyiki-error.log last 20 lines:
+20|video-s | build-id]
+20|video-s | [Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id]
+20|video-s | [Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id]
+20|video-s | [Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id]
+20|video-s | [Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id]
+20|video-s | [Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id]
+20|video-s | [Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id]
+20|video-s | [Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id]
+20|video-s | [Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id]
+20|video-s | [Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id]
+20|video-s | [Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id]
+20|video-s | [Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id]
+20|video-s | [Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id]
+20|video-s | [Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id]
+20|video-s | [Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id]
+20|video-s | [Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id]
+20|video-s | [Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id]
+20|video-s | [Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id]
+20|video-s | [Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id]
+20|video-s | [Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id]
+
+^C
+curl: (7) Failed to connect to localhost port 3005 after 0 ms: Connection refused
+root@server:/var/www/video.seyiki.com#

@@ -2,18 +2,9 @@ import { query } from '@/lib/postgres'
 import { Star, Eye, Clock, ArrowLeft } from 'lucide-react'
 import { RandomVideos } from '@/components/random-videos'
 import { AdBanner } from '@/components/ad-banner'
+import { VideoPlayerWrapper } from '@/components/video-player-wrapper'
 import Link from 'next/link'
-import dynamic from 'next/dynamic'
 import { notFound } from 'next/navigation'
-
-const VideoPlayer = dynamic(() => import('@/components/video-player'), {
-  ssr: false,
-  loading: () => (
-    <div className="aspect-video bg-muted flex items-center justify-center">
-      <div className="animate-spin w-8 h-8 border-4 border-muted border-t-primary rounded-full" />
-    </div>
-  )
-})
 
 export async function generateStaticParams() {
   const { rows } = await query('SELECT id FROM videos LIMIT 50')
@@ -70,7 +61,7 @@ export default async function VideoDetail({ params }: { params: Promise<{ id: st
         {/* Video Player */}
         <section className="mb-8">
           <div className="relative w-full bg-black rounded-lg overflow-hidden border border-border min-h-[400px]">
-            <VideoPlayer url={video.url} thumbnail={video.thumbnail} />
+            <VideoPlayerWrapper url={video.url} thumbnail={video.thumbnail} />
           </div>
         </section>
 
