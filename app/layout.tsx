@@ -19,6 +19,9 @@ export const metadata: Metadata = {
   title: 'Ruang Malam - Watch Videos Online',
   description: 'Stream your favorite videos across all categories',
   generator: 'v0.app',
+  verification: {
+    google: 'jTDyD3S0yhakpG9iaHwfV5n16t3854m99wFZp3KwIeY',
+  },
   icons: {
     icon: [
       {
