@@ -10,13 +10,13 @@ export function RandomVideos() {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    fetch('/api/videos?limit=12')
+    fetch('/api/videos?limit=20')
       .then((res) => res.json())
       .then((data) => {
         // Handle both old format and paginated format
         const videoList = data.videos || data
-        // Get 4 random videos
-        const shuffled = videoList.sort(() => 0.5 - Math.random()).slice(0, 4)
+        // Get 8 random videos
+        const shuffled = videoList.sort(() => 0.5 - Math.random()).slice(0, 8)
         setVideos(shuffled)
         setLoading(false)
       })
@@ -39,7 +39,7 @@ export function RandomVideos() {
       <h2 className="text-xl md:text-2xl font-bold mb-6 text-balance">
         More Videos to Watch
       </h2>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         {videos.map((video) => (
           <Link key={video.id} href={`/video/${video.id}`}>
             <VideoCard video={video} />
