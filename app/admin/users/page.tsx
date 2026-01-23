@@ -175,7 +175,7 @@ export default function UsersPage() {
                       }`}
                     >
                       <td className="px-6 py-4">
-                        <p className="font-medium">{user.username}</p>
+                        <p className="font-medium">{user.username || 'Anonymous'}</p>
                       </td>
                       <td className="px-6 py-4">
                         <div className="flex items-center gap-2">

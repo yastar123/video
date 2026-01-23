@@ -32,7 +32,7 @@ export interface User {
   id: string
   email: string
   username: string
-  joinDate: string
+  created_at: string
   status: 'active' | 'inactive'
   role: 'user' | 'admin' | 'userVIP'
   googleId?: string
