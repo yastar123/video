@@ -4,14 +4,6 @@ import fs from 'fs'
 import path from 'path'
 
 export async function seedUsers() {
-  // Create tables if they don't exist
-  const sqlPath = path.join(process.cwd(), 'scripts', 'init-db.sql')
-  if (fs.existsSync(sqlPath)) {
-    const initSql = fs.readFileSync(sqlPath, 'utf8')
-    await query(initSql)
-    console.log('Database initialized')
-  }
-
   const adminPassword = await bcrypt.hash('admin123', 10)
   const userPassword = await bcrypt.hash('user123', 10)
 
