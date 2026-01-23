@@ -19,3 +19,9 @@
 # OS
 .DS_Store
 Thumbs.db
+
+# uploads (keep folder structure)
+/public/uploads/videos/*
+/public/uploads/thumbnails/*
+!/public/uploads/videos/.gitkeep
+!/public/uploads/thumbnails/.gitkeep

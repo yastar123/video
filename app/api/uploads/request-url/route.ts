@@ -1,70 +1,46 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { randomUUID } from 'crypto'
-
-const REPLIT_SIDECAR_ENDPOINT = 'http://127.0.0.1:1106'
-
-async function signObjectURL({
-  bucketName,
-  objectName,
-  method,
-  ttlSec,
-}: {
-  bucketName: string
-  objectName: string
-  method: 'GET' | 'PUT' | 'DELETE' | 'HEAD'
-  ttlSec: number
-}): Promise<string> {
-  const request = {
-    bucket_name: bucketName,
-    object_name: objectName,
-    method,
-    expires_at: new Date(Date.now() + ttlSec * 1000).toISOString(),
-  }
-  const response = await fetch(
-    `${REPLIT_SIDECAR_ENDPOINT}/object-storage/signed-object-url`,
-    {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(request),
-    }
-  )
-  if (!response.ok) {
-    throw new Error(
-      `Failed to sign object URL, errorcode: ${response.status}`
-    )
-  }
-
-  const { signed_url: signedURL } = await response.json()
-  return signedURL
-}
-
-function parseObjectPath(path: string): {
-  bucketName: string
-  objectName: string
-} {
-  if (!path.startsWith('/')) {
-    path = `/${path}`
-  }
-  const pathParts = path.split('/')
-  if (pathParts.length < 3) {
-    throw new Error('Invalid path: must contain at least a bucket name')
-  }
-
-  const bucketName = pathParts[1]
-  const objectName = pathParts.slice(2).join('/')
-
-  return {
-    bucketName,
-    objectName,
-  }
-}
+import { writeFile, mkdir } from 'fs/promises'
+import path from 'path'
 
 export async function POST(request: NextRequest) {
   try {
+    const contentType = request.headers.get('content-type') || ''
+
+    if (contentType.includes('multipart/form-data')) {
+      const formData = await request.formData()
+      const file = formData.get('file') as File | null
+      const type = formData.get('type') as string || 'video'
+
+      if (!file) {
+        return NextResponse.json(
+          { error: 'No file provided' },
+          { status: 400 }
+        )
+      }
+
+      const objectId = randomUUID()
+      const extension = file.name.split('.').pop() || ''
+      const folder = type === 'thumbnail' ? 'thumbnails' : 'videos'
+      const fileName = `${objectId}.${extension}`
+      const relativePath = `/uploads/${folder}/${fileName}`
+      const absolutePath = path.join(process.cwd(), 'public', 'uploads', folder, fileName)
+
+      await mkdir(path.dirname(absolutePath), { recursive: true })
+
+      const bytes = await file.arrayBuffer()
+      const buffer = Buffer.from(bytes)
+      await writeFile(absolutePath, buffer)
+
+      return NextResponse.json({
+        success: true,
+        objectPath: relativePath,
+        metadata: { name: file.name, size: file.size, contentType: file.type },
+      })
+    }
+
     const body = await request.json()
-    const { name, size, contentType, type } = body
+    const { name, size, contentType: fileContentType, type } = body
 
     if (!name) {
       return NextResponse.json(
@@ -73,39 +49,30 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    const privateObjectDir = process.env.PRIVATE_OBJECT_DIR || ''
-    if (!privateObjectDir) {
-      return NextResponse.json(
-        { error: 'Object storage not configured' },
-        { status: 500 }
-      )
-    }
-
     const objectId = randomUUID()
     const extension = name.split('.').pop() || ''
     const folder = type === 'thumbnail' ? 'thumbnails' : 'videos'
-    const fullPath = `${privateObjectDir}/uploads/${folder}/${objectId}.${extension}`
+    const fileName = `${objectId}.${extension}`
+    const relativePath = `/uploads/${folder}/${fileName}`
 
-    const { bucketName, objectName } = parseObjectPath(fullPath)
-
-    const uploadURL = await signObjectURL({
-      bucketName,
-      objectName,
-      method: 'PUT',
-      ttlSec: 900,
-    })
-
-    const objectPath = `/objects/uploads/${folder}/${objectId}.${extension}`
+    const baseUrl = process.env.NEXTAUTH_URL || process.env.REPLIT_DEV_DOMAIN 
+      ? `https://${process.env.REPLIT_DEV_DOMAIN}` 
+      : 'http://localhost:5000'
+    
+    const uploadURL = `${baseUrl}/api/uploads/file`
 
     return NextResponse.json({
       uploadURL,
-      objectPath,
-      metadata: { name, size, contentType },
+      objectPath: relativePath,
+      objectId,
+      fileName,
+      folder,
+      metadata: { name, size, contentType: fileContentType },
     })
   } catch (error) {
-    console.error('Error generating upload URL:', error)
+    console.error('Error handling upload request:', error)
     return NextResponse.json(
-      { error: 'Failed to generate upload URL' },
+      { error: 'Failed to process upload request' },
       { status: 500 }
     )
   }
