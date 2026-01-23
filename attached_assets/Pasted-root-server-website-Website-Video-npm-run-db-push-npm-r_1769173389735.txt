@@ -1,0 +1,53 @@
+root@server:~/website/Website-Video# npm run db:push
+npm run seed
+npm run build
+
+> my-v0-project@0.1.0 db:push
+> tsx scripts/db-push.ts
+
+Starting database push...
+Database push failed: Error: SASL: SCRAM-SERVER-FIRST-MESSAGE: client password must be a string
+    at /root/website/Website-Video/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async query (/root/website/Website-Video/lib/postgres.ts:15:18)
+    at async dbPush (/root/website/Website-Video/scripts/db-push.ts:11:7)
+
+> my-v0-project@0.1.0 seed
+> tsx scripts/seed-runner.ts
+
+Starting seed...
+Seed failed: Error: SASL: SCRAM-SERVER-FIRST-MESSAGE: client password must be a string
+    at /root/website/Website-Video/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async query (/root/website/Website-Video/lib/postgres.ts:15:18)
+    at async seedUsers (/root/website/Website-Video/lib/seed.ts:10:3)
+    at async runSeed (/root/website/Website-Video/scripts/seed-runner.ts:7:5)
+
+> my-v0-project@0.1.0 build
+> next build
+
+   ▲ Next.js 15.5.7
+   - Environments: .env
+
+   Creating an optimized production build ...
+^C
+root@server:~/website/Website-Video# cat .env
+
+# PostgreSQL Database Configuration
+DATABASE_URL="postgresql://video_user:Video123%21Secure@localhost:5432/video_db"
+# JWT Configuration
+JWT_SECRET="2670db856738c847a4f7d147490bfd3c20ecd21ebf10c99e3fba6ef0a7ebd8f1e639482928042905c6f588b0085f9467ee58fc15e5e614b7215526c2c8fadc12"
+JWT_EXPIRES_IN="7d"
+
+# File Upload Settings
+UPLOAD_DIR="./uploads"
+MAX_FILE_SIZE="104857600"
+ALLOWED_FILE_TYPES="image/jpeg,image/png,image/jpg,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document,video/mp4,video/webm,video/ogg,application/vnd.apple.mpegurl,application/x-mpegURL,video/mp2t"
+
+# Next.js Configuration
+NEXTAUTH_URL="https://video.seyiki.com"
+NEXTAUTH_SECRET="2670db856738c847a4f7d147490bfd3c20ecd21ebf10c99e3fba6ef0a7ebd8f1"
+NODE_ENV=production
+PORT=3005
+
+root@server:~/website/Website-Video#

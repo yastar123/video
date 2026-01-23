@@ -1,11 +1,19 @@
 import { Pool, QueryResult } from 'pg'
+import dotenv from 'dotenv'
+
+dotenv.config()
 
 let pool: Pool
 
 export function getPool(): Pool {
   if (!pool) {
+    const connectionString = process.env.DATABASE_URL
+    if (!connectionString) {
+      throw new Error('DATABASE_URL is not defined')
+    }
+    
     pool = new Pool({
-      connectionString: process.env.DATABASE_URL,
+      connectionString,
     })
   }
   return pool
