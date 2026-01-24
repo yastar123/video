@@ -95,6 +95,13 @@ export default function RootLayout({
         <div className="flex-1 flex flex-col">
           {children}
         </div>
+        <div id="container-586a60b68a94327ff3f7f814e59c6837" className="mt-auto"></div>
+        <Script 
+          async="async" 
+          data-cfasync="false" 
+          src="https://pl28551201.effectivegatecpm.com/586a60b68a94327ff3f7f814e59c6837/invoke.js" 
+          strategy="lazyOnload"
+        />
         <AdsterraBanner />
         <Script src="https://pl28551898.effectivegatecpm.com/5a/16/ec/5a16ec4c9a99c37de020981b50181827.js" strategy="lazyOnload" />
         <Script src="https://pl28551950.effectivegatecpm.com/da/af/d9/daafd92f1c5ebec81553cc97b327f824.js" strategy="lazyOnload" />

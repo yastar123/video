@@ -106,6 +106,9 @@ export default async function Home({
         {/* Hero Banner */}
         <section className="mb-12">
           <HeroBanner />
+          <div className="mt-4 flex justify-center">
+            <div id="container-586a60b68a94327ff3f7f814e59c6837"></div>
+          </div>
         </section>
 
         {/* Search and Filter Section */}

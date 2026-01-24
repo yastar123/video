@@ -163,6 +163,9 @@ export default async function VideoDetail({ params }: { params: Promise<{ id: st
                 {formatDuration(video.duration || 0)}
               </div>
             </div>
+            <div className="mt-4 flex justify-center">
+              <div id="container-586a60b68a94327ff3f7f814e59c6837"></div>
+            </div>
           </section>
 
           {/* Video Stats + Share */}
