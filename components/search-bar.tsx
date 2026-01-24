@@ -110,22 +110,21 @@ export function SearchBar({ onSearch, placeholder, initialValue = '' }: SearchBa
   }
 
   return (
-    <div className="relative w-full group" ref={dropdownRef}>
-      {/* SEO-optimized search input with autocomplete */}
-      <div className="relative">
-        <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground group-focus-within:text-primary transition-colors duration-200" size={18} />
+    <div className="relative w-full max-w-xl mx-auto" ref={dropdownRef}>
+      <div className="relative group">
+        <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground group-focus-within:text-foreground transition-colors" size={16} />
         <input
           ref={inputRef}
           type="search"
           value={value}
           onChange={handleChange}
           onKeyDown={handleKeyDown}
-          placeholder={placeholder || 'Cari bokep indonesia, jepang, china terbaru...'}
+          placeholder={placeholder || 'Search...'}
           autoComplete="off"
           name="q"
           id="search"
-          className="w-full pl-11 pr-11 py-3.5 rounded-full border-2 border-border/50 bg-muted/30 hover:bg-muted/50 focus:bg-background focus:ring-4 focus:ring-primary/20 focus:border-primary outline-none transition-all duration-300 text-base font-semibold shadow-lg hover:shadow-xl"
-          aria-label="Cari video bokep indonesia jepang china terbaru gratis HD"
+          className="w-full pl-9 pr-9 py-2 rounded-md border border-border bg-background hover:border-foreground/30 focus:border-foreground outline-none transition-all text-sm font-medium"
+          aria-label="Search videos"
           role="searchbox"
           aria-autocomplete="list"
           aria-expanded={showSuggestions}
@@ -134,73 +133,36 @@ export function SearchBar({ onSearch, placeholder, initialValue = '' }: SearchBa
         {value && (
           <button
             onClick={handleClear}
-            className="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-all p-1 hover:bg-muted rounded-full hover:scale-110"
+            className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-all"
             aria-label="Clear search"
           >
-            <X size={16} />
+            <X size={14} />
           </button>
         )}
       </div>
 
-      {/* SEO-boosted search suggestions dropdown */}
       {showSuggestions && suggestions.length > 0 && (
-        <div className="absolute top-full left-0 right-0 mt-2 bg-background border border-border/50 rounded-2xl shadow-2xl z-50 animate-in fade-in slide-in-from-top-2 duration-200 max-h-80 overflow-y-auto">
-          <ul className="py-2" role="listbox">
+        <div className="absolute top-full left-0 right-0 mt-1 bg-background border border-border rounded-md shadow-lg z-50 max-h-80 overflow-y-auto">
+          <ul className="py-1" role="listbox">
             {suggestions.map((suggestion, index) => (
               <li key={suggestion}>
                 <button
                   onClick={() => suggestionClick(suggestion)}
-                  className="w-full flex items-center gap-3 px-6 py-3 hover:bg-primary/10 transition-all duration-200 text-left group"
+                  className="w-full flex items-center gap-2 px-3 py-2 hover:bg-accent transition-colors text-left group"
                   role="option"
                   aria-selected={false}
                   id={`suggestion-${index}`}
                 >
-                  <Play className="text-primary h-5 w-5 flex-shrink-0" />
-                  <span className="font-medium text-sm group-hover:text-primary transition-colors">
+                  <Search className="text-muted-foreground h-4 w-4" />
+                  <span className="text-sm">
                     {suggestion}
                   </span>
-                  <Flame className="ml-auto text-orange-500 text-xs flex-shrink-0" />
                 </button>
               </li>
             ))}
           </ul>
-          
-          {/* Trending searches footer */}
-          <div className="px-4 py-3 border-t border-border/50 bg-muted/30 rounded-b-2xl">
-            <p className="text-xs text-muted-foreground font-medium mb-2">Trending Pencarian:</p>
-            <div className="flex flex-wrap gap-2">
-              {popularSearches.slice(0, 4).map(search => (
-                <Link
-                  key={search}
-                  href={`/?search=${encodeURIComponent(search)}`}
-                  className="text-xs bg-primary/20 hover:bg-primary/30 text-primary px-3 py-1.5 rounded-full font-semibold transition-all hover:scale-105 whitespace-nowrap"
-                >
-                  {search}
-                </Link>
-              ))}
-            </div>
-          </div>
         </div>
       )}
-
-      {/* Hidden structured data for search action */}
-      <Script 
-        id="search-schema"
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "WebSite",
-            "url": "https://yoursite.com",
-            "potentialAction": {
-              "@type": "SearchAction",
-              "target": "https://yoursite.com/?search={search_term_string}",
-              "query-input": "required name=search_term_string"
-            },
-            "name": "Nonton Bokep Indonesia Jepang China Terlengkap"
-          })
-        }}
-      />
     </div>
   )
 }
