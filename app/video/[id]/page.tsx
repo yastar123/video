@@ -163,23 +163,8 @@ export default async function VideoDetail({ params }: { params: Promise<{ id: st
                 {formatDuration(video.duration || 0)}
               </div>
             </div>
-            <div className="mt-4 flex flex-col items-center gap-4">
+            <div className="mt-4 flex justify-center">
               <div id="container-586a60b68a94327ff3f7f814e59c6837"></div>
-              {/* Strategic Banner 300x250 */}
-              <div className="w-[300px] h-[250px] bg-muted/20 flex items-center justify-center overflow-hidden rounded-lg border border-border/50">
-                <script dangerouslySetInnerHTML={{
-                  __html: `
-                    atOptions = {
-                      'key' : 'fc283ae8a19e4c2b587f27617808fa3e',
-                      'format' : 'iframe',
-                      'height' : 250,
-                      'width' : 300,
-                      'params' : {}
-                    };
-                  `
-                }} />
-                <script src="https://www.highperformanceformat.com/fc283ae8a19e4c2b587f27617808fa3e/invoke.js" async />
-              </div>
             </div>
           </section>
 
@@ -235,23 +220,8 @@ export default async function VideoDetail({ params }: { params: Promise<{ id: st
           <section className="relative">
             <h2 className="text-lg sm:text-xl font-bold mb-3 sm:mb-5">Related Videos</h2>
             <RandomVideos />
-            <div className="mt-6 flex flex-col items-center gap-6">
+            <div className="mt-6 flex justify-center">
               <div id="container-586a60b68a94327ff3f7f814e59c6837"></div>
-              {/* Strategic Banner 300x250 below related videos */}
-              <div className="w-[300px] h-[250px] bg-muted/20 flex items-center justify-center overflow-hidden rounded-lg border border-border/50">
-                <script dangerouslySetInnerHTML={{
-                  __html: `
-                    atOptions = {
-                      'key' : 'fc283ae8a19e4c2b587f27617808fa3e',
-                      'format' : 'iframe',
-                      'height' : 250,
-                      'width' : 300,
-                      'params' : {}
-                    };
-                  `
-                }} />
-                <script src="https://www.highperformanceformat.com/fc283ae8a19e4c2b587f27617808fa3e/invoke.js" async />
-              </div>
             </div>
           </section>
         </div>

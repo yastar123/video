@@ -162,23 +162,8 @@ export default async function Home({
                <SortFilter currentSort={sort} />
             </div>
           </div>
-          <div className="mt-4 mb-8 flex flex-col items-center gap-8">
+          <div className="mt-4 mb-8 flex justify-center">
             <div id="container-586a60b68a94327ff3f7f814e59c6837"></div>
-            {/* Strategic Banner 300x250 on homepage */}
-            <div className="w-[300px] h-[250px] bg-muted/20 flex items-center justify-center overflow-hidden rounded-lg border border-border/50">
-              <script dangerouslySetInnerHTML={{
-                __html: `
-                  atOptions = {
-                    'key' : 'fc283ae8a19e4c2b587f27617808fa3e',
-                    'format' : 'iframe',
-                    'height' : 250,
-                    'width' : 300,
-                    'params' : {}
-                  };
-                `
-              }} />
-              <script src="https://www.highperformanceformat.com/fc283ae8a19e4c2b587f27617808fa3e/invoke.js" async />
-            </div>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-4 sm:gap-x-8 gap-y-8 sm:gap-y-12">
             {videos.length > 0 ? (
