@@ -6,6 +6,11 @@ StreamFlix is a video streaming platform MVP built with Next.js 16, TypeScript, 
 
 ## Recent Changes (January 2026)
 
+- SEO improvements: Added canonical tag, JSON-LD schema markup, og:image, twitter:image, meta author/publisher
+- Added H1 tag to homepage for accessibility and SEO
+- Added favicon.ico
+- Created user registration page and API endpoint (/auth/register)
+- Changed HTML lang attribute to "id" (Indonesian)
 - Implemented admin authentication guard - only admin users can access /admin pages
 - Added admin user seeding (admin@streamflix.com / admin123) 
 - Fixed user management with proper API endpoints for CRUD operations
@@ -37,7 +42,8 @@ Preferred communication style: Simple, everyday language.
 - `/video/[id]` - Video detail page with player placeholder
 - `/admin/*` - Admin dashboard with sidebar navigation for videos, users, ads, and membership management
 - `/profile` - User profile with membership features
-- `/auth/login` - Authentication page
+- `/auth/login` - Login page
+- `/auth/register` - Registration page
 
 ### Data Layer
 - **Current State**: Mock data defined in `/lib/db.ts` with TypeScript interfaces
