@@ -145,16 +145,16 @@ export default async function Home({
 
         {/* Videos Grid */}
         <section>
-          <div className="flex items-center justify-between mb-10">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6 sm:mb-10">
             <div>
-              <h2 className="text-3xl font-bold tracking-tight mb-2">
+              <h2 className="text-xl sm:text-3xl font-bold tracking-tight mb-1 sm:mb-2">
                 {selectedCategory ? `${selectedCategory}` : 'Popular Now'}
               </h2>
-              <p className="text-muted-foreground text-sm">
-                {videos.length} videos available in this collection
+              <p className="text-muted-foreground text-xs sm:text-sm">
+                {videos.length} videos
               </p>
             </div>
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-2 sm:gap-4">
                <SortFilter currentSort={sort} />
             </div>
           </div>

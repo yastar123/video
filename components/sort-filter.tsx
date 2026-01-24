@@ -14,9 +14,9 @@ export function SortFilter({ currentSort, onSortChange }: SortFilterProps) {
   
   const sortOptions = [
     { value: 'newest', label: 'Terbaru' },
-    { value: 'popular', label: 'Populer (Paling Banyak Ditonton)' },
+    { value: 'popular', label: 'Populer' },
     { value: 'oldest', label: 'Terlama' },
-    { value: 'rating', label: 'Rating Tertinggi' },
+    { value: 'rating', label: 'Rating' },
   ]
 
   const handleChange = (value: string) => {
@@ -30,12 +30,12 @@ export function SortFilter({ currentSort, onSortChange }: SortFilterProps) {
   }
 
   return (
-    <div className="flex items-center gap-2">
-      <ArrowDownUp size={18} className="text-muted-foreground" />
+    <div className="flex items-center gap-1 sm:gap-2">
+      <ArrowDownUp size={16} className="text-muted-foreground hidden sm:block" />
       <select
         value={currentSort}
         onChange={(e) => handleChange(e.target.value)}
-        className="px-4 py-2 rounded-lg bg-muted border border-border focus:outline-none focus:ring-2 focus:ring-primary transition"
+        className="px-2 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm rounded-lg bg-muted border border-border focus:outline-none focus:ring-2 focus:ring-primary transition min-w-[80px] sm:min-w-[120px]"
       >
         {sortOptions.map((option) => (
           <option key={option.value} value={option.value}>
