@@ -145,52 +145,52 @@ export default async function VideoDetail({ params }: { params: Promise<{ id: st
           </div>
         </header>
 
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-8">
           {/* H1 + Primary Keywords */}
-          <header className="mb-8">
-            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 text-balance leading-tight">
+          <header className="mb-6 sm:mb-8">
+            <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-4 text-balance leading-tight">
               Nonton <span className="text-primary">{video.title}</span> 
             </h1>
           </header>
 
           {/* Video Player - Above the fold */}
-          <section className="mb-12">
-            <div className="relative w-full bg-black rounded-2xl overflow-hidden border-4 border-border/50 shadow-2xl min-h-[450px] md:min-h-[500px]">
+          <section className="mb-8 sm:mb-12">
+            <div className="relative w-full bg-black rounded-xl sm:rounded-2xl overflow-hidden border-2 sm:border-4 border-border/50 shadow-2xl min-h-[250px] sm:min-h-[450px] md:min-h-[500px]">
               <VideoPlayerWrapper url={video.url} thumbnail={video.thumbnail} />
               {/* Duration badge */}
-              <div className="absolute top-4 right-4 bg-black/80 text-white px-3 py-1 rounded-full text-sm font-medium z-10">
-                <Clock size={14} className="inline mr-1" />
+              <div className="absolute top-2 right-2 sm:top-4 sm:right-4 bg-black/80 text-white px-2 py-0.5 sm:px-3 sm:py-1 rounded-full text-xs sm:text-sm font-medium z-10">
+                <Clock size={12} className="inline mr-1 sm:size-[14px]" />
                 {formatDuration(video.duration || 0)}
               </div>
             </div>
           </section>
 
           {/* Video Stats + Share */}
-          <section className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-12">
-            <div className="lg:col-span-2 bg-muted/50 p-8 rounded-2xl border">
-              <div className="flex items-center gap-4 mb-6">
-                <div className="bg-primary/10 p-3 rounded-xl">
-                  <Eye className="w-8 h-8 text-primary" />
+          <section className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6 mb-8 sm:mb-12">
+            <div className="lg:col-span-2 bg-muted/50 p-6 sm:p-8 rounded-xl sm:rounded-2xl border">
+              <div className="flex items-center gap-3 sm:gap-4 mb-4 sm:mb-6">
+                <div className="bg-primary/10 p-2 sm:p-3 rounded-lg sm:rounded-xl">
+                  <Eye className="w-6 h-6 sm:w-8 sm:size-8 text-primary" />
                 </div>
                 <div>
-                  <p className="text-3xl lg:text-4xl font-black text-primary">{formatViews(video.views)}</p>
-                  <p className="text-sm text-muted-foreground uppercase tracking-wider">Tayangan</p>
+                  <p className="text-2xl sm:text-3xl lg:text-4xl font-black text-primary">{formatViews(video.views)}</p>
+                  <p className="text-xs sm:text-sm text-muted-foreground uppercase tracking-wider">Tayangan</p>
                 </div>
               </div>
               
-              <div className="flex flex-wrap gap-2 mb-6">
-                <span className="bg-primary/20 text-primary px-4 py-2 rounded-full text-sm font-medium">
+              <div className="flex flex-wrap gap-2 mb-4 sm:mb-6">
+                <span className="bg-primary/20 text-primary px-3 py-1 sm:px-4 sm:py-2 rounded-full text-xs sm:text-sm font-medium">
                   #{video.category?.replace(/\s+/g, '').toLowerCase()}
                 </span>
-                <span className="bg-accent/20 text-accent px-4 py-2 rounded-full text-sm font-medium">
+                <span className="bg-accent/20 text-accent px-3 py-1 sm:px-4 sm:py-2 rounded-full text-xs sm:text-sm font-medium">
                   HD Quality
                 </span>
-                <span className="bg-destructive/20 text-destructive px-4 py-2 rounded-full text-sm font-medium">
+                <span className="bg-destructive/20 text-destructive px-3 py-1 sm:px-4 sm:py-2 rounded-full text-xs sm:text-sm font-medium">
                   Gratis
                 </span>
               </div>
 
-              <p className="text-sm text-muted-foreground mb-4">
+              <p className="text-xs sm:text-sm text-muted-foreground mb-4">
                 Diunggah pada{' '}
                 <time dateTime={video.created_at}>
                   {new Date(video.created_at).toLocaleDateString('id-ID', {
@@ -202,10 +202,10 @@ export default async function VideoDetail({ params }: { params: Promise<{ id: st
               </p>
             </div>
 
-            <div className="bg-muted/50 p-8 rounded-2xl border order-first lg:order-last">
-              <h3 className="text-xl font-bold mb-6 text-center">Bagikan Video</h3>
+            <div className="bg-muted/50 p-6 sm:p-8 rounded-xl sm:rounded-2xl border order-first lg:order-last">
+              <h3 className="text-lg sm:text-xl font-bold mb-4 sm:mb-6 text-center">Bagikan Video</h3>
               <div className="flex gap-2 justify-center">
-                <button className="p-3 bg-blue-500 hover:bg-blue-600 text-white rounded-xl transition-all">
+                <button className="p-3 bg-blue-500 hover:bg-blue-600 text-white rounded-lg sm:rounded-xl transition-all">
                   <Share2 size={20} />
                 </button>
                 {/* Add more share buttons */}
@@ -214,10 +214,10 @@ export default async function VideoDetail({ params }: { params: Promise<{ id: st
           </section>
 
           {/* Content Expansion - Secondary Keywords */}
-          <section className="mb-16">
-            <div className="prose prose-headings:text-2xl prose-headings:font-bold prose-p:text-lg max-w-none">
-              <h2 className="text-3xl font-bold mb-8">Video Description {video.title}</h2>
-              <p className="text-xl text-muted-foreground mb-8 leading-relaxed">
+          <section className="mb-12 sm:mb-16">
+            <div className="prose prose-headings:text-xl sm:prose-headings:text-2xl prose-headings:font-bold prose-p:text-base sm:prose-p:text-lg max-w-none">
+              <h2 className="text-2xl sm:text-3xl font-bold mb-4 sm:mb-8">Video Description {video.title}</h2>
+              <p className="text-lg sm:text-xl text-muted-foreground mb-4 sm:mb-8 leading-relaxed">
                 Enjoy streaming <strong>{video.title}</strong> video{' '}
                 <strong>{video.category}</strong> with HD quality. 
               </p>
@@ -225,7 +225,7 @@ export default async function VideoDetail({ params }: { params: Promise<{ id: st
           </section>
 
           <section>
-            <h2 className="text-3xl font-bold mb-8">Related Videos</h2>
+            <h2 className="text-2xl sm:text-3xl font-bold mb-6 sm:mb-8">Related Videos</h2>
             <RandomVideos />
           </section>
         </div>
