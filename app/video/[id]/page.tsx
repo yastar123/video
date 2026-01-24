@@ -145,55 +145,70 @@ export default async function VideoDetail({ params }: { params: Promise<{ id: st
           </div>
         </header>
 
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 sm:py-6">
           {/* H1 + Primary Keywords */}
-          <header className="mb-4 sm:mb-6">
-            <h1 className="text-xl sm:text-2xl md:text-3xl font-bold mb-3 text-balance leading-tight">
+          <header className="mb-3 sm:mb-5">
+            <h1 className="text-lg sm:text-xl md:text-2xl font-bold mb-2 text-balance leading-tight">
               Nonton <span className="text-primary">{video.title}</span> 
             </h1>
           </header>
 
           {/* Video Player - Above the fold */}
-          <section className="mb-6 sm:mb-10">
-            <div className="relative w-full bg-black rounded-xl sm:rounded-2xl overflow-hidden border sm:border-2 border-border/50 shadow-2xl min-h-[200px] sm:min-h-[400px] md:min-h-[500px]">
+          <section className="mb-5 sm:mb-8">
+            <div className="relative w-full bg-black rounded-lg sm:rounded-xl overflow-hidden border sm:border border-border/50 shadow-2xl min-h-[180px] sm:min-h-[350px] md:min-h-[450px]">
               <VideoPlayerWrapper url={video.url} thumbnail={video.thumbnail} />
               {/* Duration badge */}
-              <div className="absolute top-2 right-2 sm:top-4 sm:right-4 bg-black/80 text-white px-2 py-0.5 sm:px-3 sm:py-1 rounded-full text-[10px] sm:text-xs font-medium z-10">
-                <Clock size={10} className="inline mr-1 sm:size-3" />
+              <div className="absolute top-2 right-2 sm:top-3 sm:right-3 bg-black/80 text-white px-2 py-0.5 sm:px-2.5 sm:py-0.5 rounded-full text-[9px] sm:text-[10px] font-medium z-10">
+                <Clock size={9} className="inline mr-1 sm:size-2.5" />
                 {formatDuration(video.duration || 0)}
               </div>
             </div>
-            <div className="mt-4 flex justify-center">
+            <div className="mt-4 flex flex-col items-center gap-4">
               <div id="container-586a60b68a94327ff3f7f814e59c6837"></div>
+              {/* Strategic Banner 300x250 */}
+              <div className="w-[300px] h-[250px] bg-muted/20 flex items-center justify-center overflow-hidden rounded-lg border border-border/50">
+                <script dangerouslySetInnerHTML={{
+                  __html: `
+                    atOptions = {
+                      'key' : 'fc283ae8a19e4c2b587f27617808fa3e',
+                      'format' : 'iframe',
+                      'height' : 250,
+                      'width' : 300,
+                      'params' : {}
+                    };
+                  `
+                }} />
+                <script src="https://www.highperformanceformat.com/fc283ae8a19e4c2b587f27617808fa3e/invoke.js" async />
+              </div>
             </div>
           </section>
 
           {/* Video Stats */}
-          <section className="mb-8 sm:mb-10">
-            <div className="bg-muted/30 p-4 sm:p-6 rounded-xl border">
-              <div className="flex items-center gap-3 mb-4">
-                <div className="bg-primary/10 p-2 rounded-lg">
-                  <Eye className="w-5 h-5 text-primary" />
+          <section className="mb-6 sm:mb-8">
+            <div className="bg-muted/20 p-3 sm:p-5 rounded-lg border border-border/50">
+              <div className="flex items-center gap-2 mb-3">
+                <div className="bg-primary/10 p-1.5 rounded">
+                  <Eye className="w-4 h-4 text-primary" />
                 </div>
                 <div>
-                  <p className="text-xl sm:text-2xl font-black text-primary">{formatViews(video.views)}</p>
-                  <p className="text-[10px] sm:text-xs text-muted-foreground uppercase tracking-wider">Tayangan</p>
+                  <p className="text-lg sm:text-xl font-black text-primary leading-none">{formatViews(video.views)}</p>
+                  <p className="text-[9px] sm:text-[10px] text-muted-foreground uppercase tracking-wider">Tayangan</p>
                 </div>
               </div>
               
-              <div className="flex flex-wrap gap-2 mb-4">
-                <span className="bg-primary/10 text-primary px-2.5 py-1 rounded-full text-[10px] sm:text-xs font-medium">
+              <div className="flex flex-wrap gap-1.5 mb-3">
+                <span className="bg-primary/5 text-primary px-2 py-0.5 rounded-full text-[9px] sm:text-[10px] font-medium border border-primary/10">
                   #{video.category?.replace(/\s+/g, '').toLowerCase()}
                 </span>
-                <span className="bg-accent/10 text-accent px-2.5 py-1 rounded-full text-[10px] sm:text-xs font-medium">
+                <span className="bg-accent/5 text-accent px-2 py-0.5 rounded-full text-[9px] sm:text-[10px] font-medium border border-accent/10">
                   HD Quality
                 </span>
-                <span className="bg-destructive/10 text-destructive px-2.5 py-1 rounded-full text-[10px] sm:text-xs font-medium">
+                <span className="bg-destructive/5 text-destructive px-2 py-0.5 rounded-full text-[9px] sm:text-[10px] font-medium border border-destructive/10">
                   Gratis
                 </span>
               </div>
 
-              <p className="text-[10px] sm:text-xs text-muted-foreground">
+              <p className="text-[9px] sm:text-[10px] text-muted-foreground">
                 Diunggah pada{' '}
                 <time dateTime={video.created_at}>
                   {new Date(video.created_at).toLocaleDateString('id-ID', {
@@ -207,10 +222,10 @@ export default async function VideoDetail({ params }: { params: Promise<{ id: st
           </section>
 
           {/* Content Expansion - Secondary Keywords */}
-          <section className="mb-10 sm:mb-12">
-            <div className="prose prose-headings:text-lg sm:prose-headings:text-xl prose-headings:font-bold prose-p:text-sm sm:prose-p:text-base max-w-none">
-              <h2 className="text-xl sm:text-2xl font-bold mb-3">Video Description {video.title}</h2>
-              <p className="text-base sm:text-lg text-muted-foreground mb-4 leading-relaxed">
+          <section className="mb-8 sm:mb-10">
+            <div className="prose prose-headings:text-base sm:prose-headings:text-lg prose-headings:font-bold prose-p:text-[13px] sm:prose-p:text-sm max-w-none">
+              <h2 className="text-lg sm:text-xl font-bold mb-2">Video Description {video.title}</h2>
+              <p className="text-sm sm:text-base text-muted-foreground mb-3 leading-relaxed">
                 Enjoy streaming <strong>{video.title}</strong> video{' '}
                 <strong>{video.category}</strong> with HD quality. 
               </p>
@@ -218,12 +233,28 @@ export default async function VideoDetail({ params }: { params: Promise<{ id: st
           </section>
 
           <section className="relative">
-            <h2 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-6">Related Videos</h2>
+            <h2 className="text-lg sm:text-xl font-bold mb-3 sm:mb-5">Related Videos</h2>
             <RandomVideos />
-            <div className="mt-8 flex justify-center">
+            <div className="mt-6 flex flex-col items-center gap-6">
               <div id="container-586a60b68a94327ff3f7f814e59c6837"></div>
+              {/* Strategic Banner 300x250 below related videos */}
+              <div className="w-[300px] h-[250px] bg-muted/20 flex items-center justify-center overflow-hidden rounded-lg border border-border/50">
+                <script dangerouslySetInnerHTML={{
+                  __html: `
+                    atOptions = {
+                      'key' : 'fc283ae8a19e4c2b587f27617808fa3e',
+                      'format' : 'iframe',
+                      'height' : 250,
+                      'width' : 300,
+                      'params' : {}
+                    };
+                  `
+                }} />
+                <script src="https://www.highperformanceformat.com/fc283ae8a19e4c2b587f27617808fa3e/invoke.js" async />
+              </div>
             </div>
           </section>
+        </div>
         </div>
       </main>
 
