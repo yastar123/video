@@ -1,0 +1,123 @@
+root@server:/var/www/video.seyiki.com# git fetch origin
+git reset --hard origin/main
+npm install
+npm run db:push
+npm run seed
+npm run build
+pm2 restart all
+remote: Enumerating objects: 24, done.
+remote: Counting objects: 100% (24/24), done.
+remote: Compressing objects: 100% (5/5), done.
+remote: Total 16 (delta 9), reused 15 (delta 8), pack-reused 0 (from 0)
+Unpacking objects: 100% (16/16), 1.85 KiB | 118.00 KiB/s, done.
+From https://github.com/yastar123/video
+ + 8ecd310...3ee0288 main       -> origin/main  (forced update)
+HEAD is now at 3ee0288 Remove local pnpm/replit cache from repository
+
+up to date, audited 412 packages in 4s
+
+67 packages are looking for funding
+  run `npm fund` for details
+
+1 high severity vulnerability
+
+To address all issues, run:
+  npm audit fix --force
+
+Run `npm audit` for details.
+
+> my-v0-project@0.1.0 db:push
+> tsx scripts/db-push.ts
+
+[dotenv@17.2.3] injecting env (10) from .env -- tip: 🔑 add access controls to secrets: https://dotenvx.com/ops
+Starting database push...
+Database push failed: error: insert or update on table "videos" violates foreign key constraint "videos_category_id_fkey"
+    at /var/www/video.seyiki.com/node_modules/pg/lib/client.js:588:17
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async query (/var/www/video.seyiki.com/lib/postgres.ts:25:12)
+    at async dbPush (/var/www/video.seyiki.com/scripts/db-push.ts:11:7) {
+  length: 263,
+  severity: 'ERROR',
+  code: '23503',
+  detail: 'Key (category_id)=(4) is not present in table "categories".',
+  hint: undefined,
+  position: undefined,
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: 'public',
+  table: 'videos',
+  column: undefined,
+  dataType: undefined,
+  constraint: 'videos_category_id_fkey',
+  file: 'ri_triggers.c',
+  line: '2528',
+  routine: 'ri_ReportViolation'
+}
+
+> my-v0-project@0.1.0 seed
+> tsx scripts/seed-runner.ts
+
+[dotenv@17.2.3] injecting env (10) from .env -- tip: 📡 add observability to secrets: https://dotenvx.com/ops
+Starting seed...
+Users seeded successfully
+Seed completed successfully
+
+> my-v0-project@0.1.0 build
+> next build
+
+   ▲ Next.js 15.5.7
+   - Environments: .env
+
+   Creating an optimized production build ...
+ ✓ Compiled successfully in 41s
+   Skipping validation of types
+ ✓ Linting
+   Collecting page data  ...[dotenv@17.2.3] injecting env (0) from .env -- tip: 📡 add observability to secrets: https://dotenvx.com/ops
+ ✓ Collecting page data
+[dotenv@17.2.3] injecting env (0) from .env -- tip: 🔑 add access controls to secrets: https://dotenvx.com/ops
+Error occurred prerendering page "/video/290". Read more: https://nextjs.org/docs/messages/prerender-error
+error: column c.slug does not exist
+    at async i (.next/server/app/api/admin/videos/route.js:1:6751)
+    at async q (.next/server/app/video/[id]/page.js:2:18850)
+    at async t (.next/server/app/video/[id]/page.js:15:283) {
+  length: 104,
+  severity: 'ERROR',
+  code: '42703',
+  detail: undefined,
+  hint: undefined,
+  position: '38',
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'parse_relation.c',
+  line: '3647',
+  routine: 'errorMissingColumn',
+  digest: '3534845815'
+}
+Export encountered an error on /video/[id]/page: /video/290, exiting the build.
+ ⨯ Next.js build worker exited with code: 1 and signal: null
+Use --update-env to update environment variables
+[PM2] Applying action restartProcessId on app [all](ids: [ 0, 2, 12, 15, 16, 21 ])
+[PM2] [iot-backend](0) ✓
+[PM2] [seyiki-main](2) ✓
+[PM2] [seyiki-docs](12) ✓
+[PM2] [survei-seyiki](15) ✓
+[PM2] [lhpp-seyiki](16) ✓
+[PM2] [video-seyiki](21) ✓
+┌────┬────────────────────┬──────────┬──────┬───────────┬──────────┬──────────┐
+│ id │ name               │ mode     │ ↺    │ status    │ cpu      │ memory   │
+├────┼────────────────────┼──────────┼──────┼───────────┼──────────┼──────────┤
+│ 0  │ iot-backend        │ fork     │ 153  │ online    │ 0%       │ 51.0mb   │
+│ 16 │ lhpp-seyiki        │ cluster  │ 35   │ online    │ 0%       │ 48.9mb   │
+│ 12 │ seyiki-docs        │ fork     │ 74   │ online    │ 0%       │ 52.1mb   │
+│ 2  │ seyiki-main        │ fork     │ 75   │ online    │ 0%       │ 54.5mb   │
+│ 15 │ survei-seyiki      │ cluster  │ 501  │ online    │ 0%       │ 50.7mb   │
+│ 21 │ video-seyiki       │ cluster  │ 2205 │ online    │ 0%       │ 38.0mb   │
+└────┴────────────────────┴──────────┴──────┴───────────┴──────────┴──────────┘
+root@server:/var/www/video.seyiki.com#

@@ -14,6 +14,7 @@ CREATE TABLE IF NOT EXISTS users (
 CREATE TABLE IF NOT EXISTS categories (
   id SERIAL PRIMARY KEY,
   name VARCHAR(255) NOT NULL UNIQUE,
+  slug VARCHAR(255) UNIQUE,
   icon VARCHAR(10),
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
@@ -24,7 +25,7 @@ CREATE TABLE IF NOT EXISTS videos (
   title VARCHAR(255) NOT NULL,
   description TEXT,
   thumbnail VARCHAR(500),
-  category_id INTEGER REFERENCES categories(id),
+  category_id INTEGER REFERENCES categories(id) ON DELETE SET NULL,
   duration INTEGER,
   views INTEGER DEFAULT 0,
   rating DECIMAL(2,1) DEFAULT 0,
@@ -61,14 +62,14 @@ CREATE INDEX IF NOT EXISTS idx_videos_views ON videos(views DESC);
 CREATE INDEX IF NOT EXISTS idx_videos_rating ON videos(rating DESC);
 
 -- Insert default categories
-INSERT INTO categories (name, icon) VALUES
-  ('Action', '⚡'),
-  ('Drama', '🎭'),
-  ('Comedy', '😂'),
-  ('Sci-Fi', '🚀'),
-  ('Horror', '👻'),
-  ('Documentary', '📚')
-ON CONFLICT (name) DO NOTHING;
+INSERT INTO categories (name, slug, icon) VALUES
+  ('Action', 'action', '⚡'),
+  ('Drama', 'drama', '🎭'),
+  ('Comedy', 'comedy', '😂'),
+  ('Sci-Fi', 'sci-fi', '🚀'),
+  ('Horror', 'horror', '👻'),
+  ('Documentary', 'documentary', '📚')
+ON CONFLICT (name) DO UPDATE SET slug = EXCLUDED.slug, icon = EXCLUDED.icon;
 
 -- Insert sample videos
 INSERT INTO videos (title, description, thumbnail, category_id, duration, views, rating, url, created_at) VALUES
