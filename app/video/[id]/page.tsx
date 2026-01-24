@@ -7,10 +7,15 @@ import { notFound } from 'next/navigation'
 import { Metadata } from 'next'
 
 export async function generateStaticParams() {
-  const { rows } = await query('SELECT id FROM videos LIMIT 100') // Increased for better crawling
-  return rows.map((video: any) => ({
-    id: video.id.toString(),
-  }))
+  try {
+    const { rows } = await query('SELECT id FROM videos LIMIT 100') // Increased for better crawling
+    return rows.map((video: any) => ({
+      id: video.id.toString(),
+    }))
+  } catch (error) {
+    console.warn('Database not available during build, skipping static generation')
+    return []
+  }
 }
 
 async function getVideo(id: string) {
@@ -224,7 +229,6 @@ export default async function VideoDetail({ params }: { params: Promise<{ id: st
               <div id="container-586a60b68a94327ff3f7f814e59c6837"></div>
             </div>
           </section>
-        </div>
         </div>
       </main>
 
