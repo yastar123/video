@@ -40,7 +40,7 @@ externalPort = 80
 
 [deployment]
 deploymentTarget = "autoscale"
-run = ["npm", "start"]
+run = ["npm", "run", "start"]
 build = ["npm", "run", "build"]
 
 [userenv]
@@ -52,7 +52,6 @@ UPLOAD_DIR = "./uploads"
 JWT_SECRET = "2670db856738c847a4f7d147490bfd3c20ecd21ebf10c99e3fba6ef0a7ebd8f1e639482928042905c6f588b0085f9467ee58fc15e5e614b7215526c2c8fadc12"
 MAX_FILE_SIZE = "104857600"
 NEXTAUTH_URL = "https://video.seyiki.com"
-NODE_ENV = "production"
 PORT = "5000"
 NEXTAUTH_SECRET = "2670db856738c847a4f7d147490bfd3c20ecd21ebf10c99e3fba6ef0a7ebd8f1"
 PRIVATE_OBJECT_DIR = "/streamflix-uploads"
