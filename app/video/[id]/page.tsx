@@ -1,7 +1,8 @@
 import { query } from '@/lib/postgres'
-import { Star, Eye, Clock, ArrowLeft, Share2 } from 'lucide-react'
+import { Star, Eye, Clock, ArrowLeft } from 'lucide-react'
 import { RandomVideos } from '@/components/random-videos'
 import { VideoPlayerWrapper } from '@/components/video-player-wrapper'
+import { BannerPlaceholder } from '@/components/banner-placeholder'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { Metadata } from 'next'
@@ -57,10 +58,10 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
       url: `https://yoursite.com/video/${id}`,
       type: 'video.movie',
       images: [video.thumbnail],
-      video: {
+      videos: [{
         url: video.url,
         type: 'video/mp4'
-      }
+      }]
     },
     twitter: {
       card: 'summary_large_image',
@@ -153,6 +154,11 @@ export default async function VideoDetail({ params }: { params: Promise<{ id: st
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 sm:py-6">
           {/* H1 + Primary Keywords */}
           <header className="mb-3 sm:mb-5">
+            {/* Ad Placeholder */}
+            <div className="mb-4">
+              <BannerPlaceholder width="full" height="medium" text="Banner 728x90" />
+            </div>
+            
             <h1 className="text-lg sm:text-xl md:text-2xl font-bold mb-2 text-balance leading-tight">
               Nonton <span className="text-primary">{video.title}</span> 
             </h1>
@@ -223,6 +229,11 @@ export default async function VideoDetail({ params }: { params: Promise<{ id: st
           </section>
 
           <section className="relative">
+            {/* Ad Placeholder */}
+            <div className="mb-6">
+              <BannerPlaceholder width="full" height="medium" text="Banner 728x90" />
+            </div>
+            
             <h2 className="text-lg sm:text-xl font-bold mb-3 sm:mb-5">Related Videos</h2>
             <RandomVideos />
             <div className="mt-6 flex justify-center">
@@ -231,15 +242,6 @@ export default async function VideoDetail({ params }: { params: Promise<{ id: st
           </section>
         </div>
       </main>
-
-      {/* Sticky share widget */}
-      <div className="lg:block hidden fixed right-8 top-1/2 -translate-y-1/2 bg-background/95 backdrop-blur border rounded-2xl p-4 shadow-2xl w-16">
-        <div className="flex flex-col items-center gap-4">
-          <button className="p-2 bg-primary/20 hover:bg-primary text-primary rounded-xl transition-all w-full">
-            <Share2 size={20} />
-          </button>
-        </div>
-      </div>
     </>
   )
 }

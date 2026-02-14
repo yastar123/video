@@ -5,13 +5,13 @@ import { MobileMenu } from '@/components/mobile-menu'
 import { Pagination } from '@/components/pagination'
 import { SortFilter } from '@/components/sort-filter'
 import { query } from '@/lib/postgres'
-import { ChevronDown, LogIn, User, Bell } from 'lucide-react'
+import { ChevronDown, LogIn, User } from 'lucide-react'
 import { Suspense } from 'react'
 import Loading from './loading'
 import Link from 'next/link'
 import { HeaderUser } from '@/components/header-user'
 import { getCurrentUser } from '@/lib/session'
-import { AdBanner } from '@/components/ad-banner'
+import { BannerPlaceholder } from '@/components/banner-placeholder'
 
 export const revalidate = 3600 // Revalidate home page every hour
 
@@ -88,18 +88,13 @@ export default async function Home({
             </Link>
             <nav className="hidden md:flex gap-8 text-sm font-medium text-gray-400">
               <Link href="/" className="hover:text-white transition-colors">Home</Link>
-              <Link href="/kategori" className="hover:text-white transition-colors">Movies</Link>
-              <Link href="/kategori" className="hover:text-white transition-colors">Series</Link>
-              <Link href="/kategori" className="hover:text-white transition-colors">Anime</Link>
+              <Link href="/kategori" className="hover:text-white transition-colors">Genre</Link>
             </nav>
           </div>
           <div className="flex items-center gap-4">
             <div className="hidden sm:block w-48 md:w-64">
               <SearchBar initialValue={search} />
             </div>
-            <button className="p-2 hover:bg-white/10 rounded-full transition-colors text-gray-400 hover:text-white">
-              <Bell size={20} />
-            </button>
             <HeaderUser />
             <MobileMenu />
           </div>
@@ -108,20 +103,33 @@ export default async function Home({
 
       {/* Top Ad Banners */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <AdBanner />
-          <AdBanner />
-          <AdBanner />
-          <AdBanner />
+        <div className="grid grid-cols-1 gap-4">
+          <a href="" rel="nofollow" className="col-span-full">
+            <img alt="banner" src="https://landings-cdn.adsterratech.com/referralBanners/gif/720x90_adsterra_reff.gif" className="w-full h-auto rounded-lg" />
+          </a>
+        </div>
+      </div>
+
+      {/* Top Grid Banners */}
+      <div className="pt-2 px-4 md:px-6">
+        <div className="container mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 md:gap-3 gap-3">
+            <BannerPlaceholder width="half" height="medium" />
+            <BannerPlaceholder width="half" height="medium" />
+            <BannerPlaceholder width="half" height="medium" />
+            <BannerPlaceholder width="half" height="medium" />
+            <BannerPlaceholder width="half" height="medium" />
+            <BannerPlaceholder width="half" height="medium" />
+          </div>
         </div>
       </div>
 
       {/* Main Content */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
         <h1 className="sr-only">Ruang Malam - Nonton Video Online Terlengkap</h1>
         
         {/* Hero Section with side-by-side Announcements */}
-        <section className="mb-12">
+        <section className="mb-8">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             <div className="lg:col-span-2">
               <HeroBanner />
@@ -151,17 +159,31 @@ export default async function Home({
           </div>
         </section>
 
+        {/* Bottom Grid Banners */}
+        <div className="pt-2 px-4 md:px-6">
+          <div className="container mx-auto">
+            <div className="grid grid-cols-1 md:grid-cols-2 md:gap-3 gap-3">
+              <BannerPlaceholder width="half" height="medium" />
+              <BannerPlaceholder width="half" height="medium" />
+              <BannerPlaceholder width="half" height="medium" />
+              <BannerPlaceholder width="half" height="medium" />
+              <BannerPlaceholder width="half" height="medium" />
+              <BannerPlaceholder width="half" height="medium" />
+            </div>
+          </div>
+        </div>
+
         {/* Middle Ad Banners */}
-        <section className="mb-12">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            <AdBanner />
-            <AdBanner />
-            <AdBanner />
+        <section className="mb-8">
+          <div className="grid grid-cols-1 gap-4">
+            <a href="" rel="nofollow" className="col-span-full">
+              <img alt="banner" src="https://landings-cdn.adsterratech.com/referralBanners/gif/720x90_adsterra_reff.gif" className="w-full h-auto rounded-lg" />
+            </a>
           </div>
         </section>
 
         {/* Search and Filter Section */}
-        <section className="mb-12">
+        <section className="mb-8">
           <div className="flex items-center gap-2 border-b border-white/10 overflow-x-auto pb-px no-scrollbar">
             <Link
               href="/"
@@ -197,7 +219,7 @@ export default async function Home({
 
         {/* Videos Grid */}
         <section>
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-10">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
             <div>
               <h2 className="text-2xl font-bold tracking-tight mb-1">
                 {selectedCategory ? `${selectedCategory}` : 'Popular Now'}
@@ -231,7 +253,7 @@ export default async function Home({
             )}
           </div>
           {videos.length > 0 && pagination.totalPages > 1 && (
-            <div className="mt-12">
+            <div className="mt-8">
               <Pagination
                 currentPage={currentPage}
                 totalPages={pagination.totalPages}
@@ -241,13 +263,13 @@ export default async function Home({
         </section>
 
         {/* Bottom Ad Banners */}
-        <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-4">
-          <AdBanner />
-          <AdBanner />
-          <AdBanner />
+        <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-4">
+          <BannerPlaceholder width="half" height="medium" />
+          <BannerPlaceholder width="half" height="medium" />
+          <BannerPlaceholder width="half" height="medium" />
+          <BannerPlaceholder width="half" height="medium" />
         </div>
       </div>
     </main>
   )
 }
-

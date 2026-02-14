@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import { VideoCard } from '@/components/video-card'
 import type { Video } from '@/lib/db'
 import Link from 'next/link'
+import { BannerPlaceholder } from '@/components/banner-placeholder'
 
 export function RandomVideos() {
   const [videos, setVideos] = useState<Video[]>([])
@@ -45,6 +46,13 @@ export function RandomVideos() {
             <VideoCard video={video} />
           </Link>
         ))}
+      </div>
+      
+      {/* Ad Placeholders */}
+      <div className="mt-8 space-y-4">
+        <BannerPlaceholder width="full" height="medium" text="Banner 468x60" />
+        <BannerPlaceholder width="full" height="medium" text="Banner 468x60" />
+        <BannerPlaceholder width="full" height="medium" text="Banner 468x60" />
       </div>
     </div>
   )
