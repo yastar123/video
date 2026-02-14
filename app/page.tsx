@@ -5,12 +5,13 @@ import { MobileMenu } from '@/components/mobile-menu'
 import { Pagination } from '@/components/pagination'
 import { SortFilter } from '@/components/sort-filter'
 import { query } from '@/lib/postgres'
-import { ChevronDown, LogIn, User } from 'lucide-react'
+import { ChevronDown, LogIn, User, Bell } from 'lucide-react'
 import { Suspense } from 'react'
 import Loading from './loading'
 import Link from 'next/link'
 import { HeaderUser } from '@/components/header-user'
 import { getCurrentUser } from '@/lib/session'
+import { AdBanner } from '@/components/ad-banner'
 
 export const revalidate = 3600 // Revalidate home page every hour
 
@@ -74,58 +75,105 @@ export default async function Home({
   ])
 
   return (
-    <main className="min-h-screen bg-background vercel-gradient">
-      <header className="sticky top-0 z-50 bg-background/80 backdrop-blur-md border-b-2 border-border">
+    <main className="min-h-screen bg-[#0a0a0a] text-white">
+      {/* Header */}
+      <header className="sticky top-0 z-50 bg-[#0a0a0a]/95 backdrop-blur-md border-b border-white/10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
           <div className="flex items-center gap-4 sm:gap-10">
             <Link href="/" className="flex items-center gap-2 group">
-              <div className="w-7 h-7 sm:w-8 sm:h-8 overflow-hidden rounded-lg flex items-center justify-center group-hover:scale-105 transition-transform duration-200 shadow-lg shadow-foreground/10">
+              <div className="w-8 h-8 overflow-hidden rounded-lg flex items-center justify-center group-hover:scale-105 transition-transform duration-200">
                 <img src="/assets/logo.jpg" alt="Ruang Malam Logo" className="w-full h-full object-cover" />
               </div>
-              <span className="text-lg sm:text-xl font-bold tracking-tight">Ruang Malam</span>
+              <span className="text-xl font-bold tracking-tight text-white">StreamFlix</span>
             </Link>
-            <nav className="hidden md:flex gap-8 text-sm font-medium text-muted-foreground">
-              <Link href="/" className="hover:text-foreground transition-all hover:translate-y-[-1px]">Home</Link>
-              <Link href="/kategori" className="hover:text-foreground transition-all hover:translate-y-[-1px]">Categories</Link>
+            <nav className="hidden md:flex gap-8 text-sm font-medium text-gray-400">
+              <Link href="/" className="hover:text-white transition-colors">Home</Link>
+              <Link href="/kategori" className="hover:text-white transition-colors">Movies</Link>
+              <Link href="/kategori" className="hover:text-white transition-colors">Series</Link>
+              <Link href="/kategori" className="hover:text-white transition-colors">Anime</Link>
             </nav>
           </div>
-          <div className="flex items-center gap-2 sm:gap-5">
-            <div className="hidden sm:block w-48 md:w-72">
+          <div className="flex items-center gap-4">
+            <div className="hidden sm:block w-48 md:w-64">
               <SearchBar initialValue={search} />
             </div>
-            <div className="h-6 w-[1px] bg-border/50 hidden sm:block" />
+            <button className="p-2 hover:bg-white/10 rounded-full transition-colors text-gray-400 hover:text-white">
+              <Bell size={20} />
+            </button>
             <HeaderUser />
             <MobileMenu />
           </div>
         </div>
       </header>
 
+      {/* Top Ad Banners */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <AdBanner />
+          <AdBanner />
+          <AdBanner />
+          <AdBanner />
+        </div>
+      </div>
+
       {/* Main Content */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <h1 className="sr-only">Ruang Malam - Nonton Video Online Terlengkap</h1>
-        {/* Hero Banner */}
+        
+        {/* Hero Section with side-by-side Announcements */}
         <section className="mb-12">
-          <HeroBanner />
-          <div className="mt-4 flex justify-center">
-            <div id="container-586a60b68a94327ff3f7f814e59c6837"></div>
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <div className="lg:col-span-2">
+              <HeroBanner />
+            </div>
+            <div className="bg-[#1a1a1a] rounded-2xl p-6 border border-white/5 flex flex-col">
+              <div className="flex items-center justify-between mb-6">
+                <h3 className="text-xl font-bold">Pengumuman</h3>
+                <Link href="/pengumuman" className="text-sm text-gray-400 hover:text-white transition-colors">Semua</Link>
+              </div>
+              <div className="space-y-4 flex-1">
+                {[
+                  { title: "Premium Sekarang Cuma 12500!!!", date: "16 November 2025" },
+                  { title: "Pengumuman Rekrutmen Pengembangan Aplikasi", date: "03 August 2025" }
+                ].map((item, idx) => (
+                  <div key={idx} className="flex gap-4 group cursor-pointer hover:bg-white/5 p-2 rounded-xl transition-colors">
+                    <div className="w-16 h-16 bg-[#2a2a2a] rounded-lg overflow-hidden flex-shrink-0">
+                      <img src="/assets/logo.jpg" className="w-full h-full object-cover opacity-50" />
+                    </div>
+                    <div className="flex flex-col justify-center">
+                      <h4 className="text-sm font-medium line-clamp-2 leading-tight group-hover:text-primary transition-colors">{item.title}</h4>
+                      <p className="text-[10px] text-gray-500 mt-1">{item.date}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Middle Ad Banners */}
+        <section className="mb-12">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <AdBanner />
+            <AdBanner />
+            <AdBanner />
           </div>
         </section>
 
         {/* Search and Filter Section */}
-        <section className="mb-16">
-          {/* Category Tabs */}
-          <div className="flex items-center gap-2 border-b border-border overflow-x-auto pb-px no-scrollbar">
+        <section className="mb-12">
+          <div className="flex items-center gap-2 border-b border-white/10 overflow-x-auto pb-px no-scrollbar">
             <Link
               href="/"
               className={`px-5 py-3 text-sm font-medium transition-all relative ${
                 !selectedCategory
-                  ? 'text-foreground'
-                  : 'text-muted-foreground hover:text-foreground'
+                  ? 'text-white'
+                  : 'text-gray-400 hover:text-white'
               }`}
             >
               All
               {!selectedCategory && (
-                <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-foreground rounded-full" />
+                <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary rounded-full" />
               )}
             </Link>
             {categories.map((cat: any) => (
@@ -134,13 +182,13 @@ export default async function Home({
                 href={`/?category=${encodeURIComponent(cat.name)}${search ? `&search=${encodeURIComponent(search)}` : ''}`}
                 className={`px-5 py-3 text-sm font-medium transition-all relative whitespace-nowrap ${
                   selectedCategory === cat.name
-                    ? 'text-foreground'
-                    : 'text-muted-foreground hover:text-foreground'
+                    ? 'text-white'
+                    : 'text-gray-400 hover:text-white'
                 }`}
               >
                 {cat.name}
                 {selectedCategory === cat.name && (
-                  <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-foreground rounded-full" />
+                  <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary rounded-full" />
                 )}
               </Link>
             ))}
@@ -149,23 +197,21 @@ export default async function Home({
 
         {/* Videos Grid */}
         <section>
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6 sm:mb-10">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-10">
             <div>
-              <h2 className="text-xl sm:text-3xl font-bold tracking-tight mb-1 sm:mb-2">
+              <h2 className="text-2xl font-bold tracking-tight mb-1">
                 {selectedCategory ? `${selectedCategory}` : 'Popular Now'}
               </h2>
-              <p className="text-muted-foreground text-xs sm:text-sm">
+              <p className="text-gray-400 text-sm">
                 {videos.length} videos
               </p>
             </div>
-            <div className="flex items-center gap-2 sm:gap-4">
+            <div className="flex items-center gap-4">
                <SortFilter currentSort={sort} />
             </div>
           </div>
-          <div className="mt-4 mb-8 flex justify-center">
-            <div id="container-586a60b68a94327ff3f7f814e59c6837"></div>
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-4 sm:gap-x-8 gap-y-8 sm:gap-y-12">
+          
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-6 gap-y-10">
             {videos.length > 0 ? (
               videos.map((video: any, index: number) => (
                 <Link
@@ -174,24 +220,34 @@ export default async function Home({
                 >
                   <VideoCard 
                     video={video} 
-                    priority={index < 4} // Load first 4 images with priority
+                    priority={index < 4}
                   />
                 </Link>
               ))
             ) : (
-              <div className="col-span-full py-20 text-center border border-dashed border-border rounded-lg">
-                <p className="text-muted-foreground">No results found.</p>
+              <div className="col-span-full py-20 text-center border border-dashed border-white/10 rounded-2xl">
+                <p className="text-gray-400">No results found.</p>
               </div>
             )}
           </div>
           {videos.length > 0 && pagination.totalPages > 1 && (
-            <Pagination
-              currentPage={currentPage}
-              totalPages={pagination.totalPages}
-            />
+            <div className="mt-12">
+              <Pagination
+                currentPage={currentPage}
+                totalPages={pagination.totalPages}
+              />
+            </div>
           )}
         </section>
+
+        {/* Bottom Ad Banners */}
+        <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-4">
+          <AdBanner />
+          <AdBanner />
+          <AdBanner />
+        </div>
       </div>
     </main>
   )
 }
+
