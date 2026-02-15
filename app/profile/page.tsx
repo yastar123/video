@@ -24,12 +24,12 @@ export default function ProfilePage() {
           const dbUsers = await res.json()
           const dbUser = Array.isArray(dbUsers) ? dbUsers.find((u: any) => u.id === currentUser.id) : null
           if (dbUser) {
-            setUser(dbUser)
+            setUser(dbUser as User)
           } else {
-            setUser(currentUser)
+            setUser(currentUser as User)
           }
         } catch (err) {
-          setUser(currentUser)
+          setUser(currentUser as User)
         }
       } else {
         router.push('/auth/login')
@@ -107,10 +107,10 @@ export default function ProfilePage() {
     <>
       {/* SEO Meta Tags */}
       <title>Profil Pengguna VIP - Nonton Bokep Terbaru Gratis Indonesia Jepang China | StreamFlix</title>
-      <meta name="description" content="Kelola profil akun VIP Anda untuk nonton bokep terbaru gratis. Upgrade membership VIP dapatkan akses ad-free streaming video porno Indonesia, Jepang, China dan kategori dewasa lainnya tanpa batas." />
+      <meta name="description" content="Kelola profil akun VIP Anda untuk nonton bokep terbaru gratis. Upgrade membership VIP dapatkan akses streaming video porno Indonesia, Jepang, China dan kategori dewasa lainnya tanpa batas." />
       <meta name="keywords" content={seoKeywords} />
       <meta property="og:title" content="Profil VIP Member - StreamFlix Bokep Terlengkap" />
-      <meta property="og:description" content="Kelola akun VIP nonton bokep gratis HD Indonesia Jepang China. Nikmati streaming tanpa iklan dan konten eksklusif." />
+      <meta property="og:description" content="Kelola akun VIP nonton bokep gratis HD Indonesia Jepang China. Nikmati konten eksklusif." />
       <meta property="og:type" content="profile" />
       <meta name="robots" content="noindex, nofollow" /> {/* Profiles typically noindex */}
 
@@ -218,7 +218,7 @@ export default function ProfilePage() {
                     <div className="grid grid-cols-2 gap-4 text-lg">
                       <div className="flex items-start gap-2">
                         <Video className="w-6 h-6 text-emerald-400 mt-1" />
-                        <span>Streaming Tanpa Iklan</span>
+                        <span>Streaming Tanpa Gangguan</span>
                       </div>
                       <div className="flex items-start gap-2">
                         <Eye className="w-6 h-6 text-emerald-400 mt-1" />
@@ -252,8 +252,8 @@ export default function ProfilePage() {
                     <Video size={24} className="text-black" />
                   </div>
                   <div>
-                    <h3 className="text-xl font-bold text-white mb-2">Bokep Tanpa Iklan</h3>
-                    <p className="text-lg text-white/80">Nikmati streaming video bokep Indonesia, Jepang, China tanpa gangguan iklan.</p>
+                    <h3 className="text-xl font-bold text-white mb-2">Bokep Kualitas Tinggi</h3>
+                    <p className="text-lg text-white/80">Nikmati streaming video bokep Indonesia, Jepang, China dengan kualitas HD terbaik.</p>
                   </div>
                 </div>
                 

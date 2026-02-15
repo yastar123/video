@@ -48,17 +48,6 @@ export default function VideoPlayer({ url, thumbnail }: VideoPlayerProps) {
         }]
       }, () => {
         console.log('player is ready')
-        
-        // Adsterra Popunder trigger on first play
-        player.one('play', () => {
-          if (typeof window !== 'undefined' && (window as any).adsterra_popunder) {
-            try {
-              (window as any).adsterra_popunder();
-            } catch (e) {
-              console.error('Adsterra trigger error:', e);
-            }
-          }
-        });
       })
     } else if (playerRef.current) {
       const player = playerRef.current

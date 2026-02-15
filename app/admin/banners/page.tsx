@@ -1,14 +1,14 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import type { Banner } from '@/lib/db'
+import type { Advertisement } from '@/lib/db'
 import { Plus, Edit, Trash2, ImageIcon } from 'lucide-react'
 
 export default function BannersPage() {
-  const [banners, setBanners] = useState<Banner[]>([])
+  const [banners, setBanners] = useState<Advertisement[]>([])
   const [loading, setLoading] = useState(true)
   const [showForm, setShowForm] = useState(false)
-  const [editingBanner, setEditingBanner] = useState<Banner | null>(null)
+  const [editingBanner, setEditingBanner] = useState<Advertisement | null>(null)
   const [deleteConfirm, setDeleteConfirm] = useState<string | null>(null)
   const [uploading, setUploading] = useState(false)
   const [formData, setFormData] = useState({

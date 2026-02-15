@@ -101,29 +101,6 @@ export default async function Home({
         </div>
       </header>
 
-      {/* Top Ad Banners */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6">
-        <div className="grid grid-cols-1 gap-4">
-          <a href="" rel="nofollow" className="col-span-full">
-            <img alt="banner" src="https://landings-cdn.adsterratech.com/referralBanners/gif/720x90_adsterra_reff.gif" className="w-full h-auto rounded-lg" />
-          </a>
-        </div>
-      </div>
-
-      {/* Top Grid Banners */}
-      <div className="pt-2 px-4 md:px-6">
-        <div className="container mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-2 md:gap-3 gap-3">
-            <BannerPlaceholder width="half" height="medium" />
-            <BannerPlaceholder width="half" height="medium" />
-            <BannerPlaceholder width="half" height="medium" />
-            <BannerPlaceholder width="half" height="medium" />
-            <BannerPlaceholder width="half" height="medium" />
-            <BannerPlaceholder width="half" height="medium" />
-          </div>
-        </div>
-      </div>
-
       {/* Main Content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
         <h1 className="sr-only">BokepIndonesia - Nonton Video Online Terlengkap</h1>
@@ -156,29 +133,6 @@ export default async function Home({
                 ))}
               </div>
             </div>
-          </div>
-        </section>
-
-        {/* Bottom Grid Banners */}
-        <div className="pt-2 px-4 md:px-6">
-          <div className="container mx-auto">
-            <div className="grid grid-cols-1 md:grid-cols-2 md:gap-3 gap-3">
-              <BannerPlaceholder width="half" height="medium" />
-              <BannerPlaceholder width="half" height="medium" />
-              <BannerPlaceholder width="half" height="medium" />
-              <BannerPlaceholder width="half" height="medium" />
-              <BannerPlaceholder width="half" height="medium" />
-              <BannerPlaceholder width="half" height="medium" />
-            </div>
-          </div>
-        </div>
-
-        {/* Middle Ad Banners */}
-        <section className="mb-8">
-          <div className="grid grid-cols-1 gap-4">
-            <a href="" rel="nofollow" className="col-span-full">
-              <img alt="banner" src="https://landings-cdn.adsterratech.com/referralBanners/gif/720x90_adsterra_reff.gif" className="w-full h-auto rounded-lg" />
-            </a>
           </div>
         </section>
 
@@ -262,13 +216,6 @@ export default async function Home({
           )}
         </section>
 
-        {/* Bottom Ad Banners */}
-        <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-4">
-          <BannerPlaceholder width="half" height="medium" />
-          <BannerPlaceholder width="half" height="medium" />
-          <BannerPlaceholder width="half" height="medium" />
-          <BannerPlaceholder width="half" height="medium" />
-        </div>
       </div>
     </main>
   )

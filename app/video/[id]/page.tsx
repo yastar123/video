@@ -154,11 +154,6 @@ export default async function VideoDetail({ params }: { params: Promise<{ id: st
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 sm:py-6">
           {/* H1 + Primary Keywords */}
           <header className="mb-3 sm:mb-5">
-            {/* Ad Placeholder */}
-            <div className="mb-4">
-              <BannerPlaceholder width="full" height="medium" text="Banner 728x90" />
-            </div>
-            
             <h1 className="text-lg sm:text-xl md:text-2xl font-bold mb-2 text-balance leading-tight">
               Nonton <span className="text-primary">{video.title}</span> 
             </h1>
@@ -173,9 +168,6 @@ export default async function VideoDetail({ params }: { params: Promise<{ id: st
                 <Clock size={9} className="inline mr-1 sm:size-2.5" />
                 {formatDuration(video.duration || 0)}
               </div>
-            </div>
-            <div className="mt-4 flex justify-center">
-              <div id="container-586a60b68a94327ff3f7f814e59c6837"></div>
             </div>
           </section>
 
@@ -229,16 +221,8 @@ export default async function VideoDetail({ params }: { params: Promise<{ id: st
           </section>
 
           <section className="relative">
-            {/* Ad Placeholder */}
-            <div className="mb-6">
-              <BannerPlaceholder width="full" height="medium" text="Banner 728x90" />
-            </div>
-            
             <h2 className="text-lg sm:text-xl font-bold mb-3 sm:mb-5">Related Videos</h2>
             <RandomVideos />
-            <div className="mt-6 flex justify-center">
-              <div id="container-586a60b68a94327ff3f7f814e59c6837"></div>
-            </div>
           </section>
         </div>
       </main>
