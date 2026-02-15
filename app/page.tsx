@@ -84,7 +84,7 @@ export default async function Home({
               <div className="w-8 h-8 overflow-hidden rounded-lg flex items-center justify-center group-hover:scale-105 transition-transform duration-200">
                 <img src="/assets/logo.jpg" alt="BokepIndonesia Logo" className="w-full h-full object-cover" />
               </div>
-              <span className="text-xl font-bold tracking-tight text-white">StreamFlix</span>
+              <span className="text-xl font-bold tracking-tight text-white">a98h3g4</span>
             </Link>
             <nav className="hidden md:flex gap-8 text-sm font-medium text-gray-400">
               <Link href="/" className="hover:text-white transition-colors">Home</Link>
