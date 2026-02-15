@@ -1,4 +1,4 @@
-modules = ["nodejs-20", "web", "postgresql-16"]
+modules = ["nodejs-20", "web"]
 [agent]
 expertMode = true
 integrations = ["javascript_object_storage:2.0.0"]
@@ -40,8 +40,8 @@ externalPort = 80
 
 [deployment]
 deploymentTarget = "autoscale"
-run = ["npm", "run", "start"]
 build = ["npm", "run", "build"]
+run = ["npm", "run", "start"]
 
 [userenv]
 
