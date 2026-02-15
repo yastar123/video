@@ -151,17 +151,17 @@ export default async function VideoDetail({ params }: { params: Promise<{ id: st
           </div>
         </header>
 
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 sm:py-6">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-3 sm:py-6">
           {/* H1 + Primary Keywords */}
           <header className="mb-3 sm:mb-5">
-            <h1 className="text-lg sm:text-xl md:text-2xl font-bold mb-2 text-balance leading-tight">
+            <h1 className="text-lg sm:text-xl md:text-2xl font-bold mb-2 text-balance leading-tight text-center">
               Nonton <span className="text-primary">{video.title}</span> 
             </h1>
           </header>
 
           {/* Video Player - Above the fold */}
           <section className="mb-5 sm:mb-8">
-            <div className="relative w-full bg-black rounded-lg sm:rounded-xl overflow-hidden border sm:border border-border/50 shadow-2xl min-h-[180px] sm:min-h-[350px] md:min-h-[450px]">
+            <div className="relative w-full aspect-video bg-black rounded-lg sm:rounded-xl overflow-hidden border sm:border border-border/50 shadow-2xl">
               <VideoPlayerWrapper url={video.url} thumbnail={video.thumbnail} />
               {/* Duration badge */}
               <div className="absolute top-2 right-2 sm:top-3 sm:right-3 bg-black/80 text-white px-2 py-0.5 sm:px-2.5 sm:py-0.5 rounded-full text-[9px] sm:text-[10px] font-medium z-10">
