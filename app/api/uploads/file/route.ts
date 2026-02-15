@@ -66,6 +66,7 @@ export async function PUT(request: NextRequest) {
     const absolutePath = path.join(process.cwd(), 'public', 'uploads', fileName)
     await mkdir(path.dirname(absolutePath), { recursive: true })
 
+    console.log('Uploading file to:', absolutePath)
     const bytes = await request.arrayBuffer()
     const buffer = Buffer.from(bytes)
     await writeFile(absolutePath, buffer)

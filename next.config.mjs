@@ -25,6 +25,14 @@ const nextConfig = {
     ],
   },
   allowedDevOrigins: ['*'],
+  async rewrites() {
+    return [
+      {
+        source: '/uploads/:path*',
+        destination: '/api/uploads/serve?path=:path*',
+      },
+    ]
+  },
 }
 
 export default nextConfig

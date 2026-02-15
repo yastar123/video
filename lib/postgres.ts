@@ -14,6 +14,9 @@ export function getPool(): Pool {
     
     pool = new Pool({
       connectionString,
+      ssl: {
+        rejectUnauthorized: false
+      }
     })
   }
   return pool
