@@ -47,7 +47,7 @@ export function VideoForm({
   const [formData, setFormData] = useState({
     title: video?.title || '',
     thumbnail: video?.thumbnail || '',
-    category: video?.category || '',
+    category_ids: video?.category_ids || [],
     url: video?.url || '',
   })
   const [newCategory, setNewCategory] = useState('')
@@ -69,6 +69,17 @@ export function VideoForm({
       ...prev,
       [name]: value,
     }))
+  }
+
+  const handleCategoryToggle = (categoryId: number) => {
+    setFormData(prev => {
+      const currentIds = prev.category_ids
+      if (currentIds.includes(categoryId)) {
+        return { ...prev, category_ids: currentIds.filter(id => id !== categoryId) }
+      } else {
+        return { ...prev, category_ids: [...currentIds, categoryId] }
+      }
+    })
   }
 
   const handleAddCategory = async () => {
@@ -195,31 +206,58 @@ export function VideoForm({
           </div>
 
           <div>
-            <label className="block text-sm font-medium mb-1">
-              Category *
+            <label className="block text-sm font-medium mb-2">
+              Categories *
             </label>
-            <div className="flex gap-2">
-              <select
-                name="category"
-                value={formData.category}
-                onChange={handleChange}
-                required
-                className="flex-1 px-3 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary bg-background"
-              >
-                <option value="">Select a category</option>
+            <div className="space-y-3">
+              <div className="flex flex-wrap gap-2 p-3 border border-border rounded-lg bg-background min-h-[42px]">
+                {formData.category_ids.length === 0 ? (
+                  <span className="text-muted-foreground text-sm">Select one or more categories</span>
+                ) : (
+                  formData.category_ids.map(id => {
+                    const cat = categories.find(c => c.id === id)
+                    return (
+                      <span key={id} className="inline-flex items-center gap-1 px-2 py-1 bg-primary text-primary-foreground rounded text-xs font-medium">
+                        {cat?.name}
+                        <button 
+                          type="button" 
+                          onClick={() => handleCategoryToggle(id)}
+                          className="hover:text-primary-foreground/80"
+                        >
+                          <X size={12} />
+                        </button>
+                      </span>
+                    )
+                  })
+                )}
+              </div>
+              
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
                 {categories.map((cat) => (
-                  <option key={cat.id} value={cat.name}>
+                  <button
+                    key={cat.id}
+                    type="button"
+                    onClick={() => handleCategoryToggle(cat.id)}
+                    className={`text-left px-3 py-2 rounded-md border text-sm transition-colors ${
+                      formData.category_ids.includes(cat.id)
+                        ? 'bg-primary/10 border-primary text-primary font-medium'
+                        : 'border-border hover:bg-muted text-muted-foreground'
+                    }`}
+                  >
                     {cat.name}
-                  </option>
+                  </button>
                 ))}
-              </select>
-              <button
-                type="button"
-                onClick={() => setIsAddingCategory(!isAddingCategory)}
-                className="px-3 py-2 border border-border rounded-lg hover:bg-muted transition-colors text-sm font-medium"
-              >
-                {isAddingCategory ? 'Cancel' : 'New'}
-              </button>
+              </div>
+
+              <div className="flex justify-between items-center">
+                <button
+                  type="button"
+                  onClick={() => setIsAddingCategory(!isAddingCategory)}
+                  className="text-sm text-primary hover:underline font-medium"
+                >
+                  {isAddingCategory ? 'Cancel' : '+ Add New Category'}
+                </button>
+              </div>
             </div>
             
             {isAddingCategory && (

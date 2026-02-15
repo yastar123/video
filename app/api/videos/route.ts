@@ -11,9 +11,9 @@ export async function GET(request: NextRequest) {
 
   try {
     let sql = `
-      SELECT v.*, c.name as category 
+      SELECT v.*, 
+             ARRAY(SELECT c.name FROM categories c JOIN video_categories vc ON c.id = vc.category_id WHERE vc.video_id = v.id) as categories
       FROM videos v 
-      LEFT JOIN categories c ON v.category_id = c.id 
       WHERE 1=1
     `
     const params: any[] = []
@@ -25,7 +25,7 @@ export async function GET(request: NextRequest) {
 
     if (category) {
       params.push(category)
-      sql += ` AND c.name = $${params.length}`
+      sql += ` AND EXISTS (SELECT 1 FROM video_categories vc JOIN categories c ON vc.category_id = c.id WHERE vc.video_id = v.id AND c.name = $${params.length})`
     }
 
     // Sorting
@@ -55,8 +55,9 @@ export async function GET(request: NextRequest) {
     const countSql = `
       SELECT COUNT(*) 
       FROM videos v 
-      LEFT JOIN categories c ON v.category_id = c.id 
-      WHERE 1=1 ${search ? ` AND (LOWER(v.title) LIKE $1 OR LOWER(v.description) LIKE $1)` : ''} ${category ? ` AND c.name = $${search ? '2' : '1'}` : ''}
+      WHERE 1=1 
+      ${search ? ` AND (LOWER(v.title) LIKE $1 OR LOWER(v.description) LIKE $1)` : ''} 
+      ${category ? ` AND EXISTS (SELECT 1 FROM video_categories vc JOIN categories c ON vc.category_id = c.id WHERE vc.video_id = v.id AND c.name = $${search ? '2' : '1'})` : ''}
     `
     const countParams = []
     if (search) countParams.push(`%${search}%`)

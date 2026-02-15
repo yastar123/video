@@ -34,6 +34,13 @@ CREATE TABLE IF NOT EXISTS videos (
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+-- Video Categories join table
+CREATE TABLE IF NOT EXISTS video_categories (
+  video_id INTEGER REFERENCES videos(id) ON DELETE CASCADE,
+  category_id INTEGER REFERENCES categories(id) ON DELETE CASCADE,
+  PRIMARY KEY (video_id, category_id)
+);
+
 -- Banners table
 CREATE TABLE IF NOT EXISTS banners (
   id SERIAL PRIMARY KEY,

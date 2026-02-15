@@ -23,7 +23,12 @@ async function getCategories() {
 async function getVideos(search?: string, category?: string, page: number = 1, sort: string = 'newest') {
   const limit = 8
   const offset = (page - 1) * limit
-  let sql = 'SELECT v.*, c.name as category_name FROM videos v LEFT JOIN categories c ON v.category_id = c.id WHERE 1=1'
+  let sql = `
+    SELECT v.*, 
+    ARRAY(SELECT c.name FROM categories c JOIN video_categories vc ON c.id = vc.category_id WHERE vc.video_id = v.id) as categories 
+    FROM videos v 
+    WHERE 1=1
+  `
   const params: any[] = []
 
   if (search) {
@@ -33,7 +38,7 @@ async function getVideos(search?: string, category?: string, page: number = 1, s
 
   if (category) {
     params.push(category)
-    sql += ` AND c.name = $${params.length}`
+    sql += ` AND EXISTS (SELECT 1 FROM video_categories vc JOIN categories c ON vc.category_id = c.id WHERE vc.video_id = v.id AND c.name = $${params.length})`
   }
 
   let orderBy = 'v.created_at DESC'

@@ -172,7 +172,14 @@ export default function VideosPage() {
                         </div>
                       </td>
                       <td className="px-6 py-4">
-                        <span className="px-2 py-1 bg-muted rounded text-sm">{video.category}</span>
+                        <div className="flex flex-wrap gap-1">
+                          {video.categories && video.categories.map((cat, i) => (
+                            <span key={i} className="px-2 py-0.5 bg-muted rounded text-xs">{cat}</span>
+                          ))}
+                          {!video.categories && video.category && (
+                            <span className="px-2 py-0.5 bg-muted rounded text-xs">{video.category}</span>
+                          )}
+                        </div>
                       </td>
                       <td className="px-6 py-4 text-sm">
                         <div className="flex items-center gap-1">

@@ -9,7 +9,10 @@ export async function GET(request: NextRequest) {
     const offset = (page - 1) * limit
 
     const { rows: videos } = await query(
-      'SELECT v.*, c.name as category FROM videos v LEFT JOIN categories c ON v.category_id = c.id ORDER BY v.created_at DESC LIMIT $1 OFFSET $2',
+      `SELECT v.*, 
+       ARRAY(SELECT c.name FROM categories c JOIN video_categories vc ON c.id = vc.category_id WHERE vc.video_id = v.id) as categories,
+       ARRAY(SELECT c.id FROM categories c JOIN video_categories vc ON c.id = vc.category_id WHERE vc.video_id = v.id) as category_ids
+       FROM videos v ORDER BY v.created_at DESC LIMIT $1 OFFSET $2`,
       [limit, offset]
     )
     
@@ -34,9 +37,9 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
-    const { title, description, thumbnail, category, url } = body
+    const { title, description, thumbnail, category_ids, url } = body
 
-    if (!title || !category) {
+    if (!title || !category_ids || !Array.isArray(category_ids) || category_ids.length === 0) {
       return NextResponse.json({ error: 'Missing required fields' }, { status: 400 })
     }
 
@@ -44,16 +47,19 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Base64 data URLs are not allowed. Please upload the image file first.' }, { status: 400 })
     }
 
-    // Find category ID
-    const catRes = await query('SELECT id FROM categories WHERE name = $1', [category])
-    const categoryId = catRes.rows[0]?.id
-
     const { rows } = await query(
-      'INSERT INTO videos (title, description, thumbnail, category_id, url) VALUES ($1, $2, $3, $4, $5) RETURNING *',
-      [title, description || '', thumbnail || '', categoryId, url || '']
+      'INSERT INTO videos (title, description, thumbnail, url) VALUES ($1, $2, $3, $4) RETURNING *',
+      [title, description || '', thumbnail || '', url || '']
     )
+    
+    const videoId = rows[0].id
+    
+    // Insert categories
+    for (const catId of category_ids) {
+      await query('INSERT INTO video_categories (video_id, category_id) VALUES ($1, $2)', [videoId, catId])
+    }
 
-    return NextResponse.json({ ...rows[0], category }, { status: 201 })
+    return NextResponse.json(rows[0], { status: 201 })
   } catch (error) {
     console.error('Database error:', error)
     return NextResponse.json({ error: 'Failed to create video' }, { status: 500 })
@@ -63,7 +69,7 @@ export async function POST(request: NextRequest) {
 export async function PUT(request: NextRequest) {
   try {
     const body = await request.json()
-    const { id, title, description, thumbnail, category, url } = body
+    const { id, title, description, thumbnail, category_ids, url } = body
 
     if (!id) {
       return NextResponse.json({ error: 'ID is required' }, { status: 400 })
@@ -73,20 +79,24 @@ export async function PUT(request: NextRequest) {
       return NextResponse.json({ error: 'Base64 data URLs are not allowed. Please upload the image file first.' }, { status: 400 })
     }
 
-    // Find category ID
-    const catRes = await query('SELECT id FROM categories WHERE name = $1', [category])
-    const categoryId = catRes.rows[0]?.id
-
     const { rows } = await query(
-      'UPDATE videos SET title = $1, description = $2, thumbnail = $3, category_id = $4, url = $5, updated_at = NOW() WHERE id = $6 RETURNING *',
-      [title, description || '', thumbnail || '', categoryId, url || '', id]
+      'UPDATE videos SET title = $1, description = $2, thumbnail = $3, url = $4, updated_at = NOW() WHERE id = $5 RETURNING *',
+      [title, description || '', thumbnail || '', url || '', id]
     )
 
     if (rows.length === 0) {
       return NextResponse.json({ error: 'Video not found' }, { status: 404 })
     }
+    
+    // Update categories
+    await query('DELETE FROM video_categories WHERE video_id = $1', [id])
+    if (category_ids && Array.isArray(category_ids)) {
+      for (const catId of category_ids) {
+        await query('INSERT INTO video_categories (video_id, category_id) VALUES ($1, $2)', [id, catId])
+      }
+    }
 
-    return NextResponse.json({ ...rows[0], category })
+    return NextResponse.json(rows[0])
   } catch (error) {
     console.error('Database error:', error)
     return NextResponse.json({ error: 'Failed to update video' }, { status: 500 })

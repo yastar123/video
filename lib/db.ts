@@ -6,8 +6,10 @@ export interface Video {
   title: string
   description: string
   thumbnail: string
-  category_id: number
+  category_id?: number
   category?: string
+  category_ids?: number[]
+  categories?: string[]
   duration: number
   views: number
   rating: number
