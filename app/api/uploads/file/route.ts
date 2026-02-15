@@ -25,6 +25,7 @@ export async function POST(request: NextRequest) {
     const relativePath = `/uploads/${fileName}`
     const absolutePath = path.join(process.cwd(), 'public', 'uploads', fileName)
 
+    console.log('Uploading file to:', absolutePath)
     await mkdir(path.dirname(absolutePath), { recursive: true })
 
     const bytes = await file.arrayBuffer()
