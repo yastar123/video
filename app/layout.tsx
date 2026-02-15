@@ -14,20 +14,20 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: 'Ruang Malam - Nonton Video Online Terlengkap',
-  description: 'Nonton bokep Indonesia, Jepang, China terlengkap dan terbaru hanya di Ruang Malam. Streaming video kualitas HD tanpa VPN.',
-  keywords: 'ruang malam, nonton video, bokep indonesia, bokep jepang, bokep china, streaming video terbaru',
-  authors: [{ name: 'Ruang Malam', url: 'https://video.seyiki.com' }],
-  publisher: 'Ruang Malam',
+  title: 'BokepIndonesia - Nonton Video Online Terlengkap',
+  description: 'Nonton bokep Indonesia, Jepang, China terlengkap dan terbaru hanya di BokepIndonesia. Streaming video kualitas HD tanpa VPN.',
+  keywords: 'bokepindonesia, nonton video, bokep indonesia, bokep jepang, bokep china, streaming video terbaru',
+  authors: [{ name: 'BokepIndonesia', url: 'https://video.seyiki.com' }],
+  publisher: 'BokepIndonesia',
   metadataBase: new URL('https://video.seyiki.com'),
   alternates: {
     canonical: '/',
   },
   openGraph: {
-    title: 'Ruang Malam - Nonton Video Online Terlengkap',
-    description: 'Nonton bokep Indonesia, Jepang, China terlengkap dan terbaru hanya di Ruang Malam. Streaming video kualitas HD tanpa VPN.',
+    title: 'BokepIndonesia - Nonton Video Online Terlengkap',
+    description: 'Nonton bokep Indonesia, Jepang, China terlengkap dan terbaru hanya di BokepIndonesia. Streaming video kualitas HD tanpa VPN.',
     url: 'https://video.seyiki.com',
-    siteName: 'Ruang Malam',
+    siteName: 'BokepIndonesia',
     locale: 'id_ID',
     type: 'website',
     images: [
@@ -35,14 +35,14 @@ export const metadata: Metadata = {
         url: '/assets/logo.jpg',
         width: 1200,
         height: 630,
-        alt: 'Ruang Malam - Nonton Video Online Terlengkap',
+        alt: 'BokepIndonesia - Nonton Video Online Terlengkap',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Ruang Malam - Nonton Video Online Terlengkap',
-    description: 'Nonton bokep Indonesia, Jepang, China terlengkap dan terbaru hanya di Ruang Malam. Streaming video kualitas HD tanpa VPN.',
+    title: 'BokepIndonesia - Nonton Video Online Terlengkap',
+    description: 'Nonton bokep Indonesia, Jepang, China terlengkap dan terbaru hanya di BokepIndonesia. Streaming video kualitas HD tanpa VPN.',
     images: ['/assets/logo.jpg'],
   },
   robots: {
@@ -69,10 +69,10 @@ export const metadata: Metadata = {
 const jsonLd = {
   '@context': 'https://schema.org',
   '@type': 'Organization',
-  name: 'Ruang Malam',
+  name: 'BokepIndonesia',
   url: 'https://video.seyiki.com',
   logo: 'https://video.seyiki.com/assets/logo.jpg',
-  description: 'Nonton bokep Indonesia, Jepang, China terlengkap dan terbaru hanya di Ruang Malam. Streaming video kualitas HD tanpa VPN.',
+  description: 'Nonton bokep Indonesia, Jepang, China terlengkap dan terbaru hanya di BokepIndonesia. Streaming video kualitas HD tanpa VPN.',
   sameAs: [],
 }
 

@@ -82,7 +82,7 @@ export default async function Home({
           <div className="flex items-center gap-4 sm:gap-10">
             <Link href="/" className="flex items-center gap-2 group">
               <div className="w-8 h-8 overflow-hidden rounded-lg flex items-center justify-center group-hover:scale-105 transition-transform duration-200">
-                <img src="/assets/logo.jpg" alt="Ruang Malam Logo" className="w-full h-full object-cover" />
+                <img src="/assets/logo.jpg" alt="BokepIndonesia Logo" className="w-full h-full object-cover" />
               </div>
               <span className="text-xl font-bold tracking-tight text-white">StreamFlix</span>
             </Link>
@@ -126,7 +126,7 @@ export default async function Home({
 
       {/* Main Content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-        <h1 className="sr-only">Ruang Malam - Nonton Video Online Terlengkap</h1>
+        <h1 className="sr-only">BokepIndonesia - Nonton Video Online Terlengkap</h1>
         
         {/* Hero Section with side-by-side Announcements */}
         <section className="mb-8">

@@ -47,7 +47,7 @@ export default function LoginPage() {
       <div className="w-full max-w-md">
         <div className="bg-card rounded-lg border border-border shadow-lg p-8">
           <div className="text-center mb-8">
-            <h1 className="text-3xl font-bold mb-2">Ruang Malam</h1>
+            <h1 className="text-3xl font-bold mb-2">BokepIndonesia</h1>
             <p className="text-muted-foreground">Sign in to access VIP content</p>
           </div>
 
