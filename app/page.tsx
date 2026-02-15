@@ -110,35 +110,8 @@ export default async function Home({
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
         <h1 className="sr-only">BokepIndonesia - Nonton Video Online Terlengkap</h1>
         
-        {/* Hero Section with side-by-side Announcements */}
         <section className="mb-8">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            <div className="lg:col-span-2">
-              <HeroBanner />
-            </div>
-            <div className="bg-[#1a1a1a] rounded-2xl p-6 border border-white/5 flex flex-col">
-              <div className="flex items-center justify-between mb-6">
-                <h3 className="text-xl font-bold">Pengumuman</h3>
-                <Link href="/pengumuman" className="text-sm text-gray-400 hover:text-white transition-colors">Semua</Link>
-              </div>
-              <div className="space-y-4 flex-1">
-                {[
-                  { title: "Premium Sekarang Cuma 12500!!!", date: "16 November 2025" },
-                  { title: "Pengumuman Rekrutmen Pengembangan Aplikasi", date: "03 August 2025" }
-                ].map((item, idx) => (
-                  <div key={idx} className="flex gap-4 group cursor-pointer hover:bg-white/5 p-2 rounded-xl transition-colors">
-                    <div className="w-16 h-16 bg-[#2a2a2a] rounded-lg overflow-hidden flex-shrink-0">
-                      <img src="/assets/logo.jpg" className="w-full h-full object-cover opacity-50" />
-                    </div>
-                    <div className="flex flex-col justify-center">
-                      <h4 className="text-sm font-medium line-clamp-2 leading-tight group-hover:text-primary transition-colors">{item.title}</h4>
-                      <p className="text-[10px] text-gray-500 mt-1">{item.date}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
+          <HeroBanner />
         </section>
 
         {/* Search and Filter Section */}
