@@ -1,8 +1,7 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import videojs from 'video.js'
-import 'video.js/dist/video-js.css'
 import 'video.js/dist/video-js.css'
 
 interface VideoPlayerProps {
@@ -13,6 +12,8 @@ interface VideoPlayerProps {
 export default function VideoPlayer({ url, thumbnail }: VideoPlayerProps) {
   const videoRef = useRef<HTMLDivElement>(null)
   const playerRef = useRef<any>(null)
+  const [videoError, setVideoError] = useState<string | null>(null)
+  const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
     // Make sure Video.js player is only initialized once
@@ -27,17 +28,21 @@ export default function VideoPlayer({ url, thumbnail }: VideoPlayerProps) {
       
       // Convert HLS to direct video file
       if (url.includes('.m3u8')) {
-        // Extract base filename and try different video formats
-        const baseFilename = url.replace(/\.m3u8$/, '')
-        console.log('Converting HLS to direct video:', url, '->', baseFilename)
+        // Keep HLS format for proper HLS playback
+        videoType = 'application/x-mpegURL'
+        console.log('Using HLS format:', url)
         
-        // Try to find the actual video file
+        // Extract base filename and try different video formats as fallback
+        const baseFilename = url.replace(/\.m3u8$/, '')
+        console.log('HLS base filename:', baseFilename)
+        
+        // Try to find the actual video file for fallback
         const checkVideoFile = async (format: string) => {
           const testUrl = `${baseFilename}${format}`
           try {
             const response = await fetch(testUrl, { method: 'HEAD' })
             if (response.ok) {
-              console.log('Found working video file:', testUrl)
+              console.log('Found working video file for fallback:', testUrl)
               return testUrl
             }
           } catch (error) {
@@ -46,32 +51,20 @@ export default function VideoPlayer({ url, thumbnail }: VideoPlayerProps) {
           return null
         }
         
-        // Try formats in order
-        const formats = ['.mp4', '.webm', '.ogg', '.mov']
-        
-        // Check for video file asynchronously
+        // Check for video file asynchronously as fallback
         ;(async () => {
+          const formats = ['.mp4', '.webm', '.ogg', '.mov']
+          
           for (const format of formats) {
             const foundUrl = await checkVideoFile(format)
             if (foundUrl) {
-              videoUrl = foundUrl
-              videoType = format === '.webm' ? 'video/webm' : format === '.ogg' ? 'video/ogg' : format === '.mov' ? 'video/quicktime' : 'video/mp4'
-              
-              // Update player source
-              if (playerRef.current) {
-                playerRef.current.src({
-                  src: videoUrl,
-                  type: videoType
-                })
-              }
+              console.log('Switching to fallback format:', format)
+              // Don't switch immediately, let HLS try first
+              // Only switch if HLS fails
               break
             }
           }
         })()
-        
-        // Default to MP4 format
-        videoUrl = `${baseFilename}.mp4`
-        videoType = 'video/mp4'
       } else if (url.includes('.mpd')) {
         videoType = 'application/dash+xml'
       } else if (url.includes('.webm')) {
@@ -108,13 +101,16 @@ export default function VideoPlayer({ url, thumbnail }: VideoPlayerProps) {
           ]
         },
         html5: {
-          // Disable HLS completely
+          // Enable HLS support
           vhs: {
-            overrideNative: false
+            overrideNative: true,
+            enableLowInitialBitrate: true,
+            experimentalBufferBasedABR: true,
+            experimentalLLHLS: true
           },
-          nativeVideoTracks: true,
-          nativeAudioTracks: true,
-          nativeTextTracks: true
+          nativeVideoTracks: false,
+          nativeAudioTracks: false,
+          nativeTextTracks: false
         },
         sources: [{
           src: videoUrl,
@@ -122,17 +118,21 @@ export default function VideoPlayer({ url, thumbnail }: VideoPlayerProps) {
         }]
       }, () => {
         console.log('player is ready with URL:', videoUrl)
+        setIsLoading(false)
       })
 
       // Handle player errors
       player.on('error', (error: any) => {
         console.error('Video.js error:', error)
         
-        // Try different video formats if current fails
-        if (error.code === 4) {
-          const baseFilename = url.replace(/\.(m3u8|mp4|webm|ogg|mov)$/, '')
+        // If HLS fails, try to fallback to direct video file
+        if (error.code === 4 && url.includes('.m3u8')) {
+          console.log('HLS failed, trying to find direct video file...')
+          
+          const baseFilename = url.replace(/\.m3u8$/, '')
           const formats = ['.mp4', '.webm', '.ogg', '.mov']
           
+          // Try different video formats
           formats.forEach(format => {
             const testUrl = `${baseFilename}${format}`
             console.log('Trying fallback format:', testUrl)
@@ -141,6 +141,7 @@ export default function VideoPlayer({ url, thumbnail }: VideoPlayerProps) {
               .then(response => {
                 if (response.ok) {
                   console.log('Found working format:', format)
+                  setVideoError(null)
                   player.src({
                     src: testUrl,
                     type: format === '.webm' ? 'video/webm' : format === '.ogg' ? 'video/ogg' : format === '.mov' ? 'video/quicktime' : 'video/mp4'
@@ -151,18 +152,27 @@ export default function VideoPlayer({ url, thumbnail }: VideoPlayerProps) {
                 // Try next format
               })
           })
+          
+          // If no format works, show error
+          setTimeout(() => {
+            if (videoError === null) {
+              setVideoError('Unable to load video. The video file may not be available.')
+            }
+          }, 3000)
+        } else {
+          setVideoError('Unable to load video. The video file may not be available.')
         }
       })
     } else if (playerRef.current) {
       const player = playerRef.current
       
-      // Force direct video playback
+      // Handle different video formats
       let videoUrl = url
       let videoType = 'video/mp4'
       
       if (url.includes('.m3u8')) {
-        videoUrl = url.replace(/\.m3u8$/, '.mp4')
-        videoType = 'video/mp4'
+        videoType = 'application/x-mpegURL'
+        console.log('Using HLS format for existing player:', url)
       } else if (url.includes('.mpd')) {
         videoType = 'application/dash+xml'
       } else if (url.includes('.webm')) {
@@ -192,40 +202,31 @@ export default function VideoPlayer({ url, thumbnail }: VideoPlayerProps) {
     }
   }, [playerRef])
 
-  const isEmbed = url.includes('youtube.com') || url.includes('youtu.be') || url.includes('vimeo.com')
-
-  if (isEmbed) {
-    let embedUrl = url
-    if (url.includes('youtube.com/watch?v=')) {
-      embedUrl = url.replace('watch?v=', 'embed/')
-    } else if (url.includes('youtu.be/')) {
-      embedUrl = url.replace('youtu.be/', 'youtube.com/embed/')
-    }
-
-    return (
-      <div className="aspect-video w-full">
-        <iframe
-          src={embedUrl}
-          className="w-full h-full"
-          allowFullScreen
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-        />
-      </div>
-    )
-  }
-
   return (
-    <div className="w-full h-full bg-black flex items-center justify-center">
-      {!url ? (
-        <div className="flex items-center justify-center h-full text-center">
-          <div>
-            <div className="mb-4 text-6xl opacity-20 text-white">▶</div>
-            <p className="text-muted-foreground">Video URL not provided</p>
+    <div className="relative w-full">
+      <div ref={videoRef} className="w-full" />
+      
+      {/* Loading State */}
+      {isLoading && (
+        <div className="absolute inset-0 flex items-center justify-center bg-black/50">
+          <div className="text-white text-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white mx-auto mb-4"></div>
+            <p>Loading video...</p>
           </div>
         </div>
-      ) : (
-        <div data-vjs-player className="w-full h-full">
-          <div ref={videoRef} className="w-full h-full" />
+      )}
+      
+      {/* Error State */}
+      {videoError && (
+        <div className="absolute inset-0 flex items-center justify-center bg-black/50">
+          <div className="text-white text-center p-6">
+            <div className="text-red-500 text-6xl mb-4">⚠️</div>
+            <h3 className="text-xl font-bold mb-2">Video Not Available</h3>
+            <p className="text-gray-300 mb-4">{videoError}</p>
+            <p className="text-sm text-gray-400">
+              Video ID: {url.split('/').pop()?.split('.')[0]}
+            </p>
+          </div>
         </div>
       )}
     </div>
