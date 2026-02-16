@@ -24,7 +24,7 @@ const nextConfig = {
       },
     ],
   },
-  allowedDevOrigins: ['*'],
+  allowedDevOrigins: ['https://63bdad56-18db-495f-b370-abff3119540f-00-39pflaohfh1vf.worf.replit.dev', 'http://63bdad56-18db-495f-b370-abff3119540f-00-39pflaohfh1vf.worf.replit.dev', 'https://*.replit.dev'],
   async rewrites() {
     return [
       {
