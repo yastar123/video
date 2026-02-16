@@ -192,13 +192,13 @@ export default async function VideoDetail({ params }: { params: Promise<{ id: st
             {/* Native Banner Ad */}
             <div className="mb-8 w-full overflow-hidden flex justify-center">
               <AdScript adKey="c08de902b7930682919199d915646b97" format="js" />
+              <AdScript adKey="c08de902b7930682919199d915646b97" format="js" />
+              <AdScript adKey="c08de902b7930682919199d915646b97" format="js" />
             </div>
 
             {/* Middle Ads */}
             <div className="mb-8 flex flex-col items-center gap-6 w-full overflow-hidden">
               <div className="w-full overflow-hidden flex justify-center">
-                <AdScript adKey="1ad6f564f3ca7bb42752dba86368d149" format="iframe" height={250} width={300} />
-                <AdScript adKey="1ad6f564f3ca7bb42752dba86368d149" format="iframe" height={250} width={300} />
                 <AdScript adKey="1ad6f564f3ca7bb42752dba86368d149" format="iframe" height={250} width={300} />
               </div>
               <div className="w-full overflow-hidden flex justify-center">
