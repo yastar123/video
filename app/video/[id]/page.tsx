@@ -156,7 +156,7 @@ export default async function VideoDetail({ params }: { params: Promise<{ id: st
           </div>
 
           {/* Video Player - Full Width Container */}
-          <section className="w-full h-[1500px] bg-black border-y border-border/50 shadow-2xl overflow-hidden mb-6">
+          <section className="w-full h-[800px] lg:h-[1700px] bg-black border-y border-border/50 shadow-2xl overflow-hidden mb-6">
             <div className="max-w-7xl mx-auto">
               <div className="relative w-full aspect-video">
                 <VideoPlayerWrapper url={video.url} thumbnail={video.thumbnail} />
