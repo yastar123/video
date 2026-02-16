@@ -118,122 +118,121 @@ export default async function Home({
       {/* Main Content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
         <div className="flex flex-col lg:flex-row gap-8">
-          <div className="flex-1">
+          <div className="flex-1 min-w-0">
             <h1 className="sr-only">BokepIndonesia - Nonton Video Online Terlengkap</h1>
             
-            <div className="flex flex-col items-center gap-4 w-full overflow-hidden">
-              <div className="hidden md:block">
+            <div className="flex flex-col items-center gap-4 w-full overflow-hidden mb-6">
+              <div className="w-full overflow-hidden flex justify-center">
                 <AdScript adKey="5a8dd45e78414c6e5be9db9eaffed61f" format="iframe" height={90} width={728} />
               </div>
-              <div className="md:hidden">
-                 <AdScript adKey="1ad6f564f3ca7bb42752dba86368d149" format="iframe" height={250} width={300} />
+              <div className="w-full overflow-hidden flex justify-center">
+                <AdScript adKey="1ad6f564f3ca7bb42752dba86368d149" format="iframe" height={250} width={300} />
               </div>
             </div>
 
             {/* Smartlinks */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 sm:gap-4 mb-6 px-2 sm:px-0">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mb-8 w-full">
               <AdScript adKey="smartlink_1" format="link" url="https://www.effectivegatecpm.com/a1pm3et2?key=1bf6eae1539e20a7d049e4876bf00c55" />
               <AdScript adKey="smartlink_2" format="link" url="https://www.effectivegatecpm.com/k1nsznbwe6?key=4605260c8e2dff4fd591290d334f54c8" />
               <AdScript adKey="smartlink_3" format="link" url="https://www.effectivegatecpm.com/by96i9ee?key=a0e61301b91f693d8a1866f59dd1de66" />
             </div>
 
             {/* Search and Filter Section */}
-        <section className="mb-8">
-          <div className="flex items-center gap-2 border-b border-white/10 overflow-x-auto pb-px no-scrollbar">
-            <Link
-              href="/"
-              className={`px-5 py-3 text-sm font-medium transition-all relative ${
-                !selectedCategory
-                  ? 'text-white'
-                  : 'text-gray-400 hover:text-white'
-              }`}
-            >
-              All
-              {!selectedCategory && (
-                <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary rounded-full" />
-              )}
-            </Link>
-            {categories.map((cat: any) => (
-              <Link
-                key={cat.id}
-                href={`/?category=${encodeURIComponent(cat.name)}${search ? `&search=${encodeURIComponent(search)}` : ''}`}
-                className={`px-5 py-3 text-sm font-medium transition-all relative whitespace-nowrap ${
-                  selectedCategory === cat.name
-                    ? 'text-white'
-                    : 'text-gray-400 hover:text-white'
-                }`}
-              >
-                {cat.name}
-                {selectedCategory === cat.name && (
-                  <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary rounded-full" />
-                )}
-              </Link>
-            ))}
-          </div>
-        </section>
-
-        {/* Videos Grid */}
-        <section>
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
-            <div>
-              <h2 className="text-2xl font-bold tracking-tight mb-1">
-                {selectedCategory ? `${selectedCategory}` : 'Popular Now'}
-              </h2>
-              <p className="text-gray-400 text-sm">
-                {videos.length} videos
-              </p>
-            </div>
-            <div className="flex items-center gap-4">
-               <SortFilter currentSort={sort} />
-            </div>
-          </div>
-          
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-6 gap-y-10">
-            {videos.length > 0 ? (
-              videos.map((video: any, index: number) => (
+            <section className="mb-8 overflow-hidden">
+              <div className="flex items-center gap-2 border-b border-white/10 overflow-x-auto pb-px no-scrollbar">
                 <Link
-                  key={video.id}
-                  href={`/video/${video.id}`}
+                  href="/"
+                  className={`px-5 py-3 text-sm font-medium transition-all relative whitespace-nowrap ${
+                    !selectedCategory
+                      ? 'text-white'
+                      : 'text-gray-400 hover:text-white'
+                  }`}
                 >
-                  <VideoCard 
-                    video={video} 
-                    priority={index < 4}
-                  />
+                  All
+                  {!selectedCategory && (
+                    <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary rounded-full" />
+                  )}
                 </Link>
-              ))
-            ) : (
-              <div className="col-span-full py-20 text-center border border-dashed border-white/10 rounded-2xl">
-                <p className="text-gray-400">No results found.</p>
+                {categories.map((cat: any) => (
+                  <Link
+                    key={cat.id}
+                    href={`/?category=${encodeURIComponent(cat.name)}${search ? `&search=${encodeURIComponent(search)}` : ''}`}
+                    className={`px-5 py-3 text-sm font-medium transition-all relative whitespace-nowrap ${
+                      selectedCategory === cat.name
+                        ? 'text-white'
+                        : 'text-gray-400 hover:text-white'
+                    }`}
+                  >
+                    {cat.name}
+                    {selectedCategory === cat.name && (
+                      <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary rounded-full" />
+                    )}
+                  </Link>
+                ))}
               </div>
-            )}
+            </section>
+
+            {/* Videos Grid */}
+            <section>
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
+                <div>
+                  <h2 className="text-2xl font-bold tracking-tight mb-1">
+                    {selectedCategory ? `${selectedCategory}` : 'Popular Now'}
+                  </h2>
+                  <p className="text-gray-400 text-sm">
+                    {videos.length} videos
+                  </p>
+                </div>
+                <div className="flex items-center gap-4">
+                   <SortFilter currentSort={sort} />
+                </div>
+              </div>
+              
+              <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-4 gap-y-8 sm:gap-x-6 sm:gap-y-10">
+                {videos.length > 0 ? (
+                  videos.map((video: any, index: number) => (
+                    <Link
+                      key={video.id}
+                      href={`/video/${video.id}`}
+                    >
+                      <VideoCard 
+                        video={video} 
+                        priority={index < 4}
+                      />
+                    </Link>
+                  ))
+                ) : (
+                  <div className="col-span-full py-20 text-center border border-dashed border-white/10 rounded-2xl">
+                    <p className="text-gray-400">No results found.</p>
+                  </div>
+                )}
+              </div>
+              {videos.length > 0 && pagination.totalPages > 1 && (
+                <div className="mt-8">
+                  <Pagination
+                    currentPage={currentPage}
+                    totalPages={pagination.totalPages}
+                  />
+                </div>
+              )}
+              
+              <div className="mt-12 flex flex-col items-center gap-6 w-full overflow-hidden">
+                <div className="w-full overflow-hidden flex justify-center">
+                  <AdScript adKey="a8ea859722150189e57a87b6579578f3" format="iframe" height={60} width={468} />
+                </div>
+                <div className="w-full overflow-hidden flex justify-center">
+                  <AdScript adKey="c08de902b7930682919199d915646b97" format="js" />
+                </div>
+              </div>
+            </section>
           </div>
-          {videos.length > 0 && pagination.totalPages > 1 && (
-            <div className="mt-8">
-              <Pagination
-                currentPage={currentPage}
-                totalPages={pagination.totalPages}
-              />
-            </div>
-          )}
           
-          <div className="mt-12 flex flex-col items-center gap-6">
-            <AdScript adKey="a8ea859722150189e57a87b6579578f3" format="iframe" height={60} width={468} />
-            <div id="container-c08de902b7930682919199d915646b97"></div>
-            <AdScript adKey="c08de902b7930682919199d915646b97" format="js" />
-          </div>
-        </section>
-      </div>
-      
           <aside className="hidden xl:block w-[160px] flex-shrink-0 pt-20">
             <div className="sticky top-24 flex flex-col gap-8">
               <AdScript adKey="22bed31723f24472a78afb44a7addb6b" format="iframe" height={600} width={160} />
               <AdScript adKey="6e9a519272442fa242b5a43e53ddc7fd" format="iframe" height={300} width={160} />
             </div>
           </aside>
-          
-          <div className="xl:hidden w-full flex flex-col items-center gap-4 mb-8">
-             <AdScript adKey="1ad6f564f3ca7bb42752dba86368d149" format="iframe" height={250} width={300} />
-          </div>
         </div>
       </div>
     </main>

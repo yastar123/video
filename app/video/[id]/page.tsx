@@ -132,7 +132,7 @@ export default async function VideoDetail({ params }: { params: Promise<{ id: st
                     {video.category}
                   </Link>
                 </li>
-                <li className="text-foreground font-medium truncate max-w-[300px] sm:max-w-none">
+                <li className="text-foreground font-medium truncate max-w-[150px] sm:max-w-none">
                   {video.title}
                 </li>
               </ol>
@@ -140,7 +140,7 @@ export default async function VideoDetail({ params }: { params: Promise<{ id: st
           </div>
         </header>
 
-        <div className="w-full">
+        <div className="w-full overflow-hidden">
           {/* H1 + Primary Keywords */}
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
             <header className="mb-4">
@@ -151,32 +151,41 @@ export default async function VideoDetail({ params }: { params: Promise<{ id: st
           </div>
 
           {/* Ad Top */}
-          <div className="max-w-7xl mx-auto px-4 mb-4 flex flex-col items-center gap-4">
-             <AdScript adKey="5a8dd45e78414c6e5be9db9eaffed61f" format="iframe" height={90} width={728} />
-             <AdScript adKey="c08de902b7930682919199d915646b97" format="js" />
-             <AdScript adKey="smartlink_1" format="link" url="https://www.effectivegatecpm.com/a1pm3et2?key=1bf6eae1539e20a7d049e4876bf00c55" />
+          <div className="max-w-7xl mx-auto px-4 mb-4 flex flex-col items-center gap-4 w-full overflow-hidden">
+             <div className="w-full overflow-hidden flex justify-center">
+               <AdScript adKey="5a8dd45e78414c6e5be9db9eaffed61f" format="iframe" height={90} width={728} />
+             </div>
+             <div className="w-full overflow-hidden flex justify-center">
+               <AdScript adKey="c08de902b7930682919199d915646b97" format="js" />
+             </div>
+             <div className="w-full grid grid-cols-1 gap-2">
+               <AdScript adKey="smartlink_1" format="link" url="https://www.effectivegatecpm.com/a1pm3et2?key=1bf6eae1539e20a7d049e4876bf00c55" />
+             </div>
           </div>
 
-          {/* Video Player - Full Width Container */}
-          <section className="w-full h-[700px] lg:h-[2300px] bg-black border-y border-border/50 shadow-2xl overflow-hidden mb-6">
+          {/* Video Player - Responsive Container */}
+          <section className="w-full bg-black border-y border-border/50 shadow-2xl overflow-hidden mb-6">
             <div className="max-w-7xl mx-auto">
-              <div className="relative w-full aspect-video">
+              <div className="relative w-full aspect-video sm:h-auto h-[250px] sm:max-h-[700px]">
                 <VideoPlayerWrapper url={video.url} thumbnail={video.thumbnail} />
-                {/* Duration badge */}
               </div>
             </div>
           </section>
 
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
             {/* Native Banner Ad */}
-            <div className="mb-8">
+            <div className="mb-8 w-full overflow-hidden flex justify-center">
               <AdScript adKey="c08de902b7930682919199d915646b97" format="js" />
             </div>
 
             {/* Ad Middle */}
-            <div className="mb-8 flex flex-col items-center gap-6">
-              <AdScript adKey="1ad6f564f3ca7bb42752dba86368d149" format="iframe" height={250} width={300} />
-              <AdScript adKey="4388c91d89682a21f68164b288c042f9" format="js" />
+            <div className="mb-8 flex flex-col items-center gap-6 w-full overflow-hidden">
+              <div className="w-full overflow-hidden flex justify-center">
+                <AdScript adKey="1ad6f564f3ca7bb42752dba86368d149" format="iframe" height={250} width={300} />
+              </div>
+              <div className="w-full overflow-hidden flex justify-center">
+                <AdScript adKey="4388c91d89682a21f68164b288c042f9" format="js" />
+              </div>
               <AdScript adKey="smartlink_2" format="link" url="https://www.effectivegatecpm.com/k1nsznbwe6?key=4605260c8e2dff4fd591290d334f54c8" />
             </div>
 
@@ -235,9 +244,13 @@ export default async function VideoDetail({ params }: { params: Promise<{ id: st
             </section>
 
             {/* Ad Bottom */}
-            <div className="mb-12 flex flex-col items-center gap-6">
-              <AdScript adKey="a8ea859722150189e57a87b6579578f3" format="iframe" height={60} width={468} />
-              <AdScript adKey="4388c91d89682a21f68164b288c042f9" format="js" />
+            <div className="mb-12 flex flex-col items-center gap-6 w-full overflow-hidden">
+              <div className="w-full overflow-hidden flex justify-center">
+                <AdScript adKey="a8ea859722150189e57a87b6579578f3" format="iframe" height={60} width={468} />
+              </div>
+              <div className="w-full overflow-hidden flex justify-center">
+                <AdScript adKey="4388c91d89682a21f68164b288c042f9" format="js" />
+              </div>
               <AdScript adKey="smartlink_3" format="link" url="https://www.effectivegatecpm.com/by96i9ee?key=a0e61301b91f693d8a1866f59dd1de66" />
             </div>
 
