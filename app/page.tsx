@@ -92,21 +92,21 @@ export default async function Home({
     <main className="min-h-screen bg-[#0a0a0a] text-white">
       {/* Header */}
       <header className="sticky top-0 z-50 bg-[#0a0a0a]/95 backdrop-blur-md border-b border-white/10">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
-          <div className="flex items-center gap-4 sm:gap-10">
-            <Link href="/" className="flex items-center gap-2 group">
-              <div className="w-8 h-8 overflow-hidden rounded-lg flex items-center justify-center group-hover:scale-105 transition-transform duration-200">
+        <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-6 h-16 flex items-center justify-between">
+          <div className="flex items-center gap-2 sm:gap-4">
+            <Link href="/" className="flex items-center gap-1 sm:gap-2 group">
+              <div className="w-6 h-6 sm:w-8 sm:h-8 overflow-hidden rounded-lg flex items-center justify-center group-hover:scale-105 transition-transform duration-200">
                 <img src="/assets/logo.jpg" alt="BokepIndonesia Logo" className="w-full h-full object-cover" />
               </div>
-              <span className="text-xl font-bold tracking-tight text-white">BokepIndonesia</span>
+              <span className="text-lg sm:text-xl font-bold tracking-tight text-white">BokepIndonesia</span>
             </Link>
-            <nav className="hidden md:flex gap-8 text-sm font-medium text-gray-400">
+            <nav className="hidden md:flex gap-4 lg:gap-6 text-sm font-medium text-gray-400">
               <Link href="/" className="hover:text-white transition-colors">Home</Link>
               <Link href="/kategori" className="hover:text-white transition-colors">Genre</Link>
             </nav>
           </div>
-          <div className="flex items-center gap-4">
-            <div className="hidden sm:block w-48 md:w-64">
+          <div className="flex items-center gap-2 sm:gap-4">
+            <div className="hidden sm:block w-32 md:w-48 lg:w-64">
               <SearchBar initialValue={search} />
             </div>
             <HeaderUser />
@@ -126,34 +126,57 @@ export default async function Home({
             <h1 className="sr-only">BokepIndonesia - Nonton Video Online Terlengkap</h1>
             
             {/* Top Banner Ads */}
-            <div className="flex flex-col items-center gap-4 w-full overflow-hidden mb-6">
+            <div className="flex flex-col items-center gap-2 sm:gap-4 w-full overflow-hidden mb-4 sm:mb-6">
               <div className="w-full overflow-hidden flex justify-center">
-                <AdScript adKey="5a8dd45e78414c6e5be9db9eaffed61f" format="iframe" height={90} width={728} />
+                <div className="sm:hidden">
+                  <AdScript adKey="5a8dd45e78414c6e5be9db9eaffed61f" format="iframe" height={60} width={320} />
+                </div>
+                <div className="hidden sm:block">
+                  <AdScript adKey="5a8dd45e78414c6e5be9db9eaffed61f" format="iframe" height={90} width={728} />
+                </div>
               </div>
               <div className="w-full overflow-hidden flex justify-center">
-                <AdScript adKey="1ad6f564f3ca7bb42752dba86368d149" format="iframe" height={250} width={300} />
+                <div className="sm:hidden">
+                  <AdScript adKey="1ad6f564f3ca7bb42752dba86368d149" format="iframe" height={200} width={300} />
+                </div>
+                <div className="hidden sm:block">
+                  <AdScript adKey="1ad6f564f3ca7bb42752dba86368d149" format="iframe" height={250} width={300} />
+                </div>
               </div>
               {/* Banner 728x90 - ID: 28622405 */}
               <div className="w-full overflow-hidden flex justify-center">
-                <AdScript adKey="28622405" format="iframe" height={90} width={728} />
+                <div className="sm:hidden">
+                  <AdScript adKey="28622405" format="iframe" height={60} width={320} />
+                </div>
+                <div className="hidden sm:block">
+                  <AdScript adKey="28622405" format="iframe" height={90} width={728} />
+                </div>
               </div>
             </div>
 
             {/* Smartlinks Section */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mb-8 w-full">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 sm:gap-4 mb-6 sm:mb-8 w-full">
               <SmartlinkRotator />
               <SmartlinkRotator />
               <SmartlinkRotator />
             </div>
 
             {/* Middle Banner Ads */}
-            <div className="flex flex-col items-center gap-4 w-full overflow-hidden mb-8">
+            <div className="flex flex-col items-center gap-2 sm:gap-4 w-full overflow-hidden mb-6 sm:mb-8">
               {/* Banner 468x60 - ID: 28628094 */}
               <div className="w-full overflow-hidden flex justify-center">
-                <AdScript adKey="28628094" format="iframe" height={60} width={468} />
+                <div className="sm:hidden">
+                  <AdScript adKey="28628094" format="iframe" height={60} width={320} />
+                </div>
+                <div className="hidden sm:block md:hidden">
+                  <AdScript adKey="28628094" format="iframe" height={60} width={468} />
+                </div>
+                <div className="hidden md:block">
+                  <AdScript adKey="28628094" format="iframe" height={60} width={468} />
+                </div>
               </div>
               {/* Banner 300x250 - ID: 28622523 */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 w-full">
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2 sm:gap-4 w-full">
                 <div className="flex justify-center">
                   <AdScript adKey="28622523" format="iframe" height={250} width={300} />
                 </div>
@@ -217,7 +240,7 @@ export default async function Home({
                 </div>
               </div>
               
-              <div className="grid grid-cols-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-4 gap-y-8 sm:gap-x-6 sm:gap-y-10">
+              <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-2 sm:gap-x-4 lg:gap-x-6 gap-y-4 sm:gap-y-6 lg:gap-y-8">
                 {videos.length > 0 ? (
                   videos.map((video: any, index: number) => (
                     <Link

@@ -3,7 +3,7 @@ import type { Metadata } from 'next'
 import { Geist, Geist_Mono } from 'next/font/google'
 import './globals.css'
 import { AdsterraBanner } from '@/components/adsterra-banner'
-import { DelayPopunder, DELAY_PRESETS } from '@/components/delay-popunder'
+import { DelayPopunder } from '@/components/delay-popunder'
 import { TestingDashboard } from '@/components/testing-dashboard'
 
 const geistSans = Geist({
@@ -26,23 +26,9 @@ export const metadata: Metadata = {
   alternates: {
     canonical: '/',
   },
-  contentSecurityPolicy: {
-    directives: {
-      scriptSrc: [
-        "'self'",
-        "'unsafe-inline'",
-        "'unsafe-eval'",
-        "blob:",
-        "https:",
-        "http:",
-        "https://pl28722862.effectivegatecpm.com",
-        "https://pl28722946.effectivegatecpm.com",
-        "https://www.effectivegatecpm.com"
-      ],
-      imgSrc: ["'self'", "data:", "https:", "http:"],
-      connectSrc: ["'self'", "https:", "http:"],
-      defaultSrc: ["'self'"],
-    },
+  viewport: 'width=device-width, initial-scale=1',
+  other: {
+    'content-security-policy': "default-src * 'unsafe-inline' 'unsafe-eval' data: blob:; script-src * 'unsafe-inline' 'unsafe-eval' https: http: https://pl28722862.effectivegatecpm.com https://pl28722946.effectivegatecpm.com https://www.effectivegatecpm.com; img-src * 'self' data: https: http:; connect-src * 'self' https: http:; default-src * 'self'"
   },
   openGraph: {
     title: 'BokepIndonesia - Nonton Video Online Terlengkap',
@@ -123,49 +109,7 @@ export default function RootLayout({
             maxPerHour: 80, // 80 trigger per jam
             maxPerSession: 150, // 150 trigger per session
             fallbackMode: 'hybrid', // fallback ke delay + immediate
-            mobileOptimized: true,
-            delayStrategies: [
-              {
-                name: 'behavioral',
-                enabled: true,
-                delay: 20,
-                variance: 10,
-                weight: 8,
-                description: 'Behavioral delay 20±10 detik untuk user engagement'
-              },
-              {
-                name: 'random',
-                enabled: true,
-                delay: 30,
-                variance: 15,
-                weight: 6,
-                description: 'Random delay 30±15 detik untuk anti-pattern detection'
-              },
-              {
-                name: 'session_based',
-                enabled: true,
-                delay: 45,
-                variance: 20,
-                weight: 4,
-                description: 'Session-based delay 45±20 detik untuk long sessions'
-              }
-            ],
-            antiDetection: {
-              randomDelays: true,
-              variableTiming: true,
-              userBehaviorSimulation: true,
-              stealthMode: true,
-              bypassAdBlock: true,
-              multipleInjection: true,
-              scriptObfuscation: true,
-              cookieTracking: true
-            },
-            triggerEvents: [
-              'click', 'dblclick', 'contextmenu', 'mousedown', 'mouseup',
-              'touchstart', 'touchend', 'scroll', 'wheel',
-              'focus', 'blur', 'play', 'pause', 'ended',
-              'beforeunload', 'pagehide'
-            ]
+            mobileOptimized: true
           }}
         />
         {/* Popunder Ad */}
