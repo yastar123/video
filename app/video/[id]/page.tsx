@@ -27,7 +27,23 @@ async function getVideo(id: string) {
     LEFT JOIN categories c ON v.category_id = c.id 
     WHERE v.id = $1
   `, [id])
-  return rows[0] || null
+  
+  const video = rows[0] || null
+  
+  // Ensure video URL is always MP4 format
+  if (video && video.url) {
+    // Convert HLS to MP4
+    if (video.url.includes('.m3u8')) {
+      video.url = video.url.replace(/\.m3u8$/, '.mp4')
+      console.log('Converted HLS to MP4 in database:', video.url)
+    }
+    // Ensure it has proper uploads path
+    if (!video.url.startsWith('/uploads/') && !video.url.startsWith('http')) {
+      video.url = `/uploads/${video.url}`
+    }
+  }
+  
+  return video
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {

@@ -45,8 +45,23 @@ async function getVideosByCategory(slug: string, page: number = 1) {
       WHERE c.slug = $1
     `, [slug])
 
+    // Ensure all video URLs are MP4 format
+    const processedVideos = videosData.map(video => {
+      if (video.url) {
+        // Convert HLS to MP4
+        if (video.url.includes('.m3u8')) {
+          video.url = video.url.replace(/\.m3u8$/, '.mp4')
+        }
+        // Ensure it has proper uploads path
+        if (!video.url.startsWith('/uploads/') && !video.url.startsWith('http')) {
+          video.url = `/uploads/${video.url}`
+        }
+      }
+      return video
+    })
+
     return {
-      videos: videosData as Video[],
+      videos: processedVideos as Video[],
       pagination: {
         totalPages: Math.ceil(countData[0]?.total / limit || 1),
         total: countData[0]?.total || 0,

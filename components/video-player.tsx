@@ -21,16 +21,13 @@ export default function VideoPlayer({ url, thumbnail }: VideoPlayerProps) {
       videoElement.className = 'video-js vjs-big-play-centered vjs-theme-city'
       videoRef.current.appendChild(videoElement)
 
-      // Determine video type based on URL
-      let videoType = 'video/mp4'
+      // Force MP4 format - disable HLS completely
+      let videoUrl = url
+      
+      // If URL is HLS, convert to MP4
       if (url.includes('.m3u8')) {
-        videoType = 'application/x-mpegURL'
-      } else if (url.includes('.mpd')) {
-        videoType = 'application/dash+xml'
-      } else if (url.includes('.webm')) {
-        videoType = 'video/webm'
-      } else if (url.includes('.ogg')) {
-        videoType = 'video/ogg'
+        videoUrl = url.replace(/\.m3u8$/, '.mp4')
+        console.log('Converting HLS to MP4:', url, '->', videoUrl)
       }
 
       const player = playerRef.current = videojs(videoElement, {
@@ -59,16 +56,17 @@ export default function VideoPlayer({ url, thumbnail }: VideoPlayerProps) {
           ]
         },
         html5: {
+          // Disable HLS completely
           vhs: {
-            overrideNative: true
+            overrideNative: false
           },
-          nativeVideoTracks: false,
-          nativeAudioTracks: false,
-          nativeTextTracks: false
+          nativeVideoTracks: true,
+          nativeAudioTracks: true,
+          nativeTextTracks: true
         },
         sources: [{
-          src: url,
-          type: videoType
+          src: videoUrl,
+          type: 'video/mp4'
         }]
       }, () => {
         console.log('player is ready')
@@ -78,52 +76,45 @@ export default function VideoPlayer({ url, thumbnail }: VideoPlayerProps) {
       player.on('error', (error: any) => {
         console.error('Video.js error:', error)
         
-        // If HLS format is not supported, try to fallback to MP4
-        if (error.code === 4 && url.includes('.m3u8')) {
-          console.log('HLS not supported, trying to find MP4 fallback...')
+        // Try different video formats if MP4 fails
+        if (error.code === 4) {
+          const baseFilename = url.replace(/\.(m3u8|mp4|webm|ogg)$/, '')
           
-          // Extract base filename from HLS URL
-          const baseFilename = url.replace(/\.m3u8$/, '')
-          const mp4Url = `${baseFilename}.mp4`
+          // Try different formats in order
+          const formats = ['.webm', '.ogg', '.mp4']
           
-          console.log('Trying MP4 fallback:', mp4Url)
-          
-          // Try to load MP4 version
-          fetch(mp4Url, { method: 'HEAD' })
-            .then(response => {
-              if (response.ok) {
-                console.log('MP4 fallback found, switching source...')
-                player.src({
-                  src: mp4Url,
-                  type: 'video/mp4'
-                })
-              } else {
-                console.error('MP4 fallback not found')
-              }
-            })
-            .catch(err => {
-              console.error('Error checking MP4 fallback:', err)
-            })
+          formats.forEach(format => {
+            const testUrl = `${baseFilename}${format}`
+            console.log('Trying fallback format:', testUrl)
+            
+            fetch(testUrl, { method: 'HEAD' })
+              .then(response => {
+                if (response.ok) {
+                  console.log('Found working format:', format)
+                  player.src({
+                    src: testUrl,
+                    type: format === '.webm' ? 'video/webm' : format === '.ogg' ? 'video/ogg' : 'video/mp4'
+                  })
+                }
+              })
+              .catch(() => {
+                // Try next format
+              })
+          })
         }
       })
     } else if (playerRef.current) {
       const player = playerRef.current
       
-      // Determine video type based on URL
-      let videoType = 'video/mp4'
+      // Force MP4 format
+      let videoUrl = url
       if (url.includes('.m3u8')) {
-        videoType = 'application/x-mpegURL'
-      } else if (url.includes('.mpd')) {
-        videoType = 'application/dash+xml'
-      } else if (url.includes('.webm')) {
-        videoType = 'video/webm'
-      } else if (url.includes('.ogg')) {
-        videoType = 'video/ogg'
+        videoUrl = url.replace(/\.m3u8$/, '.mp4')
       }
       
       player.src({
-        src: url,
-        type: videoType
+        src: videoUrl,
+        type: 'video/mp4'
       })
       if (thumbnail) player.poster(thumbnail)
     }
