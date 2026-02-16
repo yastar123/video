@@ -27,7 +27,7 @@ const nextConfig = {
           {
             key: "Content-Security-Policy",
             value:
-              "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://pl28722862.effectivegatecpm.com https://pl28722941.effectivegatecpm.com https://pl28722946.effectivegatecpm.com https://pl28551201.effectivegatecpm.com https://www.highperformanceformat.com; connect-src 'self' https: http:; style-src 'self' 'unsafe-inline'; frame-src 'self' https://www.highperformanceformat.com;",
+              "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://a.propellerads.com https://banner.propellerads.com https://analytics.propellerads.com https://cdn.propellerads.com; connect-src 'self' https: http:; style-src 'self' 'unsafe-inline'; frame-src 'self' https://a.propellerads.com; img-src 'self' data: https:;",
           },
         ],
       },
