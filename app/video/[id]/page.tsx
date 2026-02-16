@@ -156,15 +156,11 @@ export default async function VideoDetail({ params }: { params: Promise<{ id: st
           </div>
 
           {/* Video Player - Full Width Container */}
-          <section className="w-full h-full bg-black border-y border-border/50 shadow-2xl overflow-hidden mb-6">
+          <section className="w-full h-[4000px] bg-black border-y border-border/50 shadow-2xl overflow-hidden mb-6">
             <div className="max-w-7xl mx-auto">
               <div className="relative w-full aspect-video">
                 <VideoPlayerWrapper url={video.url} thumbnail={video.thumbnail} />
                 {/* Duration badge */}
-                <div className="absolute top-4 right-4 bg-black/80 text-white px-3 py-1 rounded-full text-xs font-medium z-10 flex items-center gap-1.5 shadow-lg">
-                  <Clock size={14} />
-                  {formatDuration(video.duration || 0)}
-                </div>
               </div>
             </div>
           </section>
