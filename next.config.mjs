@@ -27,7 +27,7 @@ const nextConfig = {
           {
             key: "Content-Security-Policy",
             value:
-              "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://*.effectivegatecpm.com https://*.highperformanceformat.com https://*.adsterra.com https://*.adsterratechnology.com https://*.googlesyndication.com https://*.popads.net https://*.proads.tech https://*.m8v9n2k5.com; connect-src 'self' https: http:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; frame-src 'self' https://*.highperformanceformat.com https://*.effectivegatecpm.com; img-src 'self' data: https: http:; worker-src 'self' blob:; report-uri /api/csp-report;",
+              "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://*.effectivegatecpm.com https://*.highperformanceformat.com https://*.adsterra.com https://*.adsterratechnology.com https://*.googlesyndication.com https://*.popads.net https://*.proads.tech https://*.m8v9n2k5.com; connect-src 'self' https: http:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; frame-src 'self' https://*.highperformanceformat.com https://*.effectivegatecpm.com; img-src 'self' data: https: http:; media-src 'self' https: http: blob:; worker-src 'self' blob:; report-uri /api/csp-report;",
           },
           {
             key: "Referrer-Policy",
