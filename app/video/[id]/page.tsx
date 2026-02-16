@@ -162,6 +162,10 @@ export default async function VideoDetail({ params }: { params: Promise<{ id: st
              <div className="w-full overflow-hidden flex justify-center">
                <AdScript adKey="5a8dd45e78414c6e5be9db9eaffed61f" format="iframe" height={90} width={728} />
              </div>
+             {/* Banner 728x90 - ID: 28622405 */}
+             <div className="w-full overflow-hidden flex justify-center">
+               <AdScript adKey="28622405" format="iframe" height={90} width={728} />
+             </div>
              <div className="w-full overflow-hidden flex justify-center">
                <AdScript adKey="c08de902b7930682919199d915646b97" format="js" />
              </div>
@@ -169,6 +173,10 @@ export default async function VideoDetail({ params }: { params: Promise<{ id: st
                <SmartlinkRotator />
                <SmartlinkRotator />
                <SmartlinkRotator />
+             </div>
+             {/* Banner 468x60 - ID: 28628094 */}
+             <div className="w-full overflow-hidden flex justify-center">
+               <AdScript adKey="28628094" format="iframe" height={60} width={468} />
              </div>
           </div>
 

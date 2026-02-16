@@ -47,13 +47,6 @@ export function RandomVideos() {
           </Link>
         ))}
       </div>
-      
-      {/* Ad Placeholders */}
-      <div className="mt-8 space-y-4">
-        <BannerPlaceholder width="full" height="medium" text="Banner 468x60" />
-        <BannerPlaceholder width="full" height="medium" text="Banner 468x60" />
-        <BannerPlaceholder width="full" height="medium" text="Banner 468x60" />
-      </div>
     </div>
   )
 }

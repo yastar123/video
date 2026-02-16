@@ -133,6 +133,10 @@ export default async function Home({
               <div className="w-full overflow-hidden flex justify-center">
                 <AdScript adKey="1ad6f564f3ca7bb42752dba86368d149" format="iframe" height={250} width={300} />
               </div>
+              {/* Banner 728x90 - ID: 28622405 */}
+              <div className="w-full overflow-hidden flex justify-center">
+                <AdScript adKey="28622405" format="iframe" height={90} width={728} />
+              </div>
             </div>
 
             {/* Smartlinks Section */}
@@ -140,6 +144,26 @@ export default async function Home({
               <SmartlinkRotator />
               <SmartlinkRotator />
               <SmartlinkRotator />
+            </div>
+
+            {/* Middle Banner Ads */}
+            <div className="flex flex-col items-center gap-4 w-full overflow-hidden mb-8">
+              {/* Banner 468x60 - ID: 28628094 */}
+              <div className="w-full overflow-hidden flex justify-center">
+                <AdScript adKey="28628094" format="iframe" height={60} width={468} />
+              </div>
+              {/* Banner 300x250 - ID: 28622523 */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 w-full">
+                <div className="flex justify-center">
+                  <AdScript adKey="28622523" format="iframe" height={250} width={300} />
+                </div>
+                <div className="flex justify-center">
+                  <AdScript adKey="28622523" format="iframe" height={250} width={300} />
+                </div>
+                <div className="flex justify-center">
+                  <AdScript adKey="28622523" format="iframe" height={250} width={300} />
+                </div>
+              </div>
             </div>
 
             {/* Search and Filter Section */}
@@ -193,7 +217,7 @@ export default async function Home({
                 </div>
               </div>
               
-              <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-4 gap-y-8 sm:gap-x-6 sm:gap-y-10">
+              <div className="grid grid-cols-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-4 gap-y-8 sm:gap-x-6 sm:gap-y-10">
                 {videos.length > 0 ? (
                   videos.map((video: any, index: number) => (
                     <Link
@@ -239,8 +263,12 @@ export default async function Home({
           
           <aside className="hidden xl:block w-[160px] flex-shrink-0 pt-20">
             <div className="sticky top-24 flex flex-col gap-8">
-              <AdScript adKey="22bed31723f24472a78afb44a7addb6b" format="iframe" height={600} width={160} />
-              <AdScript adKey="6e9a519272442fa242b5a43e53ddc7fd" format="iframe" height={300} width={160} />
+              {/* Banner 160x600 - ID: 28622417 */}
+              <AdScript adKey="28622417" format="iframe" height={600} width={160} />
+              {/* Banner 160x300 - ID: 28628104 */}
+              <AdScript adKey="28628104" format="iframe" height={300} width={160} />
+              {/* Banner 160x300 - Additional */}
+              <AdScript adKey="28628104" format="iframe" height={300} width={160} />
             </div>
           </aside>
         </div>
