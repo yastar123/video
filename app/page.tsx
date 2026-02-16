@@ -4,6 +4,7 @@ import { SearchBar } from '@/components/search-bar'
 import { MobileMenu } from '@/components/mobile-menu'
 import { Pagination } from '@/components/pagination'
 import { SortFilter } from '@/components/sort-filter'
+import { SmartlinkRotator } from '@/components/smartlink-rotator'
 import { query } from '@/lib/postgres'
 import { ChevronDown, LogIn, User } from 'lucide-react'
 import { Suspense } from 'react'
@@ -136,9 +137,9 @@ export default async function Home({
 
             {/* Smartlinks Section */}
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mb-8 w-full">
-              <AdScript adKey="smartlink_1" format="link" url="https://www.effectivegatecpm.com/a1pm3et2?key=1bf6eae1539e20a7d049e4876bf00c55" />
-              <AdScript adKey="smartlink_2" format="link" url="https://www.effectivegatecpm.com/k1nsznbwe6?key=4605260c8e2dff4fd591290d334f54c8" />
-              <AdScript adKey="smartlink_3" format="link" url="https://www.effectivegatecpm.com/by96i9ee?key=a0e61301b91f693d8a1866f59dd1de66" />
+              <SmartlinkRotator />
+              <SmartlinkRotator />
+              <SmartlinkRotator />
             </div>
 
             {/* Search and Filter Section */}

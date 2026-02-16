@@ -2,7 +2,7 @@ import { query } from '@/lib/postgres'
 import { Star, Eye, Clock, ArrowLeft } from 'lucide-react'
 import { RandomVideos } from '@/components/random-videos'
 import { VideoPlayerWrapper } from '@/components/video-player-wrapper'
-import { BannerPlaceholder } from '@/components/banner-placeholder'
+import { SmartlinkRotator, MultipleSmartlinks } from '@/components/smartlink-rotator'
 import AdScript from '@/components/ad-script'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
@@ -160,9 +160,9 @@ export default async function VideoDetail({ params }: { params: Promise<{ id: st
                <AdScript adKey="c08de902b7930682919199d915646b97" format="js" />
              </div>
              <div className="w-full grid grid-cols-1 sm:grid-cols-3 gap-2">
-               <AdScript adKey="smartlink_1" format="link" url="https://www.effectivegatecpm.com/a1pm3et2?key=1bf6eae1539e20a7d049e4876bf00c55" />
-               <AdScript adKey="smartlink_2" format="link" url="https://www.effectivegatecpm.com/k1nsznbwe6?key=4605260c8e2dff4fd591290d334f54c8" />
-               <AdScript adKey="smartlink_3" format="link" url="https://www.effectivegatecpm.com/by96i9ee?key=a0e61301b91f693d8a1866f59dd1de66" />
+               <SmartlinkRotator />
+               <SmartlinkRotator />
+               <SmartlinkRotator />
              </div>
           </div>
 
@@ -189,8 +189,8 @@ export default async function VideoDetail({ params }: { params: Promise<{ id: st
                 <AdScript adKey="4388c91d89682a21f68164b288c042f9" format="js" />
               </div>
               <div className="w-full grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <AdScript adKey="smartlink_2" format="link" url="https://www.effectivegatecpm.com/k1nsznbwe6?key=4605260c8e2dff4fd591290d334f54c8" />
-                <AdScript adKey="smartlink_1" format="link" url="https://www.effectivegatecpm.com/a1pm3et2?key=1bf6eae1539e20a7d049e4876bf00c55" />
+                <MultipleSmartlinks count={1} />
+                <MultipleSmartlinks count={1} />
               </div>
             </div>
 
@@ -254,7 +254,7 @@ export default async function VideoDetail({ params }: { params: Promise<{ id: st
               <div className="w-full overflow-hidden flex justify-center">
                 <AdScript adKey="4388c91d89682a21f68164b288c042f9" format="js" />
               </div>
-              <AdScript adKey="smartlink_3" format="link" url="https://www.effectivegatecpm.com/by96i9ee?key=a0e61301b91f693d8a1866f59dd1de66" />
+              <SmartlinkRotator />
             </div>
 
             <section className="relative">
