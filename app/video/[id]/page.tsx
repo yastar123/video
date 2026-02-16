@@ -139,79 +139,108 @@ export default async function VideoDetail({ params }: { params: Promise<{ id: st
           </div>
         </header>
 
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-3 sm:py-6">
+        <div className="w-full">
           {/* H1 + Primary Keywords */}
-          <header className="mb-3 sm:mb-5">
-            <h1 className="text-lg sm:text-xl md:text-2xl font-bold mb-2 text-balance leading-tight text-center">
-              Nonton <span className="text-primary">{video.title}</span> 
-            </h1>
-          </header>
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+            <header className="mb-4">
+              <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-balance leading-tight text-center">
+                Nonton <span className="text-primary">{video.title}</span> 
+              </h1>
+            </header>
+          </div>
 
-          {/* Video Player - Above the fold */}
-          <section className="mb-5 sm:mb-8">
-            <div className="relative w-full aspect-video bg-black rounded-lg sm:rounded-xl overflow-hidden border sm:border border-border/50 shadow-2xl">
-              <VideoPlayerWrapper url={video.url} thumbnail={video.thumbnail} />
-              {/* Duration badge */}
-              <div className="absolute top-2 right-2 sm:top-3 sm:right-3 bg-black/80 text-white px-2 py-0.5 sm:px-2.5 sm:py-0.5 rounded-full text-[9px] sm:text-[10px] font-medium z-10">
-                <Clock size={9} className="inline mr-1 sm:size-2.5" />
-                {formatDuration(video.duration || 0)}
-              </div>
-            </div>
-          </section>
+          {/* Ad Top */}
+          <div className="max-w-7xl mx-auto px-4 mb-4">
+             <AdScript adKey="c08de902b7930682919199d915646b97" format="js" />
+          </div>
 
-          {/* Video Stats */}
-          <section className="mb-6 sm:mb-8">
-            <div className="bg-muted/20 p-3 sm:p-5 rounded-lg border border-border/50">
-              <div className="flex items-center gap-2 mb-3">
-                <div className="bg-primary/10 p-1.5 rounded">
-                  <Eye className="w-4 h-4 text-primary" />
-                </div>
-                <div>
-                  <p className="text-lg sm:text-xl font-black text-primary leading-none">{formatViews(video.views)}</p>
-                  <p className="text-[9px] sm:text-[10px] text-muted-foreground uppercase tracking-wider">Tayangan</p>
+          {/* Video Player - Full Width Container */}
+          <section className="w-full bg-black border-y border-border/50 shadow-2xl overflow-hidden mb-6">
+            <div className="max-w-7xl mx-auto">
+              <div className="relative w-full aspect-video">
+                <VideoPlayerWrapper url={video.url} thumbnail={video.thumbnail} />
+                {/* Duration badge */}
+                <div className="absolute top-4 right-4 bg-black/80 text-white px-3 py-1 rounded-full text-xs font-medium z-10 flex items-center gap-1.5 shadow-lg">
+                  <Clock size={14} />
+                  {formatDuration(video.duration || 0)}
                 </div>
               </div>
-              
-              <div className="flex flex-wrap gap-1.5 mb-3">
-                <span className="bg-primary/5 text-primary px-2 py-0.5 rounded-full text-[9px] sm:text-[10px] font-medium border border-primary/10">
-                  #{video.category?.replace(/\s+/g, '').toLowerCase()}
-                </span>
-                <span className="bg-accent/5 text-accent px-2 py-0.5 rounded-full text-[9px] sm:text-[10px] font-medium border border-accent/10">
-                  HD Quality
-                </span>
-                <span className="bg-destructive/5 text-destructive px-2 py-0.5 rounded-full text-[9px] sm:text-[10px] font-medium border border-destructive/10">
-                  Gratis
-                </span>
+            </div>
+          </section>
+
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
+            {/* Ad Middle */}
+            <div className="mb-8">
+              <AdScript adKey="4388c91d89682a21f68164b288c042f9" format="js" />
+            </div>
+
+            {/* Video Stats */}
+            <section className="mb-8">
+              <div className="bg-muted/30 p-5 sm:p-6 rounded-xl border border-border/50 shadow-sm">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                  <div className="flex items-center gap-4">
+                    <div className="bg-primary/10 p-3 rounded-lg border border-primary/20">
+                      <Eye className="w-6 h-6 text-primary" />
+                    </div>
+                    <div>
+                      <p className="text-2xl font-black text-primary leading-none">{formatViews(video.views)}</p>
+                      <p className="text-xs text-muted-foreground uppercase tracking-widest font-bold mt-1">Tayangan</p>
+                    </div>
+                  </div>
+                  
+                  <div className="flex flex-wrap gap-2">
+                    <span className="bg-primary/10 text-primary px-3 py-1 rounded-lg text-xs font-bold border border-primary/20">
+                      #{video.category?.replace(/\s+/g, '').toLowerCase()}
+                    </span>
+                    <span className="bg-green-500/10 text-green-500 px-3 py-1 rounded-lg text-xs font-bold border border-green-500/20">
+                      HD QUALITY
+                    </span>
+                    <span className="bg-yellow-500/10 text-yellow-500 px-3 py-1 rounded-lg text-xs font-bold border border-yellow-500/20">
+                      GRATIS
+                    </span>
+                  </div>
+                </div>
+
+                <div className="mt-6 pt-6 border-t border-border/50 flex items-center justify-between text-xs text-muted-foreground">
+                  <p>
+                    Diunggah pada{' '}
+                    <time dateTime={video.created_at} className="font-semibold text-foreground">
+                      {new Date(video.created_at).toLocaleDateString('id-ID', {
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric',
+                      })}
+                    </time>
+                  </p>
+                </div>
               </div>
+            </section>
 
-              <p className="text-[9px] sm:text-[10px] text-muted-foreground">
-                Diunggah pada{' '}
-                <time dateTime={video.created_at}>
-                  {new Date(video.created_at).toLocaleDateString('id-ID', {
-                    year: 'numeric',
-                    month: 'long',
-                    day: 'numeric',
-                  })}
-                </time>
-              </p>
+            {/* Content Expansion - Secondary Keywords */}
+            <section className="mb-12">
+              <div className="prose prose-invert prose-headings:text-foreground prose-p:text-muted-foreground max-w-none">
+                <h2 className="text-2xl font-bold mb-4">Deskripsi Video {video.title}</h2>
+                <p className="text-base leading-relaxed">
+                  Nonton streaming <strong>{video.title}</strong> video{' '}
+                  <strong>{video.category}</strong> kualitas HD tanpa sensor. 
+                  Nikmati koleksi video terbaik di platform kami secara gratis.
+                </p>
+              </div>
+            </section>
+
+            {/* Ad Bottom */}
+            <div className="mb-12">
+              <AdScript adKey="4388c91d89682a21f68164b288c042f9" format="js" />
             </div>
-          </section>
 
-          {/* Content Expansion - Secondary Keywords */}
-          <section className="mb-8 sm:mb-10">
-            <div className="prose prose-headings:text-base sm:prose-headings:text-lg prose-headings:font-bold prose-p:text-[13px] sm:prose-p:text-sm max-w-none">
-              <h2 className="text-lg sm:text-xl font-bold mb-2">Video Description {video.title}</h2>
-              <p className="text-sm sm:text-base text-muted-foreground mb-3 leading-relaxed">
-                Enjoy streaming <strong>{video.title}</strong> video{' '}
-                <strong>{video.category}</strong> with HD quality. 
-              </p>
-            </div>
-          </section>
-
-          <section className="relative">
-            <h2 className="text-lg sm:text-xl font-bold mb-3 sm:mb-5">Related Videos</h2>
-            <RandomVideos />
-          </section>
+            <section className="relative">
+              <div className="flex items-center justify-between mb-6">
+                <h2 className="text-2xl font-bold">Video Terkait</h2>
+                <Link href="/" className="text-primary text-sm font-semibold hover:underline">Lihat Semua</Link>
+              </div>
+              <RandomVideos />
+            </section>
+          </div>
         </div>
       </main>
     </>

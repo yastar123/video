@@ -101,7 +101,7 @@ export default function VideoPlayer({ url, thumbnail }: VideoPlayerProps) {
   }
 
   return (
-    <div className="aspect-video w-full bg-black">
+    <div className="w-full h-full bg-black flex items-center justify-center">
       {!url ? (
         <div className="flex items-center justify-center h-full text-center">
           <div>
@@ -110,8 +110,8 @@ export default function VideoPlayer({ url, thumbnail }: VideoPlayerProps) {
           </div>
         </div>
       ) : (
-        <div data-vjs-player>
-          <div ref={videoRef} />
+        <div data-vjs-player className="w-full h-full">
+          <div ref={videoRef} className="w-full h-full" />
         </div>
       )}
     </div>
