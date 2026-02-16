@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { randomUUID } from 'crypto'
 import { writeFile, mkdir } from 'fs/promises'
+import { existsSync } from 'fs'
 import path from 'path'
 
 export async function POST(request: NextRequest) {
@@ -24,15 +25,24 @@ export async function POST(request: NextRequest) {
     const fileName = customFileName || `${objectId}.${extension}`
     const relativePath = `/uploads/${fileName}`
     
-    // Fallback to project root uploads if public/uploads fails or if we want consistent behavior
+    // Always save to uploads directory in project root
     const absolutePath = path.join(process.cwd(), 'uploads', fileName)
 
-    console.log('Uploading file to:', absolutePath)
+    console.log('Uploading file:')
+    console.log('- Original filename:', file.name)
+    console.log('- File size:', file.size)
+    console.log('- File type:', file.type)
+    console.log('- Target path:', absolutePath)
+    console.log('- Directory exists:', existsSync(path.dirname(absolutePath)))
+    
     await mkdir(path.dirname(absolutePath), { recursive: true })
 
     const bytes = await file.arrayBuffer()
     const buffer = Buffer.from(bytes)
     await writeFile(absolutePath, buffer)
+    
+    console.log('File saved successfully:', absolutePath)
+    console.log('File exists after save:', existsSync(absolutePath))
 
     return NextResponse.json({
       success: true,
@@ -68,10 +78,17 @@ export async function PUT(request: NextRequest) {
     const absolutePath = path.join(process.cwd(), 'uploads', fileName)
     await mkdir(path.dirname(absolutePath), { recursive: true })
 
-    console.log('Uploading file to:', absolutePath)
+    console.log('Uploading file via PUT:')
+    console.log('- Filename:', fileName)
+    console.log('- Target path:', absolutePath)
+    console.log('- Directory exists:', existsSync(path.dirname(absolutePath)))
+    
     const bytes = await request.arrayBuffer()
     const buffer = Buffer.from(bytes)
     await writeFile(absolutePath, buffer)
+    
+    console.log('File saved successfully via PUT:', absolutePath)
+    console.log('File exists after save:', existsSync(absolutePath))
 
     return NextResponse.json({
       success: true,

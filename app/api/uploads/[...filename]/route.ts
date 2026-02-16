@@ -17,13 +17,17 @@ export async function GET(
   const normalizedPath = path.normalize(filename).replace(/^(\.\.(\/|\\|$))+/, '')
   const extension = path.extname(filename).toLowerCase()
   
-  // Try both public/uploads and uploads directories
-  let absolutePath = path.join(process.cwd(), 'public', 'uploads', normalizedPath)
+  // Try uploads directory first (where files are actually uploaded), then public/uploads
+  let absolutePath = path.join(process.cwd(), 'uploads', normalizedPath)
+  console.log('Looking for file in uploads:', absolutePath, 'exists:', existsSync(absolutePath))
+  
   if (!existsSync(absolutePath)) {
-    absolutePath = path.join(process.cwd(), 'uploads', normalizedPath)
+    absolutePath = path.join(process.cwd(), 'public', 'uploads', normalizedPath)
+    console.log('Looking for file in public/uploads:', absolutePath, 'exists:', existsSync(absolutePath))
   }
 
   if (!existsSync(absolutePath)) {
+    console.log('File not found:', filename)
     return new Response('File not found', { status: 404 })
   }
 
