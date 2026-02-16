@@ -29,22 +29,27 @@ export async function GET(
       // For HLS segments, try to find the original video file
       const baseName = path.basename(filename, extension)
       
+      // Extract video ID from HLS segment name
+      // Example: "seg-1-v1-a1.ts" -> "seg-1-v1-a1"
+      const videoId = baseName.replace(/-v\d+$/, '')
+      
       // Look for corresponding video file in uploads
       const uploadsDir = path.join(process.cwd(), 'uploads')
       const publicUploadsDir = path.join(process.cwd(), 'public', 'uploads')
       
       let videoFile = null
       
-      // Try to find video file with similar name
+      // Try to find video file with similar ID
       for (const dir of [uploadsDir, publicUploadsDir]) {
         if (existsSync(dir)) {
           const files = readdirSync(dir)
           const matchingVideo = files.find((file: string) => 
-            file.includes(baseName) && 
+            file.includes(videoId) && 
             (file.endsWith('.mp4') || file.endsWith('.webm') || file.endsWith('.mov'))
           )
           if (matchingVideo) {
             videoFile = path.join(dir, matchingVideo)
+            console.log(`Found matching video: ${matchingVideo} for HLS segment: ${filename}`)
             break
           }
         }
@@ -68,6 +73,35 @@ export async function GET(
         } catch (error) {
           console.error('Error serving fallback video:', error)
         }
+      }
+      
+      // If no video file found, return empty HLS segment to prevent infinite loading
+      if (extension === '.ts') {
+        // Return empty TS segment
+        return new Response(new Uint8Array(), {
+          headers: {
+            'Content-Type': 'video/mp2t',
+            'Content-Length': '0',
+            'Cache-Control': 'no-cache',
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+            'Access-Control-Allow-Headers': 'X-Requested-With, Content-Type, Authorization'
+          },
+        })
+      }
+      
+      if (extension === '.m3u8') {
+        // Return empty M3U8 playlist
+        return new Response('#EXTM3U\n#EXT-X-VERSION:3\n#EXT-X-MEDIA-SEQUENCE:0\n#EXT-X-ENDLIST\n', {
+          headers: {
+            'Content-Type': 'application/vnd.apple.mpegurl',
+            'Content-Length': '71',
+            'Cache-Control': 'no-cache',
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+            'Access-Control-Allow-Headers': 'X-Requested-With, Content-Type, Authorization'
+          },
+        })
       }
     }
     
