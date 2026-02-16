@@ -121,7 +121,17 @@ export default async function Home({
           <div className="flex-1">
             <h1 className="sr-only">BokepIndonesia - Nonton Video Online Terlengkap</h1>
             
-            <AdScript adKey="5a8dd45e78414c6e5be9db9eaffed61f" format="iframe" height={90} width={728} />
+            <div className="flex flex-col items-center gap-4">
+              <AdScript adKey="5a8dd45e78414c6e5be9db9eaffed61f" format="iframe" height={90} width={728} />
+              <AdScript adKey="1ad6f564f3ca7bb42752dba86368d149" format="iframe" height={250} width={300} />
+            </div>
+
+            {/* Smartlinks */}
+            <div className="flex flex-wrap justify-center gap-4 mb-6">
+              <AdScript adKey="smartlink_1" format="link" url="https://www.effectivegatecpm.com/a1pm3et2?key=1bf6eae1539e20a7d049e4876bf00c55" />
+              <AdScript adKey="smartlink_2" format="link" url="https://www.effectivegatecpm.com/k1nsznbwe6?key=4605260c8e2dff4fd591290d334f54c8" />
+              <AdScript adKey="smartlink_3" format="link" url="https://www.effectivegatecpm.com/by96i9ee?key=a0e61301b91f693d8a1866f59dd1de66" />
+            </div>
 
             {/* Search and Filter Section */}
         <section className="mb-8">
@@ -202,7 +212,8 @@ export default async function Home({
             </div>
           )}
           
-          <div className="mt-12">
+          <div className="mt-12 flex flex-col items-center gap-6">
+            <AdScript adKey="a8ea859722150189e57a87b6579578f3" format="iframe" height={60} width={468} />
             <div id="container-c08de902b7930682919199d915646b97"></div>
             <AdScript adKey="c08de902b7930682919199d915646b97" format="js" />
           </div>
@@ -210,8 +221,9 @@ export default async function Home({
       </div>
       
       <aside className="hidden xl:block w-[160px] flex-shrink-0 pt-20">
-        <div className="sticky top-24">
+        <div className="sticky top-24 flex flex-col gap-8">
           <AdScript adKey="22bed31723f24472a78afb44a7addb6b" format="iframe" height={600} width={160} />
+          <AdScript adKey="6e9a519272442fa242b5a43e53ddc7fd" format="iframe" height={300} width={160} />
         </div>
       </aside>
     </div>

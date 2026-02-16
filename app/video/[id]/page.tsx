@@ -151,8 +151,10 @@ export default async function VideoDetail({ params }: { params: Promise<{ id: st
           </div>
 
           {/* Ad Top */}
-          <div className="max-w-7xl mx-auto px-4 mb-4">
+          <div className="max-w-7xl mx-auto px-4 mb-4 flex flex-col items-center gap-4">
+             <AdScript adKey="5a8dd45e78414c6e5be9db9eaffed61f" format="iframe" height={90} width={728} />
              <AdScript adKey="c08de902b7930682919199d915646b97" format="js" />
+             <AdScript adKey="smartlink_1" format="link" url="https://www.effectivegatecpm.com/a1pm3et2?key=1bf6eae1539e20a7d049e4876bf00c55" />
           </div>
 
           {/* Video Player - Full Width Container */}
@@ -167,8 +169,10 @@ export default async function VideoDetail({ params }: { params: Promise<{ id: st
 
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
             {/* Ad Middle */}
-            <div className="mb-8">
+            <div className="mb-8 flex flex-col items-center gap-6">
+              <AdScript adKey="1ad6f564f3ca7bb42752dba86368d149" format="iframe" height={250} width={300} />
               <AdScript adKey="4388c91d89682a21f68164b288c042f9" format="js" />
+              <AdScript adKey="smartlink_2" format="link" url="https://www.effectivegatecpm.com/k1nsznbwe6?key=4605260c8e2dff4fd591290d334f54c8" />
             </div>
 
             {/* Video Stats */}
@@ -226,8 +230,10 @@ export default async function VideoDetail({ params }: { params: Promise<{ id: st
             </section>
 
             {/* Ad Bottom */}
-            <div className="mb-12">
+            <div className="mb-12 flex flex-col items-center gap-6">
+              <AdScript adKey="a8ea859722150189e57a87b6579578f3" format="iframe" height={60} width={468} />
               <AdScript adKey="4388c91d89682a21f68164b288c042f9" format="js" />
+              <AdScript adKey="smartlink_3" format="link" url="https://www.effectivegatecpm.com/by96i9ee?key=a0e61301b91f693d8a1866f59dd1de66" />
             </div>
 
             <section className="relative">
