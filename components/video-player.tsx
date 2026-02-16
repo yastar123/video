@@ -49,7 +49,9 @@ export default function VideoPlayer({ url, thumbnail }: VideoPlayerProps) {
         autoplay: false,
         controls: true,
         responsive: true,
-        fluid: true,
+        fluid: false,
+        fill: true,
+        aspectRatio: '16:9',
         poster: thumbnail,
         controlBar: {
           children: [
@@ -142,32 +144,34 @@ export default function VideoPlayer({ url, thumbnail }: VideoPlayerProps) {
   }, [playerRef])
 
   return (
-    <div className="relative w-full">
-      <div ref={videoRef} className="w-full" />
-      
-      {/* Loading State */}
-      {isLoading && (
-        <div className="absolute inset-0 flex items-center justify-center bg-black/50">
-          <div className="text-white text-center">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white mx-auto mb-4"></div>
-            <p>Loading video...</p>
+    <div className="w-full">
+      <div className="relative w-full aspect-video bg-black">
+        <div ref={videoRef} className="w-full h-full" />
+        
+        {/* Loading State */}
+        {isLoading && (
+          <div className="absolute inset-0 flex items-center justify-center bg-black/50">
+            <div className="text-white text-center">
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white mx-auto mb-4"></div>
+              <p>Loading video...</p>
+            </div>
           </div>
-        </div>
-      )}
-      
-      {/* Error State */}
-      {videoError && (
-        <div className="absolute inset-0 flex items-center justify-center bg-black/50">
-          <div className="text-white text-center p-6">
-            <div className="text-red-500 text-6xl mb-4">⚠️</div>
-            <h3 className="text-xl font-bold mb-2">Video Not Available</h3>
-            <p className="text-gray-300 mb-4">{videoError}</p>
-            <p className="text-sm text-gray-400">
-              Video ID: {url.split('/').pop()?.split('.')[0]}
-            </p>
+        )}
+        
+        {/* Error State */}
+        {videoError && (
+          <div className="absolute inset-0 flex items-center justify-center bg-black/50">
+            <div className="text-white text-center p-6">
+              <div className="text-red-500 text-6xl mb-4">⚠️</div>
+              <h3 className="text-xl font-bold mb-2">Video Not Available</h3>
+              <p className="text-gray-300 mb-4">{videoError}</p>
+              <p className="text-sm text-gray-400">
+                Video ID: {url.split('/').pop()?.split('.')[0]}
+              </p>
+            </div>
           </div>
-        </div>
-      )}
+        )}
+      </div>
     </div>
   )
 }
