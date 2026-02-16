@@ -25,12 +25,13 @@ export async function POST(request: NextRequest) {
     const fileName = customFileName || `${objectId}.${extension}`
     const relativePath = `/uploads/${fileName}`
     
-    // Try multiple possible upload directories
+    // Try multiple possible upload directories - prioritize VPS paths
     const possiblePaths = [
-      path.join(process.cwd(), 'uploads', fileName),
-      path.join(process.cwd(), 'public', 'uploads', fileName),
-      path.join('/tmp', 'uploads', fileName),
-      path.join('/var/tmp', 'uploads', fileName)
+      path.join('/root', 'video', 'uploads', fileName),    // VPS production path
+      path.join(process.cwd(), 'uploads', fileName),        // Local development
+      path.join(process.cwd(), 'public', 'uploads', fileName), // Alternative local
+      path.join('/tmp', 'uploads', fileName),              // Production temp
+      path.join('/var/tmp', 'uploads', fileName)           // Production temp alt
     ]
     
     let absolutePath = possiblePaths[0] // Default to first option
@@ -52,7 +53,7 @@ export async function POST(request: NextRequest) {
           console.log('File saved successfully to:', testPath)
           break
         }
-      } catch (error) {
+      } catch (error: any) {
         console.log('Failed to save to', testPath, ':', error.message)
         continue
       }

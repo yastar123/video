@@ -17,12 +17,13 @@ export async function GET(
   const normalizedPath = path.normalize(filename).replace(/^(\.\.(\/|\\|$))+/, '')
   const extension = path.extname(filename).toLowerCase()
   
-  // Try multiple possible upload directories
+  // Try multiple possible upload directories - prioritize VPS paths
   const possiblePaths = [
-    path.join(process.cwd(), 'uploads', normalizedPath),
-    path.join(process.cwd(), 'public', 'uploads', normalizedPath),
-    path.join('/tmp', 'uploads', normalizedPath),
-    path.join('/var/tmp', 'uploads', normalizedPath)
+    path.join('/root', 'video', 'uploads', normalizedPath),    // VPS production path
+    path.join(process.cwd(), 'uploads', normalizedPath),        // Local development
+    path.join(process.cwd(), 'public', 'uploads', normalizedPath), // Alternative local
+    path.join('/tmp', 'uploads', normalizedPath),              // Production temp
+    path.join('/var/tmp', 'uploads', normalizedPath)           // Production temp alt
   ]
   
   let absolutePath = null
