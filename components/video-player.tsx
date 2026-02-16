@@ -21,6 +21,18 @@ export default function VideoPlayer({ url, thumbnail }: VideoPlayerProps) {
       videoElement.className = 'video-js vjs-big-play-centered vjs-theme-city'
       videoRef.current.appendChild(videoElement)
 
+      // Determine video type based on URL
+      let videoType = 'video/mp4'
+      if (url.includes('.m3u8')) {
+        videoType = 'application/x-mpegURL'
+      } else if (url.includes('.mpd')) {
+        videoType = 'application/dash+xml'
+      } else if (url.includes('.webm')) {
+        videoType = 'video/webm'
+      } else if (url.includes('.ogg')) {
+        videoType = 'video/ogg'
+      }
+
       const player = playerRef.current = videojs(videoElement, {
         autoplay: false,
         controls: true,
@@ -56,24 +68,62 @@ export default function VideoPlayer({ url, thumbnail }: VideoPlayerProps) {
         },
         sources: [{
           src: url,
-          type: 'video/mp4'
+          type: videoType
         }]
       }, () => {
         console.log('player is ready')
       })
+
+      // Handle player errors
+      player.on('error', (error: any) => {
+        console.error('Video.js error:', error)
+        
+        // If HLS format is not supported, try to fallback to MP4
+        if (error.code === 4 && url.includes('.m3u8')) {
+          console.log('HLS not supported, trying to find MP4 fallback...')
+          
+          // Extract base filename from HLS URL
+          const baseFilename = url.replace(/\.m3u8$/, '')
+          const mp4Url = `${baseFilename}.mp4`
+          
+          console.log('Trying MP4 fallback:', mp4Url)
+          
+          // Try to load MP4 version
+          fetch(mp4Url, { method: 'HEAD' })
+            .then(response => {
+              if (response.ok) {
+                console.log('MP4 fallback found, switching source...')
+                player.src({
+                  src: mp4Url,
+                  type: 'video/mp4'
+                })
+              } else {
+                console.error('MP4 fallback not found')
+              }
+            })
+            .catch(err => {
+              console.error('Error checking MP4 fallback:', err)
+            })
+        }
+      })
     } else if (playerRef.current) {
       const player = playerRef.current
+      
+      // Determine video type based on URL
+      let videoType = 'video/mp4'
+      if (url.includes('.m3u8')) {
+        videoType = 'application/x-mpegURL'
+      } else if (url.includes('.mpd')) {
+        videoType = 'application/dash+xml'
+      } else if (url.includes('.webm')) {
+        videoType = 'video/webm'
+      } else if (url.includes('.ogg')) {
+        videoType = 'video/ogg'
+      }
+      
       player.src({
         src: url,
-        type: url.includes('.m3u8') 
-          ? 'application/x-mpegURL' 
-          : url.includes('.mpd') 
-            ? 'application/dash+xml' 
-            : url.includes('.webm')
-              ? 'video/webm'
-              : url.includes('.ogg')
-                ? 'video/ogg'
-                : 'video/mp4'
+        type: videoType
       })
       if (thumbnail) player.poster(thumbnail)
     }
