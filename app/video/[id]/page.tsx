@@ -273,8 +273,18 @@ export default async function VideoDetail({ params }: { params: Promise<{ id: st
             </section>
 
             {/* Native Banner - Paling Bawah */}
-            <div className="mt-12 mb-8 flex justify-center">
+            <div className="mt-12 flex flex-col items-center mb-8">
               <div className="w-full max-w-[728px]">
+                <div 
+                  dangerouslySetInnerHTML={{
+                    __html: `
+                      <script async="async" data-cfasync="false" src="https://pl28722946.effectivegatecpm.com/c08de902b7930682919199d915646b97/invoke.js"></script>
+                      <div id="container-c08de902b7930682919199d915646b97"></div>
+                    `
+                  }}
+                />
+              </div>
+               <div className="w-full max-w-[728px]">
                 <div 
                   dangerouslySetInnerHTML={{
                     __html: `
