@@ -43,8 +43,7 @@
     "@types/bcryptjs": "^2.4.6",
     "@types/jsonwebtoken": "^9.0.10",
     "@types/pg": "^8.16.0",
-    "@types/video.js": "^7.3.58",
-    "@uppy/aws-s3": "^5.1.0",
+        "@uppy/aws-s3": "^5.1.0",
     "@uppy/core": "^5.2.0",
     "@uppy/dashboard": "^5.1.0",
     "@uppy/react": "^5.1.1",
@@ -76,8 +75,7 @@
     "tailwindcss-animate": "^1.0.7",
     "tsx": "^4.21.0",
     "vaul": "^1.1.2",
-    "video.js": "^8.23.7",
-    "zod": "3.25.76"
+        "zod": "3.25.76"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4.1.9",

@@ -1,8 +1,6 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
-import videojs from 'video.js'
-import 'video.js/dist/video-js.css'
 
 interface VideoPlayerProps {
   url: string
@@ -10,143 +8,57 @@ interface VideoPlayerProps {
 }
 
 export default function VideoPlayer({ url, thumbnail }: VideoPlayerProps) {
-  const videoRef = useRef<HTMLDivElement>(null)
-  const playerRef = useRef<any>(null)
+  const videoRef = useRef<HTMLVideoElement>(null)
   const [videoError, setVideoError] = useState<string | null>(null)
   const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
-    // Make sure Video.js player is only initialized once
-    if (!playerRef.current && videoRef.current) {
-      const videoElement = document.createElement('video')
-      videoElement.className = 'video-js vjs-big-play-centered vjs-theme-city'
-      videoRef.current.appendChild(videoElement)
+    const video = videoRef.current
+    if (!video) return
 
-      // Force direct video playback - disable HLS completely
-      let videoUrl = url
-      let videoType = 'video/mp4'
-      
-      // Convert HLS to direct video file
-      if (url.includes('.m3u8')) {
-        // Force HLS type to prevent auto fallback
-        videoType = 'application/x-mpegURL'
-        console.log('Using HLS format with forced type:', url)
-        
-        // Don't try to find other formats - just use HLS
-        setIsLoading(false)
-        setVideoError(null)
-      } else if (url.includes('.mpd')) {
-        videoType = 'application/dash+xml'
-      } else if (url.includes('.webm')) {
-        videoType = 'video/webm'
-      } else if (url.includes('.ogg')) {
-        videoType = 'video/ogg'
-      } else if (url.includes('.mov')) {
-        videoType = 'video/quicktime'
-      }
+    // Set video source
+    video.src = url
+    video.poster = thumbnail || ''
 
-      const player = playerRef.current = videojs(videoElement, {
-        autoplay: false,
-        controls: true,
-        responsive: true,
-        fluid: false,
-        fill: true,
-        aspectRatio: '16:9',
-        poster: thumbnail,
-        controlBar: {
-          children: [
-            'playToggle',
-            'volumePanel',
-            'currentTimeDisplay',
-            'timeDivider',
-            'durationDisplay',
-            'progressControl',
-            'liveDisplay',
-            'remainingTimeDisplay',
-            'customControlSpacer',
-            'playbackRateMenuButton',
-            'chaptersButton',
-            'descriptionsButton',
-            'subsCapsButton',
-            'audioTrackButton',
-            'fullscreenToggle'
-          ]
-        },
-        html5: {
-          // Enable HLS support for HLS only mode
-          vhs: {
-            overrideNative: true,
-            enableLowInitialBitrate: true,
-            experimentalBufferBasedABR: true,
-            experimentalLLHLS: true
-          },
-          nativeVideoTracks: false,
-          nativeAudioTracks: false,
-          nativeTextTracks: false
-        },
-        sources: [{
-          src: videoUrl,
-          type: videoType
-        }]
-      }, () => {
-        console.log('player is ready with URL:', videoUrl)
-        setIsLoading(false)
-      })
-
-      // Handle player errors
-      player.on('error', (error: any) => {
-        console.error('Video.js error:', error)
-        
-        // For HLS errors, show specific message
-        if (url.includes('.m3u8')) {
-          setVideoError('HLS stream not available. The video may be processing or temporarily unavailable.')
-        } else {
-          setVideoError('Unable to load video. The video file may not be available.')
-        }
-      })
-    } else if (playerRef.current) {
-      const player = playerRef.current
-      
-      // Handle different video formats
-      let videoUrl = url
-      let videoType = 'video/mp4'
-      
-      if (url.includes('.m3u8')) {
-        videoType = 'application/x-mpegURL'
-        console.log('Using HLS format for existing player:', url)
-      } else if (url.includes('.mpd')) {
-        videoType = 'application/dash+xml'
-      } else if (url.includes('.webm')) {
-        videoType = 'video/webm'
-      } else if (url.includes('.ogg')) {
-        videoType = 'video/ogg'
-      } else if (url.includes('.mov')) {
-        videoType = 'video/quicktime'
-      }
-      
-      player.src({
-        src: videoUrl,
-        type: videoType
-      })
-      if (thumbnail) player.poster(thumbnail)
+    // Handle video events
+    const handleLoadStart = () => {
+      setIsLoading(true)
+      setVideoError(null)
     }
-  }, [url, thumbnail, videoRef])
 
-  // Dispose the player on unmount
-  useEffect(() => {
-    const player = playerRef.current
+    const handleCanPlay = () => {
+      setIsLoading(false)
+      setVideoError(null)
+    }
+
+    const handleError = () => {
+      setIsLoading(false)
+      setVideoError('Unable to load video. The video file may not be available.')
+    }
+
+    // Add event listeners
+    video.addEventListener('loadstart', handleLoadStart)
+    video.addEventListener('canplay', handleCanPlay)
+    video.addEventListener('error', handleError)
+
+    // Cleanup
     return () => {
-      if (player && !player.isDisposed()) {
-        player.dispose()
-        playerRef.current = null
-      }
+      video.removeEventListener('loadstart', handleLoadStart)
+      video.removeEventListener('canplay', handleCanPlay)
+      video.removeEventListener('error', handleError)
     }
-  }, [playerRef])
+  }, [url, thumbnail])
 
   return (
     <div className="w-full">
       <div className="relative w-full aspect-video bg-black">
-        <div ref={videoRef} className="w-full h-full" />
+        <video
+          ref={videoRef}
+          className="w-full h-full"
+          controls
+          playsInline
+          preload="metadata"
+        />
         
         {/* Loading State */}
         {isLoading && (
