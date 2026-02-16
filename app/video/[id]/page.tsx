@@ -168,6 +168,11 @@ export default async function VideoDetail({ params }: { params: Promise<{ id: st
           </section>
 
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
+            {/* Native Banner Ad */}
+            <div className="mb-8">
+              <AdScript adKey="c08de902b7930682919199d915646b97" format="js" />
+            </div>
+
             {/* Ad Middle */}
             <div className="mb-8 flex flex-col items-center gap-6">
               <AdScript adKey="1ad6f564f3ca7bb42752dba86368d149" format="iframe" height={250} width={300} />
