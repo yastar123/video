@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { readFile, stat } from 'fs/promises'
+import { existsSync, readdirSync } from 'fs'
 import path from 'path'
-import { existsSync } from 'fs'
 
 export async function GET(
   request: NextRequest,
@@ -15,6 +15,7 @@ export async function GET(
 
   // Security: prevent directory traversal
   const normalizedPath = path.normalize(filename).replace(/^(\.\.(\/|\\|$))+/, '')
+  const extension = path.extname(filename).toLowerCase()
   
   // Try both public/uploads and uploads directories
   let absolutePath = path.join(process.cwd(), 'public', 'uploads', normalizedPath)
@@ -23,13 +24,59 @@ export async function GET(
   }
 
   if (!existsSync(absolutePath)) {
+    // Check if this is an HLS segment request
+    if (extension === '.ts' || extension === '.m3u8') {
+      // For HLS segments, try to find the original video file
+      const baseName = path.basename(filename, extension)
+      
+      // Look for corresponding video file in uploads
+      const uploadsDir = path.join(process.cwd(), 'uploads')
+      const publicUploadsDir = path.join(process.cwd(), 'public', 'uploads')
+      
+      let videoFile = null
+      
+      // Try to find video file with similar name
+      for (const dir of [uploadsDir, publicUploadsDir]) {
+        if (existsSync(dir)) {
+          const files = readdirSync(dir)
+          const matchingVideo = files.find((file: string) => 
+            file.includes(baseName) && 
+            (file.endsWith('.mp4') || file.endsWith('.webm') || file.endsWith('.mov'))
+          )
+          if (matchingVideo) {
+            videoFile = path.join(dir, matchingVideo)
+            break
+          }
+        }
+      }
+      
+      if (videoFile && existsSync(videoFile)) {
+        // Return the original video file instead of HLS segment
+        try {
+          const fileBuffer = await readFile(videoFile)
+          const videoStat = await stat(videoFile)
+          return new Response(new Uint8Array(fileBuffer), {
+            headers: {
+              'Content-Type': 'video/mp4',
+              'Content-Length': videoStat.size.toString(),
+              'Cache-Control': 'public, max-age=31536000, immutable',
+              'Access-Control-Allow-Origin': '*',
+              'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+              'Access-Control-Allow-Headers': 'X-Requested-With, Content-Type, Authorization'
+            },
+          })
+        } catch (error) {
+          console.error('Error serving fallback video:', error)
+        }
+      }
+    }
+    
     return new Response('File not found', { status: 404 })
   }
 
   try {
     const fileStat = await stat(absolutePath)
     const fileSize = fileStat.size
-    const extension = path.extname(absolutePath).toLowerCase()
     
     const mimeTypes: { [key: string]: string } = {
       '.mp4': 'video/mp4',
@@ -47,7 +94,11 @@ export async function GET(
       '.mov': 'video/quicktime',
       '.wmv': 'video/x-ms-wmv',
       '.flv': 'video/x-flv',
-      '.mkv': 'video/x-matroska'
+      '.mkv': 'video/x-matroska',
+      // HLS streaming formats
+      '.ts': 'video/mp2t',
+      '.m3u8': 'application/vnd.apple.mpegurl',
+      '.m3u': 'application/vnd.apple.mpegurl'
     }
     
     const contentType = mimeTypes[extension] || 'application/octet-stream'
