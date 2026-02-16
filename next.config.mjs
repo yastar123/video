@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  reactStrictMode: false, // Tambahkan ini
+  reactStrictMode: false,
   typescript: {
     ignoreBuildErrors: true,
   },
@@ -27,33 +27,40 @@ const nextConfig = {
           {
             key: "Content-Security-Policy",
             value: [
-              "default-src 'self'",
-              "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://*.effectivegatecpm.com https://*.highperformanceformat.com https://*.adsterra.com https://*.adsterratechnology.com https://*.googlesyndication.com https://*.popads.net https://*.proads.tech https://*.m8v9n2k5.com",
-              "connect-src 'self' https: http: ws: wss:",
-              "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
-              "font-src 'self' data: https://fonts.gstatic.com",
-              "frame-src 'self' https: http: data:",
-              "img-src 'self' data: https: http: blob:",
-              "media-src 'self' https: http: blob: data:",
-              "worker-src 'self' blob:",
-              "child-src 'self' blob:",
-              "object-src 'none'",
-              "base-uri 'self'",
-              "form-action 'self'",
-              "frame-ancestors 'self'",
+              "default-src * 'unsafe-inline' 'unsafe-eval' data: blob:",
+              "script-src * 'unsafe-inline' 'unsafe-eval'",
+              "connect-src * 'unsafe-inline'",
+              "img-src * data: blob: 'unsafe-inline'",
+              "frame-src *",
+              "style-src * 'unsafe-inline'",
+              "font-src * data:",
+              "media-src * blob: data:",
             ].join("; "),
           },
           {
-            key: "Referrer-Policy",
-            value: "no-referrer-when-downgrade",
+            key: "Access-Control-Allow-Origin",
+            value: "*",
           },
           {
-            key: "X-Frame-Options",
-            value: "SAMEORIGIN",
+            key: "Access-Control-Allow-Methods",
+            value: "GET, POST, PUT, DELETE, OPTIONS",
           },
           {
-            key: "X-Content-Type-Options",
-            value: "nosniff",
+            key: "Access-Control-Allow-Headers",
+            value: "X-Requested-With, Content-Type, Authorization",
+          },
+        ],
+      },
+      {
+        source: "/uploads/:path*",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "public, max-age=31536000, immutable",
+          },
+          {
+            key: "Access-Control-Allow-Origin",
+            value: "*",
           },
         ],
       },

@@ -165,8 +165,6 @@ export default async function VideoDetail({ params }: { params: Promise<{ id: st
              {/* Banner 728x90 - ID: 28622405 */}
              <div className="w-full overflow-hidden flex justify-center">
                <AdScript adKey="28622405" format="iframe" height={90} width={728} />
-               <AdScript adKey="28622405" format="iframe" height={90} width={728} />
-               <AdScript adKey="28622405" format="iframe" height={90} width={728} />
              </div>
              <div className="w-full overflow-hidden flex justify-center">
                <AdScript adKey="c08de902b7930682919199d915646b97" format="js" />
@@ -194,8 +192,6 @@ export default async function VideoDetail({ params }: { params: Promise<{ id: st
             {/* Native Banner Ad */}
             <div className="mb-8 w-full overflow-hidden flex justify-center">
               <AdScript adKey="c08de902b7930682919199d915646b97" format="js" />
-              <AdScript adKey="c08de902b7930682919199d915646b97" format="js" />
-              <AdScript adKey="c08de902b7930682919199d915646b97" format="js" />
             </div>
 
             {/* Middle Ads */}
@@ -206,6 +202,7 @@ export default async function VideoDetail({ params }: { params: Promise<{ id: st
               <div className="w-full overflow-hidden flex justify-center">
                 <AdScript adKey="4388c91d89682a21f68164b288c042f9" format="js" />
               </div>
+              
               <div className="w-full grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <MultipleSmartlinks count={1} />
                 <MultipleSmartlinks count={1} />
