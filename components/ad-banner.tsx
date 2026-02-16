@@ -1,7 +1,7 @@
 "use client";
 
-import { PropellerAdDirect } from "./propeller-ads-direct";
+import { Banner728x90 } from "./propeller-real";
 
 export function AdBanner() {
-  return <PropellerAdDirect type="banner728x90" />;
+  return <Banner728x90 className="w-full" />;
 }

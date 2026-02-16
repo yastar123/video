@@ -1,23 +1,19 @@
 "use client";
 
-import { PropellerAdDirect } from "./propeller-ads-direct";
+import { PopunderAd, SocialBarAd, NativeBannerAd } from "./propeller-real";
 
-// Uses Propeller Ads: Publisher ID 5609291
-// Direct integration with exact codes from dashboard
 export function DynamicAds() {
   return (
     <>
-      {/* Popunder Ad */}
-      <PropellerAdDirect type="popunder" />
+      {/* Popunder Ad - EffectiveGate CPM */}
+      <PopunderAd />
 
-      {/* Social Bar Ad */}
-      <PropellerAdDirect type="socialBar" className="my-4" />
+      {/* Social Bar - EffectiveGate CPM */}
+      <SocialBarAd />
 
-      {/* Native Banner */}
-      <div className="w-full my-8 flex justify-center overflow-hidden">
-        <div className="max-w-7xl w-full">
-          <PropellerAdDirect type="nativeBanner" />
-        </div>
+      {/* Native Banner - EffectiveGate CPM */}
+      <div className="w-full my-8 flex justify-center">
+        <NativeBannerAd />
       </div>
     </>
   );
