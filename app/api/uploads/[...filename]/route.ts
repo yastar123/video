@@ -17,14 +17,26 @@ export async function GET(
   const normalizedPath = path.normalize(filename).replace(/^(\.\.(\/|\\|$))+/, '')
   const extension = path.extname(filename).toLowerCase()
   
-  // Try multiple possible upload directories - prioritize VPS paths
+  // Get upload directory from environment or use defaults
+  const uploadDir = process.env.UPLOAD_DIR || './uploads'
+  console.log('Environment UPLOAD_DIR:', uploadDir)
+  console.log('Current working directory:', process.cwd())
+  
+  // Try multiple possible upload directories - prioritize VPS paths and env var
   const possiblePaths = [
     path.join('/root', 'video', 'uploads', normalizedPath),    // VPS production path
+    path.join(process.cwd(), uploadDir, normalizedPath),       // Environment variable
     path.join(process.cwd(), 'uploads', normalizedPath),        // Local development
     path.join(process.cwd(), 'public', 'uploads', normalizedPath), // Alternative local
     path.join('/tmp', 'uploads', normalizedPath),              // Production temp
     path.join('/var/tmp', 'uploads', normalizedPath)           // Production temp alt
   ]
+  
+  console.log('Searching for file:', filename)
+  console.log('Possible paths to check:')
+  possiblePaths.forEach((path, index) => {
+    console.log(`${index + 1}. ${path}`)
+  })
   
   let absolutePath = null
   for (const testPath of possiblePaths) {

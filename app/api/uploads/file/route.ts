@@ -25,9 +25,13 @@ export async function POST(request: NextRequest) {
     const fileName = customFileName || `${objectId}.${extension}`
     const relativePath = `/uploads/${fileName}`
     
-    // Try multiple possible upload directories - prioritize VPS paths
+    // Get upload directory from environment or use defaults
+    const uploadDir = process.env.UPLOAD_DIR || './uploads'
+    
+    // Try multiple possible upload directories - prioritize VPS paths and env var
     const possiblePaths = [
       path.join('/root', 'video', 'uploads', fileName),    // VPS production path
+      path.join(process.cwd(), uploadDir, fileName),       // Environment variable
       path.join(process.cwd(), 'uploads', fileName),        // Local development
       path.join(process.cwd(), 'public', 'uploads', fileName), // Alternative local
       path.join('/tmp', 'uploads', fileName),              // Production temp
