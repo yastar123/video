@@ -1,12 +1,12 @@
 "use client";
 
-import { PropellerBanner } from "./propeller-ads";
+import { PropellerAdDirect } from "./propeller-ads-direct";
 
 // Banner 300x250 - Medium Rectangle
 export function MediumRectangleBanner() {
   return (
     <div className="flex justify-center py-4">
-      <PropellerBanner type="banner300x250" className="hidden md:block" />
+      <PropellerAdDirect type="banner300x250" className="hidden md:block" />
     </div>
   );
 }
@@ -15,7 +15,7 @@ export function MediumRectangleBanner() {
 export function WideSkyscraper() {
   return (
     <div className="flex justify-center py-4">
-      <PropellerBanner type="banner160x600" />
+      <PropellerAdDirect type="banner160x600" />
     </div>
   );
 }
