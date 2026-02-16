@@ -1,0 +1,114 @@
+{
+  "colorScheme": "dark",
+  "fonts": [
+    {
+      "family": "Geist",
+      "role": "unknown"
+    },
+    {
+      "family": "Arial",
+      "role": "unknown"
+    },
+    {
+      "family": "Helvetica",
+      "role": "unknown"
+    }
+  ],
+  "colors": {
+    "primary": "#20262F",
+    "accent": "#2B333F",
+    "background": "#000000",
+    "textPrimary": "#000000",
+    "link": "#2B333F"
+  },
+  "typography": {
+    "fontFamilies": {
+      "primary": "Geist",
+      "heading": "Geist"
+    },
+    "fontStacks": {
+      "heading": [
+        "Geist",
+        "ui-sans-serif",
+        "system-ui"
+      ],
+      "body": [
+        "Geist",
+        "ui-sans-serif",
+        "system-ui"
+      ],
+      "paragraph": [
+        "Arial",
+        "Helvetica",
+        "sans-serif"
+      ]
+    },
+    "fontSizes": {
+      "h1": "30px",
+      "h2": "24px",
+      "body": "10px"
+    }
+  },
+  "spacing": {
+    "baseUnit": 4,
+    "borderRadius": "0px"
+  },
+  "components": {
+    "buttonPrimary": {
+      "background": "#1E242C",
+      "textColor": "#FFFFFF",
+      "borderColor": "#FFFFFF",
+      "borderRadius": "9px",
+      "borderRadiusCorners": {
+        "topLeft": "9px",
+        "topRight": "9px",
+        "bottomRight": "9px",
+        "bottomLeft": "9px"
+      },
+      "shadow": "none"
+    }
+  },
+  "images": {
+    "logo": null,
+    "favicon": "https://bokepindonesia.my.id/favicon.ico",
+    "ogImage": "https://vdn.bokepking.cam/wp-content/uploads/2026/01/058f24f3add2aa4176bb22cd0ef8939f4a01055d-640x360.webp"
+  },
+  "__llm_button_reasoning": {
+    "primary": {
+      "index": 0,
+      "text": "Play Video",
+      "reasoning": "The 'Play Video' button is the only button present and serves as the main call-to-action for the page, encouraging users to engage with the content."
+    },
+    "secondary": {
+      "index": -1,
+      "text": "N/A",
+      "reasoning": "There are no other buttons present on the page to serve as a secondary action."
+    },
+    "confidence": 0.9
+  },
+  "personality": {
+    "tone": "bold",
+    "energy": "high",
+    "targetAudience": "adults"
+  },
+  "designSystem": {
+    "framework": "tailwind",
+    "componentLibrary": ""
+  },
+  "confidence": {
+    "buttons": 0.9,
+    "colors": 0.8,
+    "overall": 0.8500000000000001
+  },
+  "__llm_metadata": {
+    "logoSelection": {
+      "llmCalled": false,
+      "llmSucceeded": false,
+      "finalSource": "none"
+    },
+    "buttonClassification": {
+      "llmCalled": true,
+      "llmSucceeded": true
+    }
+  }
+}

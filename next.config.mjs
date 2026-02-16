@@ -10,7 +10,7 @@ const nextConfig = {
       { protocol: "http", hostname: "**" },
     ],
   },
-  allowedDevOrigins: ["*.replit.dev"],
+  allowedDevOrigins: ["*.replit.dev", "*.repl.co", "*.replit.app"],
   async rewrites() {
     return [
       {
