@@ -25,24 +25,42 @@ export async function POST(request: NextRequest) {
     const fileName = customFileName || `${objectId}.${extension}`
     const relativePath = `/uploads/${fileName}`
     
-    // Always save to uploads directory in project root
-    const absolutePath = path.join(process.cwd(), 'uploads', fileName)
-
-    console.log('Uploading file:')
-    console.log('- Original filename:', file.name)
-    console.log('- File size:', file.size)
-    console.log('- File type:', file.type)
-    console.log('- Target path:', absolutePath)
-    console.log('- Directory exists:', existsSync(path.dirname(absolutePath)))
+    // Try multiple possible upload directories
+    const possiblePaths = [
+      path.join(process.cwd(), 'uploads', fileName),
+      path.join(process.cwd(), 'public', 'uploads', fileName),
+      path.join('/tmp', 'uploads', fileName),
+      path.join('/var/tmp', 'uploads', fileName)
+    ]
     
-    await mkdir(path.dirname(absolutePath), { recursive: true })
-
-    const bytes = await file.arrayBuffer()
-    const buffer = Buffer.from(bytes)
-    await writeFile(absolutePath, buffer)
+    let absolutePath = possiblePaths[0] // Default to first option
+    let uploadSuccess = false
     
-    console.log('File saved successfully:', absolutePath)
-    console.log('File exists after save:', existsSync(absolutePath))
+    for (const testPath of possiblePaths) {
+      try {
+        console.log('Attempting to save to:', testPath)
+        await mkdir(path.dirname(testPath), { recursive: true })
+        
+        const bytes = await file.arrayBuffer()
+        const buffer = Buffer.from(bytes)
+        await writeFile(testPath, buffer)
+        
+        // Verify file was written
+        if (require('fs').existsSync(testPath)) {
+          absolutePath = testPath
+          uploadSuccess = true
+          console.log('File saved successfully to:', testPath)
+          break
+        }
+      } catch (error) {
+        console.log('Failed to save to', testPath, ':', error.message)
+        continue
+      }
+    }
+    
+    if (!uploadSuccess) {
+      throw new Error('Failed to save file to any location')
+    }
 
     return NextResponse.json({
       success: true,

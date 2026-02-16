@@ -17,17 +17,26 @@ export async function GET(
   const normalizedPath = path.normalize(filename).replace(/^(\.\.(\/|\\|$))+/, '')
   const extension = path.extname(filename).toLowerCase()
   
-  // Try uploads directory first (where files are actually uploaded), then public/uploads
-  let absolutePath = path.join(process.cwd(), 'uploads', normalizedPath)
-  console.log('Looking for file in uploads:', absolutePath, 'exists:', existsSync(absolutePath))
+  // Try multiple possible upload directories
+  const possiblePaths = [
+    path.join(process.cwd(), 'uploads', normalizedPath),
+    path.join(process.cwd(), 'public', 'uploads', normalizedPath),
+    path.join('/tmp', 'uploads', normalizedPath),
+    path.join('/var/tmp', 'uploads', normalizedPath)
+  ]
   
-  if (!existsSync(absolutePath)) {
-    absolutePath = path.join(process.cwd(), 'public', 'uploads', normalizedPath)
-    console.log('Looking for file in public/uploads:', absolutePath, 'exists:', existsSync(absolutePath))
+  let absolutePath = null
+  for (const testPath of possiblePaths) {
+    console.log('Looking for file in:', testPath, 'exists:', existsSync(testPath))
+    if (existsSync(testPath)) {
+      absolutePath = testPath
+      console.log('Found file at:', testPath)
+      break
+    }
   }
 
-  if (!existsSync(absolutePath)) {
-    console.log('File not found:', filename)
+  if (!absolutePath) {
+    console.log('File not found in any location:', filename)
     return new Response('File not found', { status: 404 })
   }
 
