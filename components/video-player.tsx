@@ -3,6 +3,7 @@
 import { useEffect, useRef } from 'react'
 import videojs from 'video.js'
 import 'video.js/dist/video-js.css'
+import 'video.js/dist/video-js.css'
 
 interface VideoPlayerProps {
   url: string
@@ -55,15 +56,7 @@ export default function VideoPlayer({ url, thumbnail }: VideoPlayerProps) {
         },
         sources: [{
           src: url,
-          type: url.includes('.m3u8') 
-            ? 'application/x-mpegURL' 
-            : url.includes('.mpd') 
-              ? 'application/dash+xml' 
-              : url.includes('.webm')
-                ? 'video/webm'
-                : url.includes('.ogg')
-                  ? 'video/ogg'
-                  : 'video/mp4'
+          type: 'video/mp4'
         }]
       }, () => {
         console.log('player is ready')

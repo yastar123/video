@@ -26,56 +26,9 @@ export async function GET(
   if (!existsSync(absolutePath)) {
     // Check if this is an HLS segment request
     if (extension === '.ts' || extension === '.m3u8') {
-      // For HLS segments, try to find the original video file
-      const baseName = path.basename(filename, extension)
+      // For HLS segments, return empty response to prevent infinite loading
+      console.log(`HLS segment requested: ${filename} - returning empty response`)
       
-      // Extract video ID from HLS segment name
-      // Example: "seg-1-v1-a1.ts" -> "seg-1-v1-a1"
-      const videoId = baseName.replace(/-v\d+$/, '')
-      
-      // Look for corresponding video file in uploads
-      const uploadsDir = path.join(process.cwd(), 'uploads')
-      const publicUploadsDir = path.join(process.cwd(), 'public', 'uploads')
-      
-      let videoFile = null
-      
-      // Try to find video file with similar ID
-      for (const dir of [uploadsDir, publicUploadsDir]) {
-        if (existsSync(dir)) {
-          const files = readdirSync(dir)
-          const matchingVideo = files.find((file: string) => 
-            file.includes(videoId) && 
-            (file.endsWith('.mp4') || file.endsWith('.webm') || file.endsWith('.mov'))
-          )
-          if (matchingVideo) {
-            videoFile = path.join(dir, matchingVideo)
-            console.log(`Found matching video: ${matchingVideo} for HLS segment: ${filename}`)
-            break
-          }
-        }
-      }
-      
-      if (videoFile && existsSync(videoFile)) {
-        // Return the original video file instead of HLS segment
-        try {
-          const fileBuffer = await readFile(videoFile)
-          const videoStat = await stat(videoFile)
-          return new Response(new Uint8Array(fileBuffer), {
-            headers: {
-              'Content-Type': 'video/mp4',
-              'Content-Length': videoStat.size.toString(),
-              'Cache-Control': 'public, max-age=31536000, immutable',
-              'Access-Control-Allow-Origin': '*',
-              'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
-              'Access-Control-Allow-Headers': 'X-Requested-With, Content-Type, Authorization'
-            },
-          })
-        } catch (error) {
-          console.error('Error serving fallback video:', error)
-        }
-      }
-      
-      // If no video file found, return empty HLS segment to prevent infinite loading
       if (extension === '.ts') {
         // Return empty TS segment
         return new Response(new Uint8Array(), {
