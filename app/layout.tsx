@@ -26,6 +26,24 @@ export const metadata: Metadata = {
   alternates: {
     canonical: '/',
   },
+  contentSecurityPolicy: {
+    directives: {
+      scriptSrc: [
+        "'self'",
+        "'unsafe-inline'",
+        "'unsafe-eval'",
+        "blob:",
+        "https:",
+        "http:",
+        "https://pl28722862.effectivegatecpm.com",
+        "https://pl28722946.effectivegatecpm.com",
+        "https://www.effectivegatecpm.com"
+      ],
+      imgSrc: ["'self'", "data:", "https:", "http:"],
+      connectSrc: ["'self'", "https:", "http:"],
+      defaultSrc: ["'self'"],
+    },
+  },
   openGraph: {
     title: 'BokepIndonesia - Nonton Video Online Terlengkap',
     description: 'Nonton bokep Indonesia, Jepang, China terlengkap dan terbaru hanya di BokepIndonesia. Streaming video kualitas HD tanpa VPN.',

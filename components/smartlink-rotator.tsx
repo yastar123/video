@@ -44,6 +44,18 @@ export function SmartlinkRotator({ className = "", children }: SmartlinkRotatorP
 
   if (!isVisible) return null
 
+  const handleClick = (link: any) => {
+    try {
+      trackClick(link.id, link.url)
+      // Fallback: jika Link tidak berfungsi, buka window baru
+      window.open(link.url, '_blank', 'noopener,noreferrer')
+    } catch (error) {
+      console.error('Smartlink click error:', error)
+      // Fallback ke window.open
+      window.open(link.url, '_blank', 'noopener,noreferrer')
+    }
+  }
+
   return (
     <div className={`relative ${className}`}>
       <Link 
@@ -51,9 +63,7 @@ export function SmartlinkRotator({ className = "", children }: SmartlinkRotatorP
         target="_blank"
         rel="noopener noreferrer"
         className="block w-full bg-gradient-to-r from-purple-600/20 to-pink-600/20 hover:from-purple-600/30 hover:to-pink-600/30 border border-purple-500/30 hover:border-purple-500/50 rounded-lg p-4 transition-all duration-300 group"
-        onClick={() => {
-          trackClick(currentLink.id, currentLink.url)
-        }}
+        onClick={() => handleClick(currentLink)}
       >
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
@@ -117,6 +127,18 @@ export function MultipleSmartlinks({ count = 1, className = "" }: { count?: numb
     return () => clearInterval(interval)
   }, [])
 
+  const handleMultipleClick = (link: any) => {
+    try {
+      trackClick(link.id, link.url)
+      // Fallback: jika Link tidak berfungsi, buka window baru
+      window.open(link.url, '_blank', 'noopener,noreferrer')
+    } catch (error) {
+      console.error('Multiple smartlink click error:', error)
+      // Fallback ke window.open
+      window.open(link.url, '_blank', 'noopener,noreferrer')
+    }
+  }
+
   return (
     <div className={`space-y-3 ${className}`}>
       {linkIndices.map((index, i) => {
@@ -128,7 +150,7 @@ export function MultipleSmartlinks({ count = 1, className = "" }: { count?: numb
             target="_blank"
             rel="noopener noreferrer"
             className="block w-full bg-gradient-to-r from-blue-600/20 to-green-600/20 hover:from-blue-600/30 hover:to-green-600/30 border border-blue-500/30 hover:border-blue-500/50 rounded-lg p-3 transition-all duration-300 group"
-            onClick={() => trackClick(link.id, link.url)}
+            onClick={() => handleMultipleClick(link)}
           >
             <div className="flex items-center justify-between">
               <span className="text-white text-sm font-medium group-hover:text-blue-300 transition-colors">

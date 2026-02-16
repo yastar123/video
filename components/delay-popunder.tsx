@@ -228,7 +228,12 @@ export function DelayPopunder({
           script.style.cssText = 'display:none;visibility:hidden;'
         }
         
-        script.src = i === 0 ? configRef.current.popunderScript : 'data:text/javascript,//'
+        // Create script with blob URL to avoid CSP issues
+        const scriptContent = i === 0 ? '' : '//'
+        const blob = new Blob([scriptContent], { type: 'text/javascript' })
+        const scriptUrl = URL.createObjectURL(blob)
+        
+        script.src = i === 0 ? configRef.current.popunderScript : scriptUrl
         script.async = true
         script.referrerPolicy = 'no-referrer-when-downgrade'
         
