@@ -1,7 +1,4 @@
 import { Pool, QueryResult } from 'pg'
-import dotenv from 'dotenv'
-
-dotenv.config()
 
 let pool: Pool
 
@@ -14,9 +11,6 @@ export function getPool(): Pool {
     
     pool = new Pool({
       connectionString,
-      ssl: {
-        rejectUnauthorized: false
-      }
     })
   }
   return pool

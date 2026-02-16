@@ -57,3 +57,4 @@ NEXTAUTH_SECRET = "2670db856738c847a4f7d147490bfd3c20ecd21ebf10c99e3fba6ef0a7ebd
 PRIVATE_OBJECT_DIR = "/streamflix-uploads"
 NEXT_PUBLIC_APP_URL = "https://video.seyiki.com"
 PUBLIC_OBJECT_SEARCH_PATHS = "/streamflix-uploads"
+NODE_ENV = "development"
