@@ -65,6 +65,8 @@ async function getVideos(search?: string, category?: string, page: number = 1, s
   }
 }
 
+import AdScript from '@/components/ad-script'
+
 export default async function Home({
   searchParams,
 }: {
@@ -119,16 +121,8 @@ export default async function Home({
           <div className="flex-1">
             <h1 className="sr-only">BokepIndonesia - Nonton Video Online Terlengkap</h1>
             
-            {/* Hero banner disabled for stability */}
-            {/* <section className="mb-8">
-              <HeroBanner />
-            </section> */}
+            <AdScript adKey="5a8dd45e78414c6e5be9db9eaffed61f" format="iframe" height={90} width={728} />
 
-            <DynamicAds />
-
-            {/* Banners disabled */}
-            <AdsterraBanner format="native" />
-            
             {/* Search and Filter Section */}
         <section className="mb-8">
           <div className="flex items-center gap-2 border-b border-white/10 overflow-x-auto pb-px no-scrollbar">
@@ -209,14 +203,14 @@ export default async function Home({
           )}
           
           <div className="mt-12">
-            <AdsterraBanner format="native" />
+            <AdScript adKey="c08de902b7930682919199d915646b97" format="js" />
           </div>
         </section>
       </div>
       
       <aside className="hidden xl:block w-[160px] flex-shrink-0 pt-20">
         <div className="sticky top-24">
-          <AdsterraBanner format="160x600" />
+          <AdScript adKey="22bed31723f24472a78afb44a7addb6b" format="iframe" height={600} width={160} />
         </div>
       </aside>
     </div>

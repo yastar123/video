@@ -33,10 +33,23 @@ export default function AdScript({ adKey, format, height, width }: AdScriptProps
           script2.src = `https://www.highperformanceformat.com/${adKey}/invoke.js`;
           container.appendChild(script2);
         } else if (format === 'js') {
-           // For JS scripts like Popunder/SocialBar
+           // For JS scripts like Popunder/SocialBar/Native
            const script = document.createElement('script');
-           script.src = adKey.startsWith('http') ? adKey : `https://pl28722862.effectivegatecpm.com/${adKey}.js`;
-           document.head.appendChild(script);
+           if (adKey === 'c08de902b7930682919199d915646b97') {
+             // Native banner specific
+             script.async = true;
+             script.setAttribute('data-cfasync', 'false');
+             script.src = `https://pl28722946.effectivegatecpm.com/${adKey}/invoke.js`;
+           } else if (adKey === '9add34aad611a8243e9fa65055bde309') {
+             // Social bar
+             script.src = `https://pl28722941.effectivegatecpm.com/9a/dd/34/${adKey}.js`;
+           } else if (adKey === '4388c91d89682a21f68164b288c042f9') {
+             // Popunder
+             script.src = `https://pl28722862.effectivegatecpm.com/43/88/c9/${adKey}.js`;
+           } else {
+             script.src = adKey.startsWith('http') ? adKey : `https://pl28722862.effectivegatecpm.com/${adKey}.js`;
+           }
+           container.appendChild(script);
         }
       }
     }
