@@ -12,7 +12,7 @@ import Link from 'next/link'
 import { HeaderUser } from '@/components/header-user'
 import { getCurrentUser } from '@/lib/session'
 import { BannerPlaceholder } from '@/components/banner-placeholder'
-
+import { DynamicAds } from '@/components/dynamic-ads'
 import { AdsterraBanner } from '@/components/adsterra-banner'
 
 export const revalidate = 3600 // Revalidate home page every hour
@@ -123,6 +123,8 @@ export default async function Home({
             {/* <section className="mb-8">
               <HeroBanner />
             </section> */}
+
+            <DynamicAds />
 
             {/* Banners disabled */}
             {/* <AdsterraBanner format="native" /> */}
