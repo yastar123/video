@@ -198,11 +198,11 @@ export default async function VideoDetail({ params }: { params: Promise<{ id: st
             <div className="mb-8 flex flex-col items-center gap-6 w-full overflow-hidden">
               <div className="w-full overflow-hidden flex justify-center">
                 <AdScript adKey="1ad6f564f3ca7bb42752dba86368d149" format="iframe" height={250} width={300} />
+                <AdScript adKey="1ad6f564f3ca7bb42752dba86368d149" format="iframe" height={250} width={300} />
+                <AdScript adKey="1ad6f564f3ca7bb42752dba86368d149" format="iframe" height={250} width={300} />
               </div>
               <div className="w-full overflow-hidden flex justify-center">
                 <AdScript adKey="4388c91d89682a21f68164b288c042f9" format="js" />
-                  <AdScript adKey="4388c91d89682a21f68164b288c042f9" format="js" />
-                    <AdScript adKey="4388c91d89682a21f68164b288c042f9" format="js" />
               </div>
               <div className="w-full grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <MultipleSmartlinks count={1} />
@@ -273,18 +273,8 @@ export default async function VideoDetail({ params }: { params: Promise<{ id: st
             </section>
 
             {/* Native Banner - Paling Bawah */}
-            <div className="mt-12 flex flex-col items-center mb-8">
+            <div className="mt-12 mb-8 flex justify-center">
               <div className="w-full max-w-[728px]">
-                <div 
-                  dangerouslySetInnerHTML={{
-                    __html: `
-                      <script async="async" data-cfasync="false" src="https://pl28722946.effectivegatecpm.com/c08de902b7930682919199d915646b97/invoke.js"></script>
-                      <div id="container-c08de902b7930682919199d915646b97"></div>
-                    `
-                  }}
-                />
-              </div>
-               <div className="w-full max-w-[728px]">
                 <div 
                   dangerouslySetInnerHTML={{
                     __html: `
