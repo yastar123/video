@@ -6,22 +6,8 @@ const nextConfig = {
   images: {
     unoptimized: true,
     remotePatterns: [
-      {
-        protocol: 'https',
-        hostname: 'storage.googleapis.com',
-      },
-      {
-        protocol: 'https',
-        hostname: 'video.seyiki.com',
-      },
-      {
-        protocol: 'http',
-        hostname: 'video.seyiki.com',
-      },
-      {
-        protocol: 'https',
-        hostname: 'images.unsplash.com',
-      },
+      { protocol: 'https', hostname: '**' },
+      { protocol: 'http', hostname: '**' }
     ],
   },
   allowedDevOrigins: ['*'],

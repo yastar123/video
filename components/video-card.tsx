@@ -104,7 +104,9 @@ export function VideoCard({ video, onClick, isLink, priority }: VideoCardProps) 
           </span>
           <span className="flex items-center gap-1 sm:gap-1.5">
             <Clock size={10} className="sm:w-[12px] sm:h-[12px]" />
-            {new Date(video.created_at).toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}
+            <span suppressHydrationWarning>
+              {new Date(video.created_at).toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}
+            </span>
           </span>
         </div>
       </div>

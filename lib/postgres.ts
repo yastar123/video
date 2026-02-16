@@ -26,6 +26,9 @@ export async function query(text: string, params?: any[]): Promise<QueryResult> 
   const client = await getPool().connect()
   try {
     return await client.query(text, params)
+  } catch (err) {
+    console.error('Database Query Error:', { text, params, error: err })
+    throw err
   } finally {
     client.release()
   }

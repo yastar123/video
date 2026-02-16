@@ -7,6 +7,7 @@ interface AdsterraBannerProps {
 }
 
 export function AdsterraBanner({ format }: AdsterraBannerProps) {
+  return null;
   const containerRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -44,14 +45,16 @@ export function AdsterraBanner({ format }: AdsterraBannerProps) {
       containerRef.current.appendChild(configScript)
       script.src = 'https://www.highperformanceformat.com/22bed31723f24472a78afb44a7addb6b/invoke.js'
     } else if (format === 'native') {
-      script.async = true
-      script.src = 'https://pl28722946.effectivegatecpm.com/c08de902b7930682919199d915646b97/invoke.js'
-      script.setAttribute('data-cfasync', 'false')
-      const nativeContainer = document.createElement('div')
-      nativeContainer.id = 'container-c08de902b7930682919199d915646b97'
-      containerRef.current.appendChild(nativeContainer)
+      // script.async = true
+      // script.src = 'https://pl28722946.effectivegatecpm.com/c08de902b7930682919199d915646b97/invoke.js'
+      // script.setAttribute('data-cfasync', 'false')
+      // const nativeContainer = document.createElement('div')
+      // nativeContainer.id = 'container-c08de902b7930682919199d915646b97'
+      // containerRef.current.appendChild(nativeContainer)
+      return
     } else if (format === 'social') {
-      script.src = 'https://pl28722941.effectivegatecpm.com/9a/dd/34/9add34aad611a8243e9fa65055bde309.js'
+      // script.src = 'https://pl28722941.effectivegatecpm.com/9a/dd/34/9add34aad611a8243e9fa65055bde309.js'
+      return
     }
 
     containerRef.current.appendChild(script)

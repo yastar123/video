@@ -76,10 +76,15 @@ export default async function Home({
   const currentPage = typeof params.page === 'string' ? parseInt(params.page) : 1
   const sort = typeof params.sort === 'string' ? params.sort : 'newest'
 
-  const [categories, { videos, pagination }] = await Promise.all([
+  const [categoriesResult, videosResult] = await Promise.allSettled([
     getCategories(),
     getVideos(search, selectedCategory, currentPage, sort)
   ])
+
+  const categories = categoriesResult.status === 'fulfilled' ? (categoriesResult.value || []) : []
+  const videosData = videosResult.status === 'fulfilled' ? (videosResult.value || { videos: [], pagination: { totalCount: 0, totalPages: 0, currentPage: 1 } }) : { videos: [], pagination: { totalCount: 0, totalPages: 0, currentPage: 1 } }
+  const videos = videosData.videos || []
+  const pagination = videosData.pagination || { totalCount: 0, totalPages: 0, currentPage: 1 }
 
   return (
     <main className="min-h-screen bg-[#0a0a0a] text-white">
@@ -114,12 +119,14 @@ export default async function Home({
           <div className="flex-1">
             <h1 className="sr-only">BokepIndonesia - Nonton Video Online Terlengkap</h1>
             
-            <section className="mb-8">
+            {/* Hero banner disabled for stability */}
+            {/* <section className="mb-8">
               <HeroBanner />
-            </section>
+            </section> */}
 
-            <AdsterraBanner format="728x90" />
-
+            {/* Banners disabled */}
+            {/* <AdsterraBanner format="native" /> */}
+            
             {/* Search and Filter Section */}
         <section className="mb-8">
           <div className="flex items-center gap-2 border-b border-white/10 overflow-x-auto pb-px no-scrollbar">
@@ -200,14 +207,14 @@ export default async function Home({
           )}
           
           <div className="mt-12">
-            <AdsterraBanner format="native" />
+            {/* <AdsterraBanner format="native" /> */}
           </div>
         </section>
       </div>
       
       <aside className="hidden xl:block w-[160px] flex-shrink-0 pt-20">
         <div className="sticky top-24">
-          <AdsterraBanner format="160x600" />
+          {/* <AdsterraBanner format="160x600" /> */}
         </div>
       </aside>
     </div>

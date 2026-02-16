@@ -85,19 +85,7 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
 
 // Client component wrapper for views increment
 function ViewsIncrement({ videoId }: { videoId: string }) {
-  return (
-    <script dangerouslySetInnerHTML={{
-      __html: `
-        setTimeout(() => {
-          fetch('/api/videos/views', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ videoId: ${videoId} })
-          }).catch(console.error);
-        }, 2000);
-      `
-    }} />
-  )
+  return null;
 }
 
 const formatDuration = (seconds: number) => {
