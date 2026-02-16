@@ -28,21 +28,17 @@ export default function VideoPlayer({ url, thumbnail }: VideoPlayerProps) {
       
       // Convert HLS to direct video file
       if (url.includes('.m3u8')) {
-        // Keep HLS format for proper HLS playback
-        videoType = 'application/x-mpegURL'
-        console.log('Using HLS format:', url)
-        
-        // Extract base filename and try different video formats as fallback
+        // Extract base filename and try different video formats
         const baseFilename = url.replace(/\.m3u8$/, '')
-        console.log('HLS base filename:', baseFilename)
+        console.log('Converting HLS to direct video:', url, '->', baseFilename)
         
-        // Try to find the actual video file for fallback
+        // Try to find the actual video file
         const checkVideoFile = async (format: string) => {
           const testUrl = `${baseFilename}${format}`
           try {
             const response = await fetch(testUrl, { method: 'HEAD' })
             if (response.ok) {
-              console.log('Found working video file for fallback:', testUrl)
+              console.log('Found working video file:', testUrl)
               return testUrl
             }
           } catch (error) {
@@ -51,20 +47,45 @@ export default function VideoPlayer({ url, thumbnail }: VideoPlayerProps) {
           return null
         }
         
-        // Check for video file asynchronously as fallback
+        // Try formats in order
+        const formats = ['.mp4', '.webm', '.ogg', '.mov']
+        
+        // Check for video file asynchronously
         ;(async () => {
-          const formats = ['.mp4', '.webm', '.ogg', '.mov']
+          setIsLoading(true)
+          setVideoError(null)
           
+          let foundVideo = false
           for (const format of formats) {
             const foundUrl = await checkVideoFile(format)
             if (foundUrl) {
-              console.log('Switching to fallback format:', format)
-              // Don't switch immediately, let HLS try first
-              // Only switch if HLS fails
+              videoUrl = foundUrl
+              videoType = format === '.webm' ? 'video/webm' : format === '.ogg' ? 'video/ogg' : format === '.mov' ? 'video/quicktime' : 'video/mp4'
+              
+              // Update player source
+              if (playerRef.current) {
+                playerRef.current.src({
+                  src: videoUrl,
+                  type: videoType
+                })
+              }
+              foundVideo = true
+              setIsLoading(false)
               break
             }
           }
+          
+          // If no video file found, show error
+          if (!foundVideo) {
+            console.error('No video file found for:', url)
+            setVideoError('Video file not found. The video may have been removed or is not available.')
+            setIsLoading(false)
+          }
         })()
+        
+        // Default to MP4 format
+        videoUrl = `${baseFilename}.mp4`
+        videoType = 'video/mp4'
       } else if (url.includes('.mpd')) {
         videoType = 'application/dash+xml'
       } else if (url.includes('.webm')) {
@@ -101,16 +122,13 @@ export default function VideoPlayer({ url, thumbnail }: VideoPlayerProps) {
           ]
         },
         html5: {
-          // Enable HLS support
+          // Disable HLS completely to avoid infinite loop
           vhs: {
-            overrideNative: true,
-            enableLowInitialBitrate: true,
-            experimentalBufferBasedABR: true,
-            experimentalLLHLS: true
+            overrideNative: false
           },
-          nativeVideoTracks: false,
-          nativeAudioTracks: false,
-          nativeTextTracks: false
+          nativeVideoTracks: true,
+          nativeAudioTracks: true,
+          nativeTextTracks: true
         },
         sources: [{
           src: videoUrl,
@@ -124,15 +142,13 @@ export default function VideoPlayer({ url, thumbnail }: VideoPlayerProps) {
       // Handle player errors
       player.on('error', (error: any) => {
         console.error('Video.js error:', error)
+        setVideoError('Unable to load video. The video file may not be available.')
         
-        // If HLS fails, try to fallback to direct video file
-        if (error.code === 4 && url.includes('.m3u8')) {
-          console.log('HLS failed, trying to find direct video file...')
-          
-          const baseFilename = url.replace(/\.m3u8$/, '')
+        // Try different video formats if current fails
+        if (error.code === 4) {
+          const baseFilename = url.replace(/\.(m3u8|mp4|webm|ogg|mov)$/, '')
           const formats = ['.mp4', '.webm', '.ogg', '.mov']
           
-          // Try different video formats
           formats.forEach(format => {
             const testUrl = `${baseFilename}${format}`
             console.log('Trying fallback format:', testUrl)
@@ -152,27 +168,18 @@ export default function VideoPlayer({ url, thumbnail }: VideoPlayerProps) {
                 // Try next format
               })
           })
-          
-          // If no format works, show error
-          setTimeout(() => {
-            if (videoError === null) {
-              setVideoError('Unable to load video. The video file may not be available.')
-            }
-          }, 3000)
-        } else {
-          setVideoError('Unable to load video. The video file may not be available.')
         }
       })
     } else if (playerRef.current) {
       const player = playerRef.current
       
-      // Handle different video formats
+      // Force direct video playback
       let videoUrl = url
       let videoType = 'video/mp4'
       
       if (url.includes('.m3u8')) {
-        videoType = 'application/x-mpegURL'
-        console.log('Using HLS format for existing player:', url)
+        videoUrl = url.replace(/\.m3u8$/, '.mp4')
+        videoType = 'video/mp4'
       } else if (url.includes('.mpd')) {
         videoType = 'application/dash+xml'
       } else if (url.includes('.webm')) {
