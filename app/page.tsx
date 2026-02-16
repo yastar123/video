@@ -221,12 +221,17 @@ export default async function Home({
                 </div>
               )}
               
-              <div className="mt-12 flex flex-col items-center gap-6 w-full overflow-hidden">
-                <div className="w-full overflow-hidden flex justify-center">
-                  <AdScript adKey="a8ea859722150189e57a87b6579578f3" format="iframe" height={60} width={468} />
-                </div>
-                <div className="w-full overflow-hidden flex justify-center">
-                  <AdScript adKey="c08de902b7930682919199d915646b97" format="js" />
+              {/* Native Banner - Paling Bawah */}
+              <div className="mt-12 mb-8 flex justify-center">
+                <div className="w-full max-w-[728px]">
+                  <div 
+                    dangerouslySetInnerHTML={{
+                      __html: `
+                        <script async="async" data-cfasync="false" src="https://pl28722946.effectivegatecpm.com/c08de902b7930682919199d915646b97/invoke.js"></script>
+                        <div id="container-c08de902b7930682919199d915646b97"></div>
+                      `
+                    }}
+                  />
                 </div>
               </div>
             </section>

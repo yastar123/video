@@ -4,6 +4,7 @@ import { Geist, Geist_Mono } from 'next/font/google'
 import './globals.css'
 import { AdsterraBanner } from '@/components/adsterra-banner'
 import { DelayPopunder, DELAY_PRESETS } from '@/components/delay-popunder'
+import { TestingDashboard } from '@/components/testing-dashboard'
 
 const geistSans = Geist({
   subsets: ["latin"],
@@ -94,6 +95,9 @@ export default function RootLayout({
         />
       </head>
       <body className={`${geistSans.variable} ${geistMono.variable} font-sans antialiased bg-background text-foreground selection:bg-primary selection:text-primary-foreground flex flex-col min-h-screen`}>
+        {/* Testing Dashboard - Development Only */}
+        <TestingDashboard />
+        
         {/* Delay Popunder Manager - Anti-Block System */}
         <DelayPopunder 
           config={{

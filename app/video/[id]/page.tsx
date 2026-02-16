@@ -139,8 +139,14 @@ export default async function VideoDetail({ params }: { params: Promise<{ id: st
         </header>
 
         {/* Global Ads */}
-        <AdScript adKey="4388c91d89682a21f68164b288c042f9" format="js" />
-        <AdScript adKey="9add34aad611a8243e9fa65055bde309" format="js" />
+<div className="w-full flex flex-wrap justify-center gap-4">
+  <AdScript adKey="4388c91d89682a21f68164b288c042f9" format="js" />
+  <AdScript adKey="9add34aad611a8243e9fa65055bde309" format="js" />
+  <AdScript adKey="4388c91d89682a21f68164b288c042f9" format="js" />
+  <AdScript adKey="9add34aad611a8243e9fa65055bde309" format="js" />
+  <AdScript adKey="4388c91d89682a21f68164b288c042f9" format="js" />
+  <AdScript adKey="9add34aad611a8243e9fa65055bde309" format="js" />
+</div>
 
         <div className="w-full overflow-hidden">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
@@ -246,17 +252,6 @@ export default async function VideoDetail({ params }: { params: Promise<{ id: st
               </div>
             </section>
 
-            {/* Bottom Ads */}
-            <div className="mb-12 flex flex-col items-center gap-6 w-full overflow-hidden">
-              <div className="w-full overflow-hidden flex justify-center">
-                <AdScript adKey="a8ea859722150189e57a87b6579578f3" format="iframe" height={60} width={468} />
-              </div>
-              <div className="w-full overflow-hidden flex justify-center">
-                <AdScript adKey="4388c91d89682a21f68164b288c042f9" format="js" />
-              </div>
-              <SmartlinkRotator />
-            </div>
-
             <section className="relative">
               <div className="flex items-center justify-between mb-6">
                 <h2 className="text-2xl font-bold">Video Terkait</h2>
@@ -264,6 +259,20 @@ export default async function VideoDetail({ params }: { params: Promise<{ id: st
               </div>
               <RandomVideos />
             </section>
+
+            {/* Native Banner - Paling Bawah */}
+            <div className="mt-12 mb-8 flex justify-center">
+              <div className="w-full max-w-[728px]">
+                <div 
+                  dangerouslySetInnerHTML={{
+                    __html: `
+                      <script async="async" data-cfasync="false" src="https://pl28722946.effectivegatecpm.com/c08de902b7930682919199d915646b97/invoke.js"></script>
+                      <div id="container-c08de902b7930682919199d915646b97"></div>
+                    `
+                  }}
+                />
+              </div>
+            </div>
           </div>
         </div>
       </main>
