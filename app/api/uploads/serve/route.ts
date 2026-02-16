@@ -13,7 +13,12 @@ export async function GET(request: NextRequest) {
 
   // Security: prevent directory traversal
   const normalizedPath = path.normalize(filePath).replace(/^(\.\.(\/|\\|$))+/, '')
-  const absolutePath = path.join(process.cwd(), 'public', 'uploads', normalizedPath)
+  
+  // Try both root/uploads and public/uploads
+  let absolutePath = path.join(process.cwd(), 'public', 'uploads', normalizedPath)
+  if (!existsSync(absolutePath)) {
+    absolutePath = path.join(process.cwd(), 'uploads', normalizedPath)
+  }
 
   if (!existsSync(absolutePath)) {
     return new NextResponse('File not found', { status: 404 })

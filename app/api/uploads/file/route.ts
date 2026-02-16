@@ -23,7 +23,9 @@ export async function POST(request: NextRequest) {
     
     const fileName = customFileName || `${objectId}.${extension}`
     const relativePath = `/uploads/${fileName}`
-    const absolutePath = path.join(process.cwd(), 'public', 'uploads', fileName)
+    
+    // Fallback to project root uploads if public/uploads fails or if we want consistent behavior
+    const absolutePath = path.join(process.cwd(), 'uploads', fileName)
 
     console.log('Uploading file to:', absolutePath)
     await mkdir(path.dirname(absolutePath), { recursive: true })
@@ -63,7 +65,7 @@ export async function PUT(request: NextRequest) {
       )
     }
 
-    const absolutePath = path.join(process.cwd(), 'public', 'uploads', fileName)
+    const absolutePath = path.join(process.cwd(), 'uploads', fileName)
     await mkdir(path.dirname(absolutePath), { recursive: true })
 
     console.log('Uploading file to:', absolutePath)
