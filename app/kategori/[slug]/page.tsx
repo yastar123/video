@@ -93,6 +93,11 @@ export default async function KategoriPage({ params, searchParams }: PageProps) 
   const { page } = await searchParams
   const currentPage = parseInt(page || '1', 10)
   
+  // Validasi slug
+  if (!slug || slug === 'null' || slug === 'undefined') {
+    notFound()
+  }
+  
   const { videos, pagination } = await getVideosByCategory(slug, currentPage)
   
   if (videos.length === 0) {
