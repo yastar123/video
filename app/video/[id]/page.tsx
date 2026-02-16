@@ -165,6 +165,8 @@ export default async function VideoDetail({ params }: { params: Promise<{ id: st
              {/* Banner 728x90 - ID: 28622405 */}
              <div className="w-full overflow-hidden flex justify-center">
                <AdScript adKey="28622405" format="iframe" height={90} width={728} />
+               <AdScript adKey="28622405" format="iframe" height={90} width={728} />
+               <AdScript adKey="28622405" format="iframe" height={90} width={728} />
              </div>
              <div className="w-full overflow-hidden flex justify-center">
                <AdScript adKey="c08de902b7930682919199d915646b97" format="js" />
