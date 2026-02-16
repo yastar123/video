@@ -1,0 +1,122 @@
+26200.6901]
+(c) Microsoft Corporation. All rights reserved.
+
+C:\Users\Edu Juanda Pratama>ssh root@103.16.117.157
+root@103.16.117.157's password:
+
+ System information as of Mon Feb 16 15:23:25 WIB 2026
+
+  System load:  0.0                Processes:             122
+  Usage of /:   13.8% of 38.58GB   Users logged in:       1
+  Memory usage: 25%                IPv4 address for eth0: 103.16.117.157
+  Swap usage:   0%
+
+Expanded Security Maintenance for Applications is not enabled.
+
+10 updates can be applied immediately.
+10 of these updates are standard security updates.
+To see these additional updates run: apt list --upgradable
+
+1 additional security update can be applied with ESM Apps.
+Learn more about enabling ESM Apps service at https://ubuntu.com/esm
+
+New release '24.04.4 LTS' available.
+Run 'do-release-upgrade' to upgrade to it.
+
+
+********************************************************************************
+
+Welcome to One-Click OpenLiteSpeed Node.js Server.
+To keep this Droplet secure, the firewalld is enabled.
+All ports are BLOCKED except 22 (SSH), 80 (HTTP) and 443 (HTTPS).
+
+The Node.js OLS One-Click Quickstart guide:
+* https://docs.litespeedtech.com/cloud/images/nodejs/
+
+In a web browser, you can view:
+* The sample node site: http://103.16.117.157/
+
+On the server:
+* You can get the Web Admin admin password with the following command:
+   sudo cat .litespeed_password
+
+System Status:
+  Load : 0.00, 0.05, 0.03
+  CPU  : 0.438745%
+  RAM  : 379/1912MB (19.82%)
+  Disk : 5/39GB (14%)
+
+********************************************************************************
+Last login: Mon Feb 16 15:15:00 2026 from 103.105.82.9
+To visit your apps by domain instead of IP, please enter a valid domain.
+If you don't have one yet, you may cancel this process by pressing CTRL+C and continuing to SSH.
+This prompt will open again the next time you log in, and will continue to do so until you finish the setup.
+Make sure the domain's DNS record has been properly pointed to this server.
+Enter the root domain only, then the system will add both the root domain and the www domain for you.
+Your domain:
+
+Please input a valid domain
+
+root@server:~# cd video
+root@server:~/video# git reset --hard origin/main
+git pull origin main
+npm i
+npm run build
+pm2 restart all
+HEAD is now at 9d113d8 Allow external media playback by updating site security policy
+remote: Enumerating objects: 15, done.
+remote: Counting objects: 100% (15/15), done.
+remote: Compressing objects: 100% (1/1), done.
+remote: Total 8 (delta 5), reused 8 (delta 5), pack-reused 0 (from 0)
+Unpacking objects: 100% (8/8), 2.13 KiB | 94.00 KiB/s, done.
+From https://github.com/yastar123/video
+ * branch            main       -> FETCH_HEAD
+   9d113d8..4e13054  main       -> origin/main
+Updating 9d113d8..4e13054
+Fast-forward
+ app/video/[id]/page.tsx     | 151 ++++++++++++++++++++++++++++++++++++++++++++++++++----------------------------------
+ components/video-player.tsx |   6 ++--
+ 2 files changed, 93 insertions(+), 64 deletions(-)
+
+up to date, audited 412 packages in 4s
+
+67 packages are looking for funding
+  run `npm fund` for details
+
+2 vulnerabilities (1 moderate, 1 high)
+
+To address issues that do not require attention, run:
+  npm audit fix
+
+To address all issues, run:
+  npm audit fix --force
+
+Run `npm audit` for details.
+
+> my-v0-project@0.1.0 build
+> next build
+
+   ▲ Next.js 15.5.7
+   - Environments: .env
+
+   Creating an optimized production build ...
+ ✓ Compiled successfully in 13.1s
+   Skipping validation of types
+ ✓ Linting
+   Collecting page data  .[dotenv@17.2.3] injecting env (0) from .env -- tip: ⚙️  specify custom .env file path with { path: '/custom/path/.env' }
+ ✓ Collecting page data
+[dotenv@17.2.3] injecting env (0) from .env -- tip: 🛠️  run anywhere with `dotenvx run -- yourcommand`
+Error occurred prerendering page "/video/11". Read more: https://nextjs.org/docs/messages/prerender-error
+ReferenceError: AdScript is not defined
+    at s (.next/server/app/video/[id]/page.js:7:2730) {
+  digest: '2966747042'
+}
+Export encountered an error on /video/[id]/page: /video/11, exiting the build.
+ ⨯ Next.js build worker exited with code: 1 and signal: null
+Use --update-env to update environment variables
+[PM2] Applying action restartProcessId on app [all](ids: [ 0 ])
+[PM2] [video-app](0) ✓
+┌────┬────────────────────┬──────────┬──────┬───────────┬──────────┬──────────┐
+│ id │ name               │ mode     │ ↺    │ status    │ cpu      │ memory   │
+├────┼────────────────────┼──────────┼──────┼───────────┼──────────┼──────────┤
+│ 0  │ video-app          │ fork     │ 36   │ online    │ 0%       │ 26.5mb   │
