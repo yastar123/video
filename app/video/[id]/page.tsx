@@ -10,7 +10,7 @@ import { Metadata } from 'next'
 
 export async function generateStaticParams() {
   try {
-    const { rows } = await query('SELECT id FROM videos LIMIT 100') // Increased for better crawling
+    const { rows } = await query('SELECT id FROM videos LIMIT 100')
     return rows.map((video: any) => ({
       id: video.id.toString(),
     }))
@@ -84,7 +84,6 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
   }
 }
 
-// Client component wrapper for views increment
 function ViewsIncrement({ videoId }: { videoId: string }) {
   return null;
 }
@@ -118,7 +117,6 @@ export default async function VideoDetail({ params }: { params: Promise<{ id: st
       <ViewsIncrement videoId={id} />
       
       <main className="min-h-screen bg-background">
-        {/* Header with Breadcrumbs */}
         <header className="sticky top-0 z-50 bg-background/95 backdrop-blur border-b border-border">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <nav aria-label="Breadcrumb" className="py-4">
@@ -140,8 +138,11 @@ export default async function VideoDetail({ params }: { params: Promise<{ id: st
           </div>
         </header>
 
+        {/* Global Ads */}
+        <AdScript adKey="4388c91d89682a21f68164b288c042f9" format="js" />
+        <AdScript adKey="9add34aad611a8243e9fa65055bde309" format="js" />
+
         <div className="w-full overflow-hidden">
-          {/* H1 + Primary Keywords */}
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
             <header className="mb-4">
               <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-balance leading-tight text-center">
@@ -150,7 +151,7 @@ export default async function VideoDetail({ params }: { params: Promise<{ id: st
             </header>
           </div>
 
-          {/* Ad Top */}
+          {/* Top Ads */}
           <div className="max-w-7xl mx-auto px-4 mb-4 flex flex-col items-center gap-4 w-full overflow-hidden">
              <div className="w-full overflow-hidden flex justify-center">
                <AdScript adKey="5a8dd45e78414c6e5be9db9eaffed61f" format="iframe" height={90} width={728} />
@@ -158,12 +159,13 @@ export default async function VideoDetail({ params }: { params: Promise<{ id: st
              <div className="w-full overflow-hidden flex justify-center">
                <AdScript adKey="c08de902b7930682919199d915646b97" format="js" />
              </div>
-             <div className="w-full grid grid-cols-1 gap-2">
+             <div className="w-full grid grid-cols-1 sm:grid-cols-3 gap-2">
                <AdScript adKey="smartlink_1" format="link" url="https://www.effectivegatecpm.com/a1pm3et2?key=1bf6eae1539e20a7d049e4876bf00c55" />
+               <AdScript adKey="smartlink_2" format="link" url="https://www.effectivegatecpm.com/k1nsznbwe6?key=4605260c8e2dff4fd591290d334f54c8" />
+               <AdScript adKey="smartlink_3" format="link" url="https://www.effectivegatecpm.com/by96i9ee?key=a0e61301b91f693d8a1866f59dd1de66" />
              </div>
           </div>
 
-          {/* Video Player - Responsive Container */}
           <section className="w-full bg-black border-y border-border/50 shadow-2xl overflow-hidden mb-6">
             <div className="max-w-7xl mx-auto">
               <div className="relative w-full aspect-video sm:h-auto h-[250px] sm:max-h-[700px]">
@@ -178,7 +180,7 @@ export default async function VideoDetail({ params }: { params: Promise<{ id: st
               <AdScript adKey="c08de902b7930682919199d915646b97" format="js" />
             </div>
 
-            {/* Ad Middle */}
+            {/* Middle Ads */}
             <div className="mb-8 flex flex-col items-center gap-6 w-full overflow-hidden">
               <div className="w-full overflow-hidden flex justify-center">
                 <AdScript adKey="1ad6f564f3ca7bb42752dba86368d149" format="iframe" height={250} width={300} />
@@ -186,10 +188,12 @@ export default async function VideoDetail({ params }: { params: Promise<{ id: st
               <div className="w-full overflow-hidden flex justify-center">
                 <AdScript adKey="4388c91d89682a21f68164b288c042f9" format="js" />
               </div>
-              <AdScript adKey="smartlink_2" format="link" url="https://www.effectivegatecpm.com/k1nsznbwe6?key=4605260c8e2dff4fd591290d334f54c8" />
+              <div className="w-full grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <AdScript adKey="smartlink_2" format="link" url="https://www.effectivegatecpm.com/k1nsznbwe6?key=4605260c8e2dff4fd591290d334f54c8" />
+                <AdScript adKey="smartlink_1" format="link" url="https://www.effectivegatecpm.com/a1pm3et2?key=1bf6eae1539e20a7d049e4876bf00c55" />
+              </div>
             </div>
 
-            {/* Video Stats */}
             <section className="mb-8">
               <div className="bg-muted/30 p-5 sm:p-6 rounded-xl border border-border/50 shadow-sm">
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
@@ -231,7 +235,6 @@ export default async function VideoDetail({ params }: { params: Promise<{ id: st
               </div>
             </section>
 
-            {/* Content Expansion - Secondary Keywords */}
             <section className="mb-12">
               <div className="prose prose-invert prose-headings:text-foreground prose-p:text-muted-foreground max-w-none">
                 <h2 className="text-2xl font-bold mb-4">Deskripsi Video {video.title}</h2>
@@ -243,7 +246,7 @@ export default async function VideoDetail({ params }: { params: Promise<{ id: st
               </div>
             </section>
 
-            {/* Ad Bottom */}
+            {/* Bottom Ads */}
             <div className="mb-12 flex flex-col items-center gap-6 w-full overflow-hidden">
               <div className="w-full overflow-hidden flex justify-center">
                 <AdScript adKey="a8ea859722150189e57a87b6579578f3" format="iframe" height={60} width={468} />

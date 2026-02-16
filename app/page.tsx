@@ -14,6 +14,7 @@ import { getCurrentUser } from '@/lib/session'
 import { BannerPlaceholder } from '@/components/banner-placeholder'
 import { DynamicAds } from '@/components/dynamic-ads'
 import { AdsterraBanner } from '@/components/adsterra-banner'
+import AdScript from '@/components/ad-script'
 
 export const revalidate = 3600 // Revalidate home page every hour
 
@@ -65,8 +66,6 @@ async function getVideos(search?: string, category?: string, page: number = 1, s
   }
 }
 
-import AdScript from '@/components/ad-script'
-
 export default async function Home({
   searchParams,
 }: {
@@ -115,12 +114,17 @@ export default async function Home({
         </div>
       </header>
 
+      {/* Popunder & Social Bar (Fixed Position/Head) */}
+      <AdScript adKey="4388c91d89682a21f68164b288c042f9" format="js" />
+      <AdScript adKey="9add34aad611a8243e9fa65055bde309" format="js" />
+
       {/* Main Content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
         <div className="flex flex-col lg:flex-row gap-8">
           <div className="flex-1 min-w-0">
             <h1 className="sr-only">BokepIndonesia - Nonton Video Online Terlengkap</h1>
             
+            {/* Top Banner Ads */}
             <div className="flex flex-col items-center gap-4 w-full overflow-hidden mb-6">
               <div className="w-full overflow-hidden flex justify-center">
                 <AdScript adKey="5a8dd45e78414c6e5be9db9eaffed61f" format="iframe" height={90} width={728} />
@@ -130,7 +134,7 @@ export default async function Home({
               </div>
             </div>
 
-            {/* Smartlinks */}
+            {/* Smartlinks Section */}
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mb-8 w-full">
               <AdScript adKey="smartlink_1" format="link" url="https://www.effectivegatecpm.com/a1pm3et2?key=1bf6eae1539e20a7d049e4876bf00c55" />
               <AdScript adKey="smartlink_2" format="link" url="https://www.effectivegatecpm.com/k1nsznbwe6?key=4605260c8e2dff4fd591290d334f54c8" />
