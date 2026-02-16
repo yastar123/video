@@ -159,7 +159,7 @@ export default async function VideoDetail({ params }: { params: Promise<{ id: st
           <section className="w-full h-full bg-black border-y border-border/50 shadow-2xl overflow-hidden mb-6">
             <div className="max-w-7xl mx-auto">
               <div className="relative w-full aspect-video">
-                <VideoPlayerWrapper url={video.url} thumbnail={video.url} />
+                <VideoPlayerWrapper url={video.url}} />
                 {/* Duration badge */}
               </div>
             </div>
