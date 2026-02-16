@@ -205,6 +205,10 @@ export default async function VideoDetail({ params }: { params: Promise<{ id: st
               <div className="w-full grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <MultipleSmartlinks count={1} />
                 <MultipleSmartlinks count={1} />
+                <MultipleSmartlinks count={1} />
+                <MultipleSmartlinks count={1} />
+                <MultipleSmartlinks count={1} />
+                <MultipleSmartlinks count={1} />
               </div>
             </div>
 
