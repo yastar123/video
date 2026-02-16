@@ -6,19 +6,33 @@ const nextConfig = {
   images: {
     unoptimized: true,
     remotePatterns: [
-      { protocol: 'https', hostname: '**' },
-      { protocol: 'http', hostname: '**' }
+      { protocol: "https", hostname: "**" },
+      { protocol: "http", hostname: "**" },
     ],
   },
-  allowedDevOrigins: ['*'],
+  allowedDevOrigins: ["*"],
   async rewrites() {
     return [
       {
-        source: '/uploads/:path*',
-        destination: '/api/uploads/serve?path=:path*',
+        source: "/uploads/:path*",
+        destination: "/api/uploads/serve?path=:path*",
       },
-    ]
+    ];
   },
-}
+  async headers() {
+    return [
+      {
+        source: "/:path*",
+        headers: [
+          {
+            key: "Content-Security-Policy",
+            value:
+              "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://pl28722862.effectivegatecpm.com https://pl28722941.effectivegatecpm.com https://pl28722946.effectivegatecpm.com https://pl28551201.effectivegatecpm.com https://www.highperformanceformat.com; connect-src 'self' https: http:; style-src 'self' 'unsafe-inline'; frame-src 'self' https://www.highperformanceformat.com;",
+          },
+        ],
+      },
+    ];
+  },
+};
 
-export default nextConfig
+export default nextConfig;
