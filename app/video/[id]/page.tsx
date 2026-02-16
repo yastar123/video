@@ -201,10 +201,10 @@ export default async function VideoDetail({ params }: { params: Promise<{ id: st
               </div>
               <div className="w-full overflow-hidden flex justify-center">
                 <AdScript adKey="4388c91d89682a21f68164b288c042f9" format="js" />
+                  <AdScript adKey="4388c91d89682a21f68164b288c042f9" format="js" />
+                    <AdScript adKey="4388c91d89682a21f68164b288c042f9" format="js" />
               </div>
               <div className="w-full grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <MultipleSmartlinks count={1} />
-                <MultipleSmartlinks count={1} />
                 <MultipleSmartlinks count={1} />
                 <MultipleSmartlinks count={1} />
                 <MultipleSmartlinks count={1} />
