@@ -13,6 +13,8 @@ import { HeaderUser } from '@/components/header-user'
 import { getCurrentUser } from '@/lib/session'
 import { BannerPlaceholder } from '@/components/banner-placeholder'
 
+import { AdsterraBanner } from '@/components/adsterra-banner'
+
 export const revalidate = 3600 // Revalidate home page every hour
 
 async function getCategories() {
@@ -108,13 +110,17 @@ export default async function Home({
 
       {/* Main Content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-        <h1 className="sr-only">BokepIndonesia - Nonton Video Online Terlengkap</h1>
-        
-        <section className="mb-8">
-          <HeroBanner />
-        </section>
+        <div className="flex flex-col lg:flex-row gap-8">
+          <div className="flex-1">
+            <h1 className="sr-only">BokepIndonesia - Nonton Video Online Terlengkap</h1>
+            
+            <section className="mb-8">
+              <HeroBanner />
+            </section>
 
-        {/* Search and Filter Section */}
+            <AdsterraBanner format="728x90" />
+
+            {/* Search and Filter Section */}
         <section className="mb-8">
           <div className="flex items-center gap-2 border-b border-white/10 overflow-x-auto pb-px no-scrollbar">
             <Link
@@ -192,9 +198,20 @@ export default async function Home({
               />
             </div>
           )}
+          
+          <div className="mt-12">
+            <AdsterraBanner format="native" />
+          </div>
         </section>
-
       </div>
-    </main>
+      
+      <aside className="hidden xl:block w-[160px] flex-shrink-0 pt-20">
+        <div className="sticky top-24">
+          <AdsterraBanner format="160x600" />
+        </div>
+      </aside>
+    </div>
+  </div>
+</main>
   )
 }

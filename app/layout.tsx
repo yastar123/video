@@ -2,6 +2,7 @@ import React from "react"
 import type { Metadata } from 'next'
 import { Geist, Geist_Mono } from 'next/font/google'
 import './globals.css'
+import { AdsterraBanner } from '@/components/adsterra-banner'
 
 const geistSans = Geist({
   subsets: ["latin"],
@@ -94,6 +95,7 @@ export default function RootLayout({
         <div className="flex-1 flex flex-col">
           {children}
         </div>
+        <AdsterraBanner format="social" />
         </body>
     </html>
   )
