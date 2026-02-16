@@ -79,7 +79,7 @@ export function BannerAd({ type, className }: BannerAdProps) {
         id={containerId}
         style={{ width: config.width, height: config.height }}
       >
-        <Script id={`banner-config-${type}`} strategy="beforeInteractive">
+        <Script id={`banner-config-${type}`} strategy="lazyOnload">
           {`
             window.atOptions = window.atOptions || [];
             window.atOptions.push({

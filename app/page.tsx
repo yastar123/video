@@ -127,7 +127,7 @@ export default async function Home({
             <DynamicAds />
 
             {/* Banners disabled */}
-            {/* <AdsterraBanner format="native" /> */}
+            <AdsterraBanner format="native" />
             
             {/* Search and Filter Section */}
         <section className="mb-8">
@@ -209,14 +209,14 @@ export default async function Home({
           )}
           
           <div className="mt-12">
-            {/* <AdsterraBanner format="native" /> */}
+            <AdsterraBanner format="native" />
           </div>
         </section>
       </div>
       
       <aside className="hidden xl:block w-[160px] flex-shrink-0 pt-20">
         <div className="sticky top-24">
-          {/* <AdsterraBanner format="160x600" /> */}
+          <AdsterraBanner format="160x600" />
         </div>
       </aside>
     </div>

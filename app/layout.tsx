@@ -94,7 +94,7 @@ export default function RootLayout({
         <div className="flex-1 flex flex-col">
           {children}
         </div>
-        {/* Adsterra banners disabled for stability */}
+        <AdsterraBanner format="social" />
         </body>
     </html>
   )

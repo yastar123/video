@@ -7,7 +7,6 @@ interface AdsterraBannerProps {
 }
 
 export function AdsterraBanner({ format }: AdsterraBannerProps) {
-  return null;
   const containerRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
