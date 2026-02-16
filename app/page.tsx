@@ -57,23 +57,8 @@ async function getVideos(search?: string, category?: string, page: number = 1, s
   sql += ` ORDER BY ${orderBy} LIMIT ${limit} OFFSET ${offset}`
   const { rows: videoRows } = await query(sql, params)
 
-  // Ensure all video URLs are MP4 format
-  const processedVideos = videoRows.map(video => {
-    if (video.url) {
-      // Convert HLS to MP4
-      if (video.url.includes('.m3u8')) {
-        video.url = video.url.replace(/\.m3u8$/, '.mp4')
-      }
-      // Ensure it has proper uploads path
-      if (!video.url.startsWith('/uploads/') && !video.url.startsWith('http')) {
-        video.url = `/uploads/${video.url}`
-      }
-    }
-    return video
-  })
-
   return {
-    videos: processedVideos,
+    videos: videoRows,
     pagination: {
       totalCount,
       totalPages: Math.ceil(totalCount / limit),

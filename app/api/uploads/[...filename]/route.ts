@@ -26,15 +26,62 @@ export async function GET(
   if (!existsSync(absolutePath)) {
     // Check if this is an HLS segment request
     if (extension === '.ts' || extension === '.m3u8') {
-      // For HLS segments, return empty response to prevent infinite loading
-      console.log(`HLS segment requested: ${filename} - returning empty response`)
+      // For HLS segments, try to find the original video file or create proper HLS response
+      const baseName = path.basename(filename, extension)
+      console.log(`HLS segment requested: ${filename} - baseName: ${baseName}`)
       
-      if (extension === '.ts') {
-        // Return empty TS segment
-        return new Response(new Uint8Array(), {
+      // For .m3u8 files, try to create a proper HLS playlist
+      if (extension === '.m3u8') {
+        // Try to find corresponding video file
+        const uploadsDir = path.join(process.cwd(), 'uploads')
+        const publicUploadsDir = path.join(process.cwd(), 'public', 'uploads')
+        
+        let videoFile = null
+        
+        // Look for video files with similar base name
+        for (const dir of [uploadsDir, publicUploadsDir]) {
+          if (existsSync(dir)) {
+            const files = readdirSync(dir)
+            const matchingVideo = files.find((file: string) => 
+              file.includes(baseName) && 
+              (file.endsWith('.mp4') || file.endsWith('.webm') || file.endsWith('.mov'))
+            )
+            if (matchingVideo) {
+              videoFile = path.join(dir, matchingVideo)
+              console.log(`Found matching video for HLS: ${matchingVideo}`)
+              break
+            }
+          }
+        }
+        
+        if (videoFile && existsSync(videoFile)) {
+          // Create a simple HLS playlist that points to the video file
+          const videoUrl = `/uploads/${path.basename(videoFile)}`
+          const hlsPlaylist = `#EXTM3U
+#EXT-X-VERSION:3
+#EXT-X-MEDIA-SEQUENCE:0
+#EXT-X-TARGETDURATION:10
+#EXTINF:10.0,
+${videoUrl}
+#EXT-X-ENDLIST`
+          
+          return new Response(hlsPlaylist, {
+            headers: {
+              'Content-Type': 'application/vnd.apple.mpegurl',
+              'Content-Length': hlsPlaylist.length.toString(),
+              'Cache-Control': 'no-cache',
+              'Access-Control-Allow-Origin': '*',
+              'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+              'Access-Control-Allow-Headers': 'X-Requested-With, Content-Type, Authorization'
+            },
+          })
+        }
+        
+        // If no video file found, return empty playlist
+        return new Response('#EXTM3U\n#EXT-X-VERSION:3\n#EXT-X-MEDIA-SEQUENCE:0\n#EXT-X-ENDLIST\n', {
           headers: {
-            'Content-Type': 'video/mp2t',
-            'Content-Length': '0',
+            'Content-Type': 'application/vnd.apple.mpegurl',
+            'Content-Length': '71',
             'Cache-Control': 'no-cache',
             'Access-Control-Allow-Origin': '*',
             'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
@@ -43,12 +90,12 @@ export async function GET(
         })
       }
       
-      if (extension === '.m3u8') {
-        // Return empty M3U8 playlist
-        return new Response('#EXTM3U\n#EXT-X-VERSION:3\n#EXT-X-MEDIA-SEQUENCE:0\n#EXT-X-ENDLIST\n', {
+      // For .ts segments, return empty response
+      if (extension === '.ts') {
+        return new Response(new Uint8Array(), {
           headers: {
-            'Content-Type': 'application/vnd.apple.mpegurl',
-            'Content-Length': '71',
+            'Content-Type': 'video/mp2t',
+            'Content-Length': '0',
             'Cache-Control': 'no-cache',
             'Access-Control-Allow-Origin': '*',
             'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
