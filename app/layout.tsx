@@ -91,16 +91,16 @@ export default function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
+      </head>
+      <body className={`${geistSans.variable} ${geistMono.variable} font-sans antialiased bg-background text-foreground selection:bg-primary selection:text-primary-foreground flex flex-col min-h-screen`}>
         {/* Popunder Ad */}
         <AdScript adKey="4388c91d89682a21f68164b288c042f9" format="js" />
         {/* Social Bar Ad */}
         <AdScript adKey="9add34aad611a8243e9fa65055bde309" format="js" />
-      </head>
-      <body className={`${geistSans.variable} ${geistMono.variable} font-sans antialiased bg-background text-foreground selection:bg-primary selection:text-primary-foreground flex flex-col min-h-screen`}>
         <div className="flex-1 flex flex-col">
           {children}
         </div>
-        </body>
+      </body>
     </html>
   )
 }

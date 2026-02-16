@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 interface AdScriptProps {
   adKey: string;
@@ -11,8 +11,14 @@ interface AdScriptProps {
 }
 
 export default function AdScript({ adKey, format, height, width, url }: AdScriptProps) {
+  const [isMounted, setIsMounted] = useState(false);
+
   useEffect(() => {
-    if (typeof window !== 'undefined' && format !== 'link') {
+    setIsMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (isMounted && format !== 'link') {
       const containerId = `ad-container-${adKey}`;
       const container = document.getElementById(containerId);
       
@@ -50,7 +56,11 @@ export default function AdScript({ adKey, format, height, width, url }: AdScript
         }
       }
     }
-  }, [adKey, format, height, width]);
+  }, [isMounted, adKey, format, height, width]);
+
+  if (!isMounted) {
+    return <div className="h-[90px] w-full flex items-center justify-center bg-transparent" />;
+  }
 
   if (format === 'link' && url) {
     return (
@@ -65,5 +75,5 @@ export default function AdScript({ adKey, format, height, width, url }: AdScript
     )
   }
 
-  return <div id={`ad-container-${adKey}`} className="flex justify-center my-4" />;
+  return <div id={`ad-container-${adKey}`} className="flex justify-center my-4 overflow-hidden max-w-full" />;
 }
