@@ -203,6 +203,7 @@ export default async function Home({
           )}
           
           <div className="mt-12">
+            <div id="container-c08de902b7930682919199d915646b97"></div>
             <AdScript adKey="c08de902b7930682919199d915646b97" format="js" />
           </div>
         </section>
