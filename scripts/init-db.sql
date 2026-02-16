@@ -7,6 +7,12 @@ CREATE TABLE IF NOT EXISTS users (
   email VARCHAR(255) NOT NULL UNIQUE,
   password VARCHAR(255) NOT NULL,
   role VARCHAR(50) DEFAULT 'user',
+  status VARCHAR(50) DEFAULT 'active',
+  membership_status VARCHAR(50) DEFAULT 'none',
+  membership_date TIMESTAMP,
+  membership_proof TEXT,
+  image VARCHAR(500),
+  google_id VARCHAR(255),
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
