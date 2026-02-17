@@ -1,0 +1,45 @@
+'use client'
+
+import { useRouter } from 'next/navigation'
+import { useEffect } from 'react'
+
+interface ForceRefreshLinkProps {
+  href: string
+  children: React.ReactNode
+  className?: string
+}
+
+export function ForceRefreshLink({ href, children, className }: ForceRefreshLinkProps) {
+  const router = useRouter()
+
+  const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault()
+    
+    // Force full page refresh untuk reload semua iklan
+    window.location.href = href
+  }
+
+  return (
+    <a href={href} onClick={handleClick} className={className}>
+      {children}
+    </a>
+  )
+}
+
+// Hook untuk memaksa refresh pada router navigation
+export function useForceRefresh() {
+  const router = useRouter()
+  
+  const pushWithRefresh = (href: string) => {
+    window.location.href = href
+  }
+  
+  const replaceWithRefresh = (href: string) => {
+    window.location.replace(href)
+  }
+  
+  return {
+    push: pushWithRefresh,
+    replace: replaceWithRefresh
+  }
+}

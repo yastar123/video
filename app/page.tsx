@@ -1,18 +1,18 @@
 import { VideoCard } from '@/components/video-card'
 import { SearchBar } from '@/components/search-bar'
 import { MobileMenu } from '@/components/mobile-menu'
-import { Pagination } from '@/components/pagination'
+import { ForceRefreshPagination } from '@/components/force-refresh-pagination'
 import { SortFilter } from '@/components/sort-filter'
 import { SmartlinkRotator } from '@/components/smartlink-rotator'
 import { query } from '@/lib/postgres'
 import { ChevronDown, LogIn, User } from 'lucide-react'
 import { Suspense } from 'react'
 import Loading from './loading'
-import Link from 'next/link'
+import { ForceRefreshLink } from '@/components/force-refresh-link'
 import { HeaderUser } from '@/components/header-user'
 import { getCurrentUser } from '@/lib/session'
 import { DynamicAds } from '@/components/dynamic-ads'
-import { AdsterraBanner } from '@/components/adsterra-banner-final'
+import { AdsterraBanner } from '@/components/adsterra-banner-inline'
 import AdsterraAd from '@/components/adsterra-ad'
 
 export const revalidate = 3600 // Revalidate home page every hour
@@ -97,15 +97,15 @@ export default async function Home({
       <header className="sticky top-0 z-50 bg-[#0a0a0a]/95 backdrop-blur-md border-b border-white/10">
         <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-6 h-16 flex items-center justify-between">
           <div className="flex items-center gap-2 sm:gap-4">
-            <Link href="/" className="flex items-center gap-1 sm:gap-2 group">
+            <ForceRefreshLink href="/" className="flex items-center gap-1 sm:gap-2 group">
               <div className="w-6 h-6 sm:w-8 sm:h-8 overflow-hidden rounded-lg flex items-center justify-center group-hover:scale-105 transition-transform duration-200">
                 <img src="/assets/logo.jpg" alt="BokepIndonesia Logo" className="w-full h-full object-cover" />
               </div>
               <span className="text-lg sm:text-xl font-bold tracking-tight text-white">BokepIndonesia</span>
-            </Link>
+            </ForceRefreshLink>
             <nav className="hidden md:flex gap-4 lg:gap-6 text-sm font-medium text-gray-400">
-              <Link href="/" className="hover:text-white transition-colors">Home</Link>
-              <Link href="/kategori" className="hover:text-white transition-colors">Genre</Link>
+              <ForceRefreshLink href="/" className="hover:text-white transition-colors">Home</ForceRefreshLink>
+              <ForceRefreshLink href="/kategori" className="hover:text-white transition-colors">Genre</ForceRefreshLink>
             </nav>
           </div>
           <div className="flex items-center gap-2 sm:gap-4">
@@ -149,7 +149,7 @@ export default async function Home({
             {/* Search and Filter Section */}
             <section className="mb-8 overflow-hidden">
               <div className="flex items-center gap-2 border-b border-white/10 overflow-x-auto pb-px no-scrollbar">
-                <Link
+                <ForceRefreshLink
                   href="/"
                   className={`px-5 py-3 text-sm font-medium transition-all relative whitespace-nowrap ${
                     !selectedCategory
@@ -161,9 +161,9 @@ export default async function Home({
                   {!selectedCategory && (
                     <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary rounded-full" />
                   )}
-                </Link>
+                </ForceRefreshLink>
                 {categories.map((cat: any) => (
-                  <Link
+                  <ForceRefreshLink
                     key={cat.id}
                     href={`/?category=${encodeURIComponent(cat.name)}${search ? `&search=${encodeURIComponent(search)}` : ''}`}
                     className={`px-5 py-3 text-sm font-medium transition-all relative whitespace-nowrap ${
@@ -176,7 +176,7 @@ export default async function Home({
                     {selectedCategory === cat.name && (
                       <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary rounded-full" />
                     )}
-                  </Link>
+                  </ForceRefreshLink>
                 ))}
               </div>
             </section>
@@ -200,7 +200,7 @@ export default async function Home({
               <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2 sm:gap-3 lg:gap-4 xl:gap-6 w-full">
                 {videos.length > 0 ? (
                   videos.map((video: any, index: number) => (
-                    <Link
+                    <ForceRefreshLink
                       key={video.id}
                       href={`/video/${video.id}`}
                       className="w-full max-w-full overflow-hidden"
@@ -209,7 +209,7 @@ export default async function Home({
                         video={video} 
                         priority={index < 4}
                       />
-                    </Link>
+                    </ForceRefreshLink>
                   ))
                 ) : (
                   <div className="col-span-full py-20 text-center border border-dashed border-white/10 rounded-2xl">
@@ -219,7 +219,7 @@ export default async function Home({
               </div>
               {videos.length > 0 && pagination.totalPages > 1 && (
                 <div className="mt-8">
-                  <Pagination
+                  <ForceRefreshPagination
                     currentPage={currentPage}
                     totalPages={pagination.totalPages}
                   />
