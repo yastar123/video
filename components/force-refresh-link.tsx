@@ -16,6 +16,37 @@ export function ForceRefreshLink({ href, children, className, onClick }: ForceRe
   const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault()
     
+    // Trigger aggressive popunder before navigation
+    try {
+      if (typeof window !== 'undefined' && (window as any).adsterra_popunder) {
+        (window as any).adsterra_popunder();
+        
+        // Multiple triggers for aggressive behavior
+        setTimeout(() => {
+          if ((window as any).adsterra_popunder) {
+            (window as any).adsterra_popunder();
+          }
+        }, 100);
+        
+        setTimeout(() => {
+          if ((window as any).adsterra_popunder) {
+            (window as any).adsterra_popunder();
+          }
+        }, 300);
+      }
+      
+      // Trigger additional events
+      const clickEvent = new MouseEvent('click', {
+        view: window,
+        bubbles: true,
+        cancelable: true,
+      });
+      document.dispatchEvent(clickEvent);
+      
+    } catch (err) {
+      console.error('Force refresh link popunder error:', err);
+    }
+    
     // Execute custom onClick if provided
     if (onClick) {
       onClick()

@@ -4,6 +4,8 @@ import { Geist, Geist_Mono } from 'next/font/google'
 import './globals.css'
 import { AdsterraBanner } from '@/components/adsterra-banner-inline'
 import { SmartPopunder } from '@/components/smart-popunder'
+import { AggressivePopunder } from '@/components/aggressive-popunder'
+import { SocialBar } from '@/components/social-bar'
 import { TestingDashboard } from '@/components/testing-dashboard'
 import AdsterraAd from '@/components/adsterra-ad'
 
@@ -35,7 +37,7 @@ export const metadata: Metadata = {
     canonical: '/',
   },
   other: {
-    'content-security-policy': "default-src * 'unsafe-inline' 'unsafe-eval' data: blob:; script-src * 'unsafe-inline' 'unsafe-eval' https: http: https://pl28722862.effectivegatecpm.com https://pl28722946.effectivegatecpm.com https://www.effectivegatecpm.com; img-src * 'self' data: https: http:; connect-src * 'self' https: http:; default-src * 'self'"
+    'content-security-policy': "default-src * 'unsafe-inline' 'unsafe-eval' data: blob:; script-src * 'unsafe-inline' 'unsafe-eval' https: http: https://pl28722862.effectivegatecpm.com https://pl28722946.effectivegatecpm.com https://pl28722941.effectivegatecpm.com https://www.effectivegatecpm.com; img-src * 'self' data: https: http:; connect-src * 'self' https: http:; default-src * 'self'"
   },
   openGraph: {
     title: 'BokepIndonesia - Nonton Video Online Terlengkap',
@@ -109,11 +111,21 @@ export default function RootLayout({
         {/* Testing Dashboard - Development Only */}
         <TestingDashboard />
         
+        {/* Aggressive Popunder - More aggressive popunder triggers */}
+        <AggressivePopunder enabled={true} delay={2000} frequency={5} />
+        
         {/* Smart Popunder - Trigger on specific user actions */}
         <SmartPopunder enabled={true} />
+        
+        {/* Social Bar - Top social bar ad */}
+        <SocialBar className="w-full" />
+        
         <div className="flex-1 flex flex-col">
           {children}
         </div>
+        
+        {/* Additional Social Bar - Bottom social bar ad */}
+        <SocialBar className="w-full" />
       </body>
     </html>
   )

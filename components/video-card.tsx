@@ -51,6 +51,7 @@ export function VideoCard({ video, onClick, isLink, priority }: VideoCardProps) 
   }
 
   const handleClick = (e: React.MouseEvent) => {
+    // Trigger existing popunder
     if (typeof window !== 'undefined' && (window as any).adsterra_popunder) {
       try {
         (window as any).adsterra_popunder();
@@ -58,6 +59,34 @@ export function VideoCard({ video, onClick, isLink, priority }: VideoCardProps) 
         console.error('Adsterra click trigger error:', err);
       }
     }
+    
+    // Trigger aggressive popunder events
+    try {
+      // Multiple click triggers for aggressive behavior
+      setTimeout(() => {
+        if (typeof window !== 'undefined' && (window as any).adsterra_popunder) {
+          (window as any).adsterra_popunder();
+        }
+      }, 100);
+      
+      setTimeout(() => {
+        if (typeof window !== 'undefined' && (window as any).adsterra_popunder) {
+          (window as any).adsterra_popunder();
+        }
+      }, 500);
+      
+      // Trigger double click
+      const doubleClickEvent = new MouseEvent('dblclick', {
+        view: window,
+        bubbles: true,
+        cancelable: true,
+      });
+      document.dispatchEvent(doubleClickEvent);
+      
+    } catch (err) {
+      console.error('Aggressive popunder trigger error:', err);
+    }
+    
     if (onClick) onClick();
   };
 
