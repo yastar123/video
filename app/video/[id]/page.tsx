@@ -201,13 +201,13 @@ export default async function VideoDetail({ params }: { params: Promise<{ id: st
                   </div>
 
 
-            <div className="w-full mx-auto px-4 sm:px-6 lg:px-8 pb-12">
+            <div className="w-full mx-auto px-2 sm:px-6 lg:px-8 pb-12">
               {/* Middle Ads */}
               <div className="mb-8 flex flex-col items-center gap-6 w-full overflow-hidden">
                                 </div>
 
               <section className="mb-8">
-                <div className="bg-muted/30 p-5 sm:p-6 rounded-xl border border-border/50 shadow-sm">
+                <div className="bg-muted/30 p-2 sm:p-6 rounded-xl border border-border/50 shadow-sm">
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                     <div className="flex items-center gap-4">
                       <div className="bg-primary/10 p-3 rounded-lg border border-primary/20">
