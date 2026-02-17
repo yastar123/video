@@ -229,7 +229,7 @@ export default async function Home({
           </div>
           
           <aside className="hidden xl:block w-[160px] flex-shrink-0 ">
-            <div className="sticky top-16 flex flex-col gap-8">
+            <div className="sticky top-24 flex flex-col gap-8">
               {/* Banner 160x600 - ID: 22bed31723f24472a78afb44a7addb6b */}
               <AdsterraBanner format="160x600" />
               {/* Banner 160x300 - ID: 6e9a519272442fa242b5a43e53ddc7fd */}

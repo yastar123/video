@@ -301,7 +301,7 @@ export default async function VideoDetail({ params }: { params: Promise<{ id: st
               </section>
 
               {/* Banner 468x60 - ID: a8ea859722150189e57a87b6579578f3 */}
-                  <div className='flex flex-wrap justify-center gap-2 sm:gap-4 w-full overflow-hidden mb-4 sm:mb-6'>
+                  <div className='flex flex-wrap justify-center gap-1 w-full overflow-hidden mb-4 sm:mb-6'>
                     <AdsterraBanner format="468x60" />
                     <AdsterraBanner format="468x60" />
                   </div>
@@ -310,13 +310,15 @@ export default async function VideoDetail({ params }: { params: Promise<{ id: st
 
               {/* Sidebar untuk iklan */}
               <aside className="hidden xl:block w-[160px] flex-shrink-0">
-                <div className="sticky top-24 flex flex-col gap-8">
+                <div className="sticky top-16 flex flex-col gap-8">
                   {/* Banner 160x600 - ID: 22bed31723f24472a78afb44a7addb6b */}
                   <AdsterraBanner format="160x600" />
                   {/* Banner 160x300 - ID: 6e9a519272442fa242b5a43e53ddc7fd */}
                   <AdsterraBanner format="160x300" />
                   {/* Banner 160x300 - Additional */}
                   <AdsterraBanner format="160x300" />
+                   {/* Banner 160x600 - ID: 22bed31723f24472a78afb44a7addb6b */}
+                  <AdsterraBanner format="160x600" />
                 </div>
               </aside>
             </div>
@@ -324,7 +326,7 @@ export default async function VideoDetail({ params }: { params: Promise<{ id: st
         </div>
 
         
-           <section className="relative">
+           <section className="relative p-4">
               <div className="flex items-center justify-between mb-6">
                 <h2 className="text-2xl font-bold">Video Terkait</h2>
                 <ForceRefreshLink href="/" className="text-primary text-sm font-semibold hover:underline">Lihat Semua</ForceRefreshLink>
