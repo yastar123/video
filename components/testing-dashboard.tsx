@@ -1,7 +1,6 @@
 "use client"
 
 import { useState, useEffect } from 'react'
-import { PopunderStorage } from '@/lib/popunder-storage'
 
 interface SystemStatus {
   delayPopunder: {
@@ -128,20 +127,7 @@ export function TestingDashboard() {
     localStorage.removeItem('advanced_popunder_data')
     localStorage.removeItem('multi_event_popunder_data')
     localStorage.removeItem('hybrid_popunder_data')
-    PopunderStorage.reset()
     window.location.reload()
-  }
-
-  const resetPopunderStorage = () => {
-    PopunderStorage.reset()
-    console.log('Popunder storage reset manually')
-    window.location.reload()
-  }
-
-  const getPopunderDebugInfo = () => {
-    const debugInfo = PopunderStorage.getDebugInfo()
-    console.log('Popunder Debug Info:', debugInfo)
-    return debugInfo
   }
 
   const triggerTestEvents = () => {
@@ -235,12 +221,6 @@ export function TestingDashboard() {
                 className="bg-green-600 hover:bg-green-700 px-2 py-1 rounded text-xs"
               >
                 ⚡ Trigger Events
-              </button>
-              <button
-                onClick={resetPopunderStorage}
-                className="bg-orange-600 hover:bg-orange-700 px-2 py-1 rounded text-xs"
-              >
-                🔄 Reset Popunder
               </button>
               <button
                 onClick={clearAllData}

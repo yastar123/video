@@ -9,27 +9,7 @@ export class PopunderStorage {
     if (typeof window === 'undefined') return 0
     try {
       const stored = localStorage.getItem(this.STORAGE_KEY)
-      if (!stored) return 0
-      
-      const timestamp = parseInt(stored)
-      const now = Date.now()
-      
-      // Validate timestamp is reasonable (not in future, not too old)
-      if (isNaN(timestamp) || timestamp > now || timestamp < 0) {
-        console.log('Invalid timestamp detected, clearing storage')
-        this.clear()
-        return 0
-      }
-      
-      // If timestamp is more than 1 day old, reset it
-      const oneDayAgo = now - (24 * 60 * 60 * 1000)
-      if (timestamp < oneDayAgo) {
-        console.log('Old timestamp detected, clearing storage')
-        this.clear()
-        return 0
-      }
-      
-      return timestamp
+      return stored ? parseInt(stored) : 0
     } catch {
       return 0
     }
@@ -67,42 +47,8 @@ export class PopunderStorage {
     if (typeof window === 'undefined') return
     try {
       localStorage.removeItem(this.STORAGE_KEY)
-      console.log('Popunder storage cleared')
     } catch (error) {
       console.error('Failed to clear popunder storage:', error)
-    }
-  }
-
-  // Reset storage to fix invalid timestamps
-  static reset(): void {
-    if (typeof window === 'undefined') return
-    try {
-      localStorage.removeItem(this.STORAGE_KEY)
-      localStorage.setItem(this.STORAGE_KEY, '0')
-      console.log('Popunder storage reset to 0')
-    } catch (error) {
-      console.error('Failed to reset popunder storage:', error)
-    }
-  }
-
-  // Get debug info
-  static getDebugInfo(): any {
-    if (typeof window === 'undefined') return null
-    try {
-      const stored = localStorage.getItem(this.STORAGE_KEY)
-      const timestamp = stored ? parseInt(stored) : 0
-      const now = Date.now()
-      const timeSince = timestamp ? (now - timestamp) / 1000 : 0
-      
-      return {
-        stored,
-        timestamp,
-        now,
-        timeSinceSeconds: timeSince,
-        isValid: !isNaN(timestamp) && timestamp > 0 && timestamp <= now
-      }
-    } catch (error) {
-      return { error: (error as Error).message }
     }
   }
 }
