@@ -119,7 +119,7 @@ function SmartPopunderInner({ enabled = true }: SmartPopunderProps) {
     })
 
     // Track thumbnail clicks di halaman list
-    let thumbnailElements: NodeListOf<Element> = document.querySelectorAll('')
+    let thumbnailElements: NodeListOf<Element>
     if (pathname === '/' || pathname.includes('/category/')) {
       thumbnailElements = document.querySelectorAll('[data-video-card], .video-card, [href*="/video/"]')
       thumbnailElements.forEach((thumb: Element) => {
@@ -132,9 +132,11 @@ function SmartPopunderInner({ enabled = true }: SmartPopunderProps) {
       playButtons.forEach((button: Element) => {
         button.removeEventListener('click', handlePlayClick)
       })
-      thumbnailElements.forEach((thumb: Element) => {
-        thumb.removeEventListener('click', handleThumbnailClick)
-      })
+      if (thumbnailElements) {
+        thumbnailElements.forEach((thumb: Element) => {
+          thumb.removeEventListener('click', handleThumbnailClick)
+        })
+      }
     }
   }, [pathname, enabled])
 
