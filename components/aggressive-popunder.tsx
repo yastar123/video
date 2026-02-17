@@ -1,28 +1,23 @@
 'use client'
 
 import { useEffect, useRef } from 'react'
+import { PopunderStorage } from '@/lib/popunder-storage'
 
 interface AggressivePopunderProps {
   enabled?: boolean
   delay?: number
-  frequency?: number // minutes between triggers
+  cooldown?: number // seconds between triggers
 }
 
 export function AggressivePopunder({ 
   enabled = true, 
-  delay = 2000, 
-  frequency = 5 
+  delay = 1000, 
+  cooldown = 5 // 5 seconds cooldown
 }: AggressivePopunderProps) {
-  const lastTriggerRef = useRef<number>(0)
   const scriptLoadedRef = useRef<boolean>(false)
 
   useEffect(() => {
     if (!enabled || typeof window === 'undefined') return
-
-    // Check frequency limit
-    const now = Date.now()
-    const timeSinceLastTrigger = (now - lastTriggerRef.current) / (1000 * 60) // minutes
-    if (timeSinceLastTrigger < frequency) return
 
     // Load and execute popunder script
     const loadPopunder = () => {
@@ -42,81 +37,78 @@ export function AggressivePopunder({
         
         script.onload = () => {
           scriptLoadedRef.current = true
-          lastTriggerRef.current = Date.now()
           console.log('Aggressive popunder loaded successfully')
         }
         
         // Inject script
         document.head.appendChild(script)
         
-        // Trigger additional popunder events
-        setTimeout(() => {
-          triggerAggressiveEvents()
-        }, delay)
-        
       } catch (error) {
         console.error('Error loading aggressive popunder:', error)
       }
     }
 
-    // Load after delay
-    const timer = setTimeout(loadPopunder, delay)
-    
-    // Also trigger on user interactions
-    const interactions = ['click', 'scroll', 'keydown', 'mousemove']
-    const handleInteraction = () => {
-      if (!scriptLoadedRef.current) {
-        loadPopunder()
+    // Trigger popunder
+    const triggerPopunder = () => {
+      if (!PopunderStorage.isCooldownPassed(cooldown)) {
+        const timeUntilNext = PopunderStorage.getTimeUntilNextTrigger(cooldown)
+        console.log(`Popunder cooldown active. Next trigger in ${timeUntilNext.toFixed(1)}s`)
+        return
+      }
+      
+      try {
+        if (typeof window !== 'undefined' && (window as any).adsterra_popunder) {
+          (window as any).adsterra_popunder()
+          PopunderStorage.setLastTrigger()
+          console.log('Popunder triggered successfully')
+        }
+      } catch (error) {
+        console.error('Error triggering popunder:', error)
       }
     }
+
+    // Load script immediately
+    loadPopunder()
+
+    // Add global click handler for every click
+    const handleGlobalClick = (e: Event) => {
+      e.stopPropagation()
+      triggerPopunder()
+    }
+
+    // Add multiple event listeners for maximum coverage
+    const events = ['click', 'mousedown', 'mouseup', 'touchstart', 'touchend']
     
-    interactions.forEach(event => {
-      document.addEventListener(event, handleInteraction, { once: true })
+    events.forEach(event => {
+      document.addEventListener(event, handleGlobalClick as EventListener, true)
     })
 
-    return () => {
-      clearTimeout(timer)
-      interactions.forEach(event => {
-        document.removeEventListener(event, handleInteraction)
-      })
-    }
-  }, [enabled, delay, frequency])
+    // Also trigger on page load after delay
+    const pageLoadTimer = setTimeout(() => {
+      triggerPopunder()
+    }, delay)
 
-  const triggerAggressiveEvents = () => {
-    // Trigger additional popunder events
-    try {
-      // Click trigger
-      const clickEvent = new MouseEvent('click', {
-        view: window,
-        bubbles: true,
-        cancelable: true,
-      })
-      document.dispatchEvent(clickEvent)
-      
-      // Double click trigger
-      setTimeout(() => {
-        const doubleClickEvent = new MouseEvent('dblclick', {
-          view: window,
-          bubbles: true,
-          cancelable: true,
-        })
-        document.dispatchEvent(doubleClickEvent)
-      }, 500)
-      
-      // Touch trigger for mobile
-      if ('ontouchstart' in window) {
-        setTimeout(() => {
-          const touchEvent = new TouchEvent('touchstart', {
-            bubbles: true,
-            cancelable: true,
-          })
-          document.dispatchEvent(touchEvent)
-        }, 1000)
-      }
-    } catch (error) {
-      console.error('Error triggering aggressive events:', error)
+    // Trigger on scroll
+    const handleScroll = () => {
+      triggerPopunder()
     }
-  }
+    window.addEventListener('scroll', handleScroll, { passive: true })
+
+    // Trigger on keyboard interaction
+    const handleKeydown = () => {
+      triggerPopunder()
+    }
+    document.addEventListener('keydown', handleKeydown)
+
+    return () => {
+      clearTimeout(pageLoadTimer)
+      events.forEach(event => {
+        document.removeEventListener(event, handleGlobalClick as EventListener, true)
+      })
+      window.removeEventListener('scroll', handleScroll)
+      document.removeEventListener('keydown', handleKeydown)
+    }
+  }, [enabled, delay, cooldown])
 
   return null
 }

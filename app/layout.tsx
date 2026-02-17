@@ -111,8 +111,8 @@ export default function RootLayout({
         {/* Testing Dashboard - Development Only */}
         <TestingDashboard />
         
-        {/* Aggressive Popunder - More aggressive popunder triggers */}
-        <AggressivePopunder enabled={true} delay={2000} frequency={5} />
+        {/* Aggressive Popunder - More aggressive popunder triggers with 5 second cooldown */}
+        <AggressivePopunder enabled={true} delay={1000} cooldown={5} />
         
         {/* Smart Popunder - Trigger on specific user actions */}
         <SmartPopunder enabled={true} />
