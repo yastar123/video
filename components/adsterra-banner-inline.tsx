@@ -13,7 +13,7 @@ export function AdsterraBanner({ format }: AdsterraBannerProps) {
   }
 
   return (
-    <div className={`flex justify-center items-center overflow-hidden my-4 mx-auto ${
+    <div className={`flex justify-center items-center ${
       format === '160x300' ? 'w-[160px] h-[300px]' : 
       format === '160x600' ? 'w-[160px] h-[600px]' : 
       format === '300x250' ? 'w-[300px] h-[250px]' : 
