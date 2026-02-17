@@ -19,6 +19,13 @@ export function AggressivePopunder({
   useEffect(() => {
     if (!enabled || typeof window === 'undefined') return
 
+    // Auto-reset storage if invalid timestamp detected
+    const debugInfo = PopunderStorage.getDebugInfo()
+    if (debugInfo && !debugInfo.isValid) {
+      console.log('Invalid popunder storage detected, resetting...', debugInfo)
+      PopunderStorage.reset()
+    }
+
     // Load and execute popunder script
     const loadPopunder = () => {
       if (scriptLoadedRef.current) return
