@@ -2,7 +2,7 @@
 
 import { GoogleLoginButton } from '@/components/google-login-button'
 import { useRouter } from 'next/navigation'
-import Link from 'next/link'
+import { ForceRefreshLink } from '@/components/force-refresh-link'
 import { saveSession } from '@/lib/session'
 import { useState } from 'react'
 
@@ -94,12 +94,12 @@ export default function LoginPage() {
 
           <div className="space-y-4">
             <GoogleLoginButton onLoginSuccess={handleLoginSuccess} />
-            <Link
+            <ForceRefreshLink
               href="/"
               className="block w-full px-4 py-2 border border-input rounded-lg text-center hover:bg-muted transition font-medium text-sm"
             >
               Continue as Guest
-            </Link>
+            </ForceRefreshLink>
           </div>
         </div>
       </div>

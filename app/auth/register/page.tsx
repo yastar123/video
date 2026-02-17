@@ -2,7 +2,7 @@
 
 import { GoogleLoginButton } from '@/components/google-login-button'
 import { useRouter } from 'next/navigation'
-import Link from 'next/link'
+import { ForceRefreshLink } from '@/components/force-refresh-link'
 import { saveSession } from '@/lib/session'
 import { useState } from 'react'
 
@@ -128,9 +128,9 @@ export default function RegisterPage() {
             <GoogleLoginButton onLoginSuccess={handleLoginSuccess} />
             <p className="text-center text-sm text-muted-foreground">
               Already have an account?{' '}
-              <Link href="/auth/login" className="text-primary hover:underline">
+              <ForceRefreshLink href="/auth/login" className="text-primary hover:underline">
                 Sign in
-              </Link>
+              </ForceRefreshLink>
             </p>
           </div>
         </div>

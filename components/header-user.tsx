@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import Link from 'next/link'
+import { ForceRefreshLink } from '@/components/force-refresh-link'
 import { 
   User, 
   Crown, 
@@ -19,18 +19,18 @@ export function HeaderUser() {
   if (!currentUser) {
     return (
       <div className="flex items-center gap-2">
-        <Link
+        <ForceRefreshLink
           href="/auth/login"
           className="px-4 py-1.5 text-sm font-medium hover:text-foreground/80 transition-colors"
         >
           Masuk
-        </Link>
-        <Link
+        </ForceRefreshLink>
+        <ForceRefreshLink
           href="/auth/register"
           className="px-4 py-1.5 bg-foreground text-background text-sm font-medium rounded-md hover:bg-foreground/90 transition-colors"
         >
           Daftar
-        </Link>
+        </ForceRefreshLink>
       </div>
     )
   }
