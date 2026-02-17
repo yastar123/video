@@ -195,14 +195,13 @@ export default async function VideoDetail({ params }: { params: Promise<{ id: st
               </div>
             </div>
           </section>
-<div className='grid grid-cols-1 sm:grid-cols-3 gap-2 sm:gap-4 w-full mb-4 sm:mb-6'>
-<AdsterraBanner format="468x60" />
+          {/* Banner 468x60 - ID: a8ea859722150189e57a87b6579578f3 */}
+              <div className='flex flex-wrap justify-center gap-2 sm:gap-4 w-full overflow-hidden mb-4 sm:mb-6'>
                 <AdsterraBanner format="468x60" />
                 <AdsterraBanner format="468x60" />
                 <AdsterraBanner format="468x60" />
                 <AdsterraBanner format="468x60" />
-                <AdsterraBanner format="468x60" />
-</div>
+              </div>
 
 
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
@@ -227,6 +226,12 @@ export default async function VideoDetail({ params }: { params: Promise<{ id: st
                       <p className="text-xs text-muted-foreground uppercase tracking-widest font-bold mt-1">Tayangan</p>
                     </div>
                   </div>
+
+                  {/* Banner 468x60 - ID: a8ea859722150189e57a87b6579578f3 */}
+              <div className='flex flex-wrap justify-center gap-2 sm:gap-4 w-full overflow-hidden mb-4 sm:mb-6'>
+                <AdsterraBanner format="468x60" />
+                <AdsterraBanner format="468x60" />
+              </div>
                   
                   <div className="flex flex-wrap gap-2">
                     <span className="bg-primary/10 text-primary px-3 py-1 rounded-lg text-xs font-bold border border-primary/20">
@@ -296,6 +301,14 @@ export default async function VideoDetail({ params }: { params: Promise<{ id: st
                 </p>
               </div>
             </section>
+
+            {/* Banner 468x60 - ID: a8ea859722150189e57a87b6579578f3 */}
+              <div className='flex flex-wrap justify-center gap-2 sm:gap-4 w-full overflow-hidden mb-4 sm:mb-6'>
+                <AdsterraBanner format="468x60" />
+                <AdsterraBanner format="468x60" />
+                <AdsterraBanner format="468x60" />
+                <AdsterraBanner format="468x60" />
+              </div>
 
             <section className="relative">
               <div className="flex items-center justify-between mb-6">
