@@ -111,8 +111,6 @@ export default function RootLayout({
         
         {/* Smart Popunder - Trigger on specific user actions */}
         <SmartPopunder enabled={true} />
-        {/* Social Bar Ad */}
-        <AdsterraBanner format="social" />
         <div className="flex-1 flex flex-col">
           {children}
         </div>
