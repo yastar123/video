@@ -1,4 +1,3 @@
-import { HeroBanner } from '@/components/hero-banner'
 import { VideoCard } from '@/components/video-card'
 import { SearchBar } from '@/components/search-bar'
 import { MobileMenu } from '@/components/mobile-menu'

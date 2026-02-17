@@ -47,16 +47,6 @@ CREATE TABLE IF NOT EXISTS video_categories (
   PRIMARY KEY (video_id, category_id)
 );
 
--- Banners table
-CREATE TABLE IF NOT EXISTS banners (
-  id SERIAL PRIMARY KEY,
-  title VARCHAR(255) NOT NULL,
-  image VARCHAR(500),
-  description TEXT,
-  link VARCHAR(500),
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-
 -- Advertisements table
 CREATE TABLE IF NOT EXISTS advertisements (
   id SERIAL PRIMARY KEY,
@@ -93,11 +83,6 @@ INSERT INTO videos (title, description, thumbnail, category_id, duration, views,
   ('Midnight Terror', 'A horror film that will keep you awake at night', 'https://images.unsplash.com/photo-1535575463063-4c99dfd5dcd0?w=500&h=300&fit=crop', 5, 6300, 95000, 4.3, 'https://example.com/video5.mp4', NOW() - INTERVAL '13 days'),
   ('Explosive Action', 'Non-stop action sequences and thrilling moments', 'https://images.unsplash.com/photo-1598899134739-24c46f58b8c0?w=500&h=300&fit=crop', 1, 7200, 180000, 4.6, 'https://example.com/video6.mp4', NOW() - INTERVAL '18 days'),
   ('Future Worlds', 'Explore worlds beyond imagination', 'https://images.unsplash.com/photo-1555954594-9a3fb28daa7d?w=500&h=300&fit=crop', 4, 6900, 125000, 4.4, 'https://example.com/video7.mp4', NOW() - INTERVAL '20 days'),
-  ('Wildlife Chronicles', 'Amazing footage of animals in their natural habitat', 'https://images.unsplash.com/photo-1498855926480-d98e83099315?w=500&h=300&fit=crop', 6, 4500, 110000, 4.8, 'https://example.com/video8.mp4', NOW() - INTERVAL '24 days'),
+  ('Wildlife Chronicles', 'Amazing footage of animals in their natural habitat', 'https://images.unsplash.com/photo-1498855926480-dba8ba36b745?w=500&h=300&fit=crop', 6, 4500, 110000, 4.8, 'https://example.com/video8.mp4', NOW() - INTERVAL '24 days'),
   ('Jungle Expedition', 'Discover hidden treasures deep in the jungle', 'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=500&h=300&fit=crop', 6, 5000, 75000, 4.7, 'https://example.com/video9.mp4', NOW() - INTERVAL '2 days'),
   ('Laugh Out Loud 2', 'More hilarious comedy moments', 'https://images.unsplash.com/photo-1576169887891-e51faff4ff46?w=500&h=300&fit=crop', 3, 4200, 65000, 4.4, 'https://example.com/video10.mp4', NOW() - INTERVAL '1 day');
-
--- Insert sample banners
-INSERT INTO banners (title, image, description, link) VALUES
-  ('Premium Membership', 'https://images.unsplash.com/photo-1505228395891-9a51e7e86e81?w=1200&h=300&fit=crop', 'Get unlimited access to all content', '/premium'),
-  ('New Releases This Week', 'https://images.unsplash.com/photo-1574169208507-84007cde3e3b?w=1200&h=300&fit=crop', 'Watch the hottest new content', '/new');

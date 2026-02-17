@@ -24,14 +24,6 @@ export interface Category {
   slug?: string
 }
 
-export interface Banner {
-  id: number
-  title: string
-  image: string
-  description: string
-  link?: string
-}
-
 export interface User {
   id: number
   email: string
@@ -53,6 +45,5 @@ export interface Advertisement {
 // These are kept for type compatibility but will be empty as data comes from DB
 export const categories: Category[] = []
 export const videos: Video[] = []
-export const banners: Banner[] = []
 export const users: User[] = []
 export const advertisements: Advertisement[] = []
