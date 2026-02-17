@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, Suspense } from 'react'
 import { usePathname, useSearchParams } from 'next/navigation'
 
 interface SmartPopunderProps {
@@ -15,7 +15,7 @@ const STORAGE_KEYS = {
   FIRST_VISIT: 'first_visit'
 }
 
-export function SmartPopunder({ enabled = true }: SmartPopunderProps) {
+function SmartPopunderInner({ enabled = true }: SmartPopunderProps) {
   const pathname = usePathname()
   const searchParams = useSearchParams()
   const hasTriggered = useRef(false)
@@ -140,4 +140,12 @@ export function SmartPopunder({ enabled = true }: SmartPopunderProps) {
 
   // Component tidak render apa-apa (invisible)
   return null
+}
+
+export function SmartPopunder(props: SmartPopunderProps) {
+  return (
+    <Suspense fallback={null}>
+      <SmartPopunderInner {...props} />
+    </Suspense>
+  )
 }
