@@ -168,7 +168,7 @@ export default async function KategoriPage({
                   {paginatedCategories.map((category: any) => (
                     <ForceRefreshLink
                       key={category.id}
-                      href={`/kategori?category=${encodeURIComponent(category.slug)}`}
+                      href={`/?category=${encodeURIComponent(category.slug)}`}
                       className="group block"
                     >
                       <div className="bg-muted/30 hover:bg-muted/50 rounded-xl p-6 border border-border/50 hover:border-border transition-all duration-300">
