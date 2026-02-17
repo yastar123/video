@@ -161,166 +161,178 @@ export default async function VideoDetail({ params }: { params: Promise<{ id: st
           </div>
         </header>
 
-        {/* Global Ads */}
-        <div className="w-full flex flex-wrap justify-center gap-4">
-          {/* Social bars removed */}
-        </div>
 
         <div className="w-full overflow-hidden">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+            <div className="flex flex-col lg:flex-row gap-8">
+              <div className="flex-1 min-w-0">
             <header className="mb-4">
               <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-balance leading-tight text-center">
                 Nonton <span className="text-primary">{video.title}</span> 
               </h1>
             </header>
-          </div>
 
-          {/* Top Ads */}
-          <div className="max-w-7xl mx-auto px-4 mb-4 flex flex-col items-center gap-4 w-full overflow-hidden">
-               {/* Banner 468x60 - ID: a8ea859722150189e57a87b6579578f3 */}
-              <div className='flex flex-wrap justify-center gap-2 sm:gap-4 w-full overflow-hidden mb-4 sm:mb-6'>
-                <AdsterraBanner format="468x60" />
-                <AdsterraBanner format="468x60" />
-                <AdsterraBanner format="468x60" />
-                <AdsterraBanner format="468x60" />
-                <AdsterraBanner format="468x60" />
-                <AdsterraBanner format="468x60" />
+            {/* Top Ads */}
+            <div className="max-w-7xl mx-auto px-4 mb-4 flex flex-col items-center gap-4 w-full overflow-hidden">
+                 {/* Banner 468x60 - ID: a8ea859722150189e57a87b6579578f3 */}
+                <div className='flex flex-wrap justify-center gap-2 sm:gap-4 w-full overflow-hidden mb-4 sm:mb-6'>
+                  <AdsterraBanner format="468x60" />
+                  <AdsterraBanner format="468x60" />
+                  <AdsterraBanner format="468x60" />
+                  <AdsterraBanner format="468x60" />
+                  <AdsterraBanner format="468x60" />
+                  <AdsterraBanner format="468x60" />
+                </div>
+                         </div>
+
+            <section className="w-full bg-black border-y border-border/50 shadow-2xl overflow-hidden mb-6">
+              <div className="max-w-7xl mx-auto">
+                <div className="relative w-full aspect-video sm:h-auto h-[250px] sm:max-h-[700px]">
+                  <VideoPlayerWrapper url={video.url} thumbnail={video.thumbnail} />
+                </div>
               </div>
-                       </div>
-
-          <section className="w-full bg-black border-y border-border/50 shadow-2xl overflow-hidden mb-6">
-            <div className="max-w-7xl mx-auto">
-              <div className="relative w-full aspect-video sm:h-auto h-[250px] sm:max-h-[700px]">
-                <VideoPlayerWrapper url={video.url} thumbnail={video.thumbnail} />
-              </div>
-            </div>
-          </section>
-          {/* Banner 468x60 - ID: a8ea859722150189e57a87b6579578f3 */}
-              <div className='flex flex-wrap justify-center gap-2 sm:gap-4 w-full overflow-hidden mb-4 sm:mb-6'>
-                <AdsterraBanner format="468x60" />
-                <AdsterraBanner format="468x60" />
-                <AdsterraBanner format="468x60" />
-                <AdsterraBanner format="468x60" />
-              </div>
+            </section>
+            {/* Banner 468x60 - ID: a8ea859722150189e57a87b6579578f3 */}
+                  <div className='flex flex-wrap justify-center gap-2 sm:gap-4 w-full overflow-hidden mb-4 sm:mb-6'>
+                    <AdsterraBanner format="468x60" />
+                    <AdsterraBanner format="468x60" />
+                    <AdsterraBanner format="468x60" />
+                    <AdsterraBanner format="468x60" />
+                  </div>
 
 
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
-            {/* Middle Ads */}
-            <div className="mb-8 flex flex-col items-center gap-6 w-full overflow-hidden">
-                          </div>
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
+              {/* Middle Ads */}
+              <div className="mb-8 flex flex-col items-center gap-6 w-full overflow-hidden">
+                                </div>
 
-            <section className="mb-8">
-              <div className="bg-muted/30 p-5 sm:p-6 rounded-xl border border-border/50 shadow-sm">
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                  <div className="flex items-center gap-4">
-                    <div className="bg-primary/10 p-3 rounded-lg border border-primary/20">
-                      <Eye className="w-6 h-6 text-primary" />
+              <section className="mb-8">
+                <div className="bg-muted/30 p-5 sm:p-6 rounded-xl border border-border/50 shadow-sm">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                    <div className="flex items-center gap-4">
+                      <div className="bg-primary/10 p-3 rounded-lg border border-primary/20">
+                        <Eye className="w-6 h-6 text-primary" />
+                      </div>
+                      <div>
+                        <ViewCounter 
+                          videoId={video.id} 
+                          className="text-2xl font-black text-primary leading-none"
+                          showIcon={false}
+                          showTrending={true}
+                        />
+                        <p className="text-xs text-muted-foreground uppercase tracking-widest font-bold mt-1">Tayangan</p>
+                      </div>
                     </div>
-                    <div>
-                      <ViewCounter 
-                        videoId={video.id} 
-                        className="text-2xl font-black text-primary leading-none"
-                        showIcon={false}
-                        showTrending={true}
-                      />
-                      <p className="text-xs text-muted-foreground uppercase tracking-widest font-bold mt-1">Tayangan</p>
+
+                    
+                    <div className="flex flex-wrap gap-2">
+                      <span className="bg-primary/10 text-primary px-3 py-1 rounded-lg text-xs font-bold border border-primary/20">
+                        #{video.category?.replace(/\s+/g, '').toLowerCase()}
+                      </span>
+                      <span className="bg-green-500/10 text-green-500 px-3 py-1 rounded-lg text-xs font-bold border border-green-500/20">
+                        HD QUALITY
+                      </span>
+                      <span className="bg-yellow-500/10 text-yellow-500 px-3 py-1 rounded-lg text-xs font-bold border border-yellow-500/20">
+                        GRATIS
+                      </span>
                     </div>
                   </div>
 
-                  
-                  <div className="flex flex-wrap gap-2">
-                    <span className="bg-primary/10 text-primary px-3 py-1 rounded-lg text-xs font-bold border border-primary/20">
-                      #{video.category?.replace(/\s+/g, '').toLowerCase()}
-                    </span>
-                    <span className="bg-green-500/10 text-green-500 px-3 py-1 rounded-lg text-xs font-bold border border-green-500/20">
-                      HD QUALITY
-                    </span>
-                    <span className="bg-yellow-500/10 text-yellow-500 px-3 py-1 rounded-lg text-xs font-bold border border-yellow-500/20">
-                      GRATIS
-                    </span>
+                  <div className="mt-6 pt-6 border-t border-border/50 flex items-center justify-between text-xs text-muted-foreground">
+                    <p>
+                      Diunggah pada{' '}
+                      <time dateTime={video.created_at} className="font-semibold text-foreground">
+                        {new Date(video.created_at).toLocaleDateString('id-ID', {
+                          year: 'numeric',
+                          month: 'long',
+                          day: 'numeric',
+                        })}
+                      </time>
+                    </p>
                   </div>
                 </div>
+              </section>
 
-                <div className="mt-6 pt-6 border-t border-border/50 flex items-center justify-between text-xs text-muted-foreground">
-                  <p>
-                    Diunggah pada{' '}
-                    <time dateTime={video.created_at} className="font-semibold text-foreground">
-                      {new Date(video.created_at).toLocaleDateString('id-ID', {
-                        year: 'numeric',
-                        month: 'long',
-                        day: 'numeric',
-                      })}
-                    </time>
+              {/* Banner 468x60 - ID: a8ea859722150189e57a87b6579578f3 */}
+              <div className='flex flex-wrap justify-center gap-2 sm:gap-4 w-full overflow-hidden mb-4 sm:mb-6'>
+                <AdsterraBanner format="468x60" />
+                <AdsterraBanner format="468x60" />
+              </div>
+
+              {/* Categories Section */}
+              <section className="mb-8">
+                <div className="bg-muted/30 p-5 sm:p-6 rounded-xl border border-border/50 shadow-sm">
+                  <h3 className="text-lg font-bold mb-4 text-foreground">Kategori Video</h3>
+                  <div className="flex flex-wrap gap-2">
+                    {allCategories.map((category: any) => (
+                      <Link
+                        key={category.id}
+                        href={`/?category=${encodeURIComponent(category.name)}`}
+                        className={`inline-flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-medium transition-all duration-200 border ${
+                          videoCategories.some((vc: any) => vc.id === category.id) || 
+                          video.category === category.name
+                            ? 'bg-primary text-primary-foreground border-primary'
+                            : 'bg-muted/50 text-muted-foreground border-border/50 hover:bg-muted hover:text-foreground'
+                        }`}
+                      >
+                        <span>{category.name}</span>
+                        {videoCategories.some((vc: any) => vc.id === category.id) || 
+                         video.category === category.name ? (
+                          <span className="w-1.5 h-1.5 bg-primary-foreground rounded-full"></span>
+                        ) : null}
+                      </Link>
+                    ))}
+                  </div>
+                  <p className="text-xs text-muted-foreground mt-3">
+                    Klik kategori untuk melihat video lainnya dalam kategori yang sama
                   </p>
                 </div>
-              </div>
-            </section>
+              </section>
 
-            {/* Banner 468x60 - ID: a8ea859722150189e57a87b6579578f3 */}
-            <div className='flex flex-wrap justify-center gap-2 sm:gap-4 w-full overflow-hidden mb-4 sm:mb-6'>
-              <AdsterraBanner format="468x60" />
-              <AdsterraBanner format="468x60" />
-            </div>
-
-            {/* Categories Section */}
-            <section className="mb-8">
-              <div className="bg-muted/30 p-5 sm:p-6 rounded-xl border border-border/50 shadow-sm">
-                <h3 className="text-lg font-bold mb-4 text-foreground">Kategori Video</h3>
-                <div className="flex flex-wrap gap-2">
-                  {allCategories.map((category: any) => (
-                    <Link
-                      key={category.id}
-                      href={`/?category=${encodeURIComponent(category.name)}`}
-                      className={`inline-flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-medium transition-all duration-200 border ${
-                        videoCategories.some((vc: any) => vc.id === category.id) || 
-                        video.category === category.name
-                          ? 'bg-primary text-primary-foreground border-primary'
-                          : 'bg-muted/50 text-muted-foreground border-border/50 hover:bg-muted hover:text-foreground'
-                      }`}
-                    >
-                      <span>{category.name}</span>
-                      {videoCategories.some((vc: any) => vc.id === category.id) || 
-                       video.category === category.name ? (
-                        <span className="w-1.5 h-1.5 bg-primary-foreground rounded-full"></span>
-                      ) : null}
-                    </Link>
-                  ))}
+              <section className="mb-12">
+                <div className="prose prose-invert prose-headings:text-foreground prose-p:text-muted-foreground max-w-none">
+                  <h2 className="text-2xl font-bold mb-4">Deskripsi Video {video.title}</h2>
+                  <p className="text-base leading-relaxed">
+                    Nonton streaming <strong>{video.title}</strong> video{' '}
+                    <strong>{video.category}</strong> kualitas HD tanpa sensor. 
+                    Nikmati koleksi video terbaik di platform kami secara gratis.
+                  </p>
                 </div>
-                <p className="text-xs text-muted-foreground mt-3">
-                  Klik kategori untuk melihat video lainnya dalam kategori yang sama
-                </p>
-              </div>
-            </section>
+              </section>
 
-            <section className="mb-12">
-              <div className="prose prose-invert prose-headings:text-foreground prose-p:text-muted-foreground max-w-none">
-                <h2 className="text-2xl font-bold mb-4">Deskripsi Video {video.title}</h2>
-                <p className="text-base leading-relaxed">
-                  Nonton streaming <strong>{video.title}</strong> video{' '}
-                  <strong>{video.category}</strong> kualitas HD tanpa sensor. 
-                  Nikmati koleksi video terbaik di platform kami secara gratis.
-                </p>
-              </div>
-            </section>
-
-            {/* Banner 468x60 - ID: a8ea859722150189e57a87b6579578f3 */}
-              <div className='flex flex-wrap justify-center gap-2 sm:gap-4 w-full overflow-hidden mb-4 sm:mb-6'>
-                <AdsterraBanner format="468x60" />
-                <AdsterraBanner format="468x60" />
+              {/* Banner 468x60 - ID: a8ea859722150189e57a87b6579578f3 */}
+                  <div className='flex flex-wrap justify-center gap-2 sm:gap-4 w-full overflow-hidden mb-4 sm:mb-6'>
+                    <AdsterraBanner format="468x60" />
+                    <AdsterraBanner format="468x60" />
+                  </div>
+            </div>
               </div>
 
-            <section className="relative">
+              {/* Sidebar untuk iklan */}
+              <aside className="hidden xl:block w-[160px] flex-shrink-0">
+                <div className="sticky top-24 flex flex-col gap-8">
+                  {/* Banner 160x600 - ID: 22bed31723f24472a78afb44a7addb6b */}
+                  <AdsterraBanner format="160x600" />
+                  {/* Banner 160x300 - ID: 6e9a519272442fa242b5a43e53ddc7fd */}
+                  <AdsterraBanner format="160x300" />
+                  {/* Banner 160x300 - Additional */}
+                  <AdsterraBanner format="160x300" />
+                </div>
+              </aside>
+            </div>
+          </div>
+        </div>
+
+        
+           <section className="relative">
               <div className="flex items-center justify-between mb-6">
                 <h2 className="text-2xl font-bold">Video Terkait</h2>
                 <Link href="/" className="text-primary text-sm font-semibold hover:underline">Lihat Semua</Link>
               </div>
               <RandomVideos />
             </section>
-
-            <div className="w-full overflow-hidden flex justify-center">
-              <AdsterraBanner format="native" />
-            </div>
-          </div>
+        <div className="w-full overflow-hidden flex justify-center">
+          <AdsterraBanner format="native" />
         </div>
       </main>
     </>
