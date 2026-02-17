@@ -12,7 +12,7 @@ import Link from 'next/link'
 import { HeaderUser } from '@/components/header-user'
 import { getCurrentUser } from '@/lib/session'
 import { DynamicAds } from '@/components/dynamic-ads'
-import { AdsterraBanner } from '@/components/adsterra-banner-inline'
+import { AdsterraBanner } from '@/components/adsterra-banner-route-fix'
 import AdsterraAd from '@/components/adsterra-ad'
 
 export const revalidate = 3600 // Revalidate home page every hour
@@ -88,11 +88,10 @@ export default async function Home({
 
   return (
     <main className="min-h-screen bg-[#0a0a0a] text-white">
-      <div className='flex flex-wrap justify-center gap-2 sm:gap-4 w-full overflow-hidden mb-4 sm:mb-6'>
-                <AdsterraBanner format="468x60" />
-                <AdsterraBanner format="468x60" />
-                <AdsterraBanner format="468x60" />
-                <AdsterraBanner format="468x60" />
+       <div className='flex flex-wrap justify-center gap-2 sm:gap-4 w-full overflow-hidden mb-4 sm:mb-6'>
+ {/* Banner 728x90 - ID: 5a8dd45e78414c6e5be9db9eaffed61f */}
+              <AdsterraBanner format="728x90" />
+              <AdsterraBanner format="728x90" />
               </div>
       {/* Header */}
       <header className="sticky top-0 z-50 bg-[#0a0a0a]/95 backdrop-blur-md border-b border-white/10">
