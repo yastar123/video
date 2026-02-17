@@ -12,7 +12,7 @@ import Link from 'next/link'
 import { HeaderUser } from '@/components/header-user'
 import { getCurrentUser } from '@/lib/session'
 import { DynamicAds } from '@/components/dynamic-ads'
-import { AdsterraBanner } from '@/components/adsterra-banner-simple'
+import { AdsterraBanner } from '@/components/adsterra-banner-inline'
 import AdsterraAd from '@/components/adsterra-ad'
 
 export const revalidate = 3600 // Revalidate home page every hour
