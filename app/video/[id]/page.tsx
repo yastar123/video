@@ -257,6 +257,8 @@ export default async function VideoDetail({ params }: { params: Promise<{ id: st
               <div className='flex flex-wrap justify-center gap-2 sm:gap-2 w-full overflow-hidden mb-4 sm:mb-6'>
                 <AdsterraBanner format="468x60" />
                 <AdsterraBanner format="468x60" />
+                 <AdsterraBanner format="468x60" />
+                <AdsterraBanner format="468x60" />
               </div>
 
               {/* Categories Section */}

@@ -76,6 +76,13 @@ export default async function KategoriPage({
   // Get all categories
   const categories = await getCategories()
 
+  // Pagination for categories (show only 8 per page)
+  const categoriesPerPage = 8
+  const totalCategories = categories.length
+  const categoryTotalPages = Math.ceil(totalCategories / categoriesPerPage)
+  const categoryOffset = (currentPage - 1) * categoriesPerPage
+  const paginatedCategories = categories.slice(categoryOffset, categoryOffset + categoriesPerPage)
+
   // Get videos for selected category
   let videos: any[] = []
   let totalCount = 0
@@ -88,7 +95,7 @@ export default async function KategoriPage({
     currentCategoryName = category?.name || ''
   }
 
-  const totalPages = Math.ceil(totalCount / limit)
+  const totalPages = selectedCategory ? Math.ceil(totalCount / limit) : categoryTotalPages
 
   return (
     <main className="min-h-screen bg-background">
@@ -154,31 +161,43 @@ export default async function KategoriPage({
 
             {!selectedCategory ? (
               // Category Grid View
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
-                {categories.map((category: any) => (
-                  <ForceRefreshLink
-                    key={category.id}
-                    href={`/?category=${encodeURIComponent(category.slug)}`}
-                    className="group block"
-                  >
-                    <div className="bg-muted/30 hover:bg-muted/50 rounded-xl p-6 border border-border/50 hover:border-border transition-all duration-300">
-                      <div className="flex flex-col items-center text-center">
-                        <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mb-4 group-hover:bg-primary/20 transition-colors">
-                          <span className="text-2xl font-bold text-primary">
-                            {category.name.charAt(0).toUpperCase()}
-                          </span>
+              <>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
+                  {paginatedCategories.map((category: any) => (
+                    <ForceRefreshLink
+                      key={category.id}
+                      href={`/kategori?category=${encodeURIComponent(category.slug)}`}
+                      className="group block"
+                    >
+                      <div className="bg-muted/30 hover:bg-muted/50 rounded-xl p-6 border border-border/50 hover:border-border transition-all duration-300">
+                        <div className="flex flex-col items-center text-center">
+                          <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mb-4 group-hover:bg-primary/20 transition-colors">
+                            <span className="text-2xl font-bold text-primary">
+                              {category.name.charAt(0).toUpperCase()}
+                            </span>
+                          </div>
+                          <h3 className="text-lg font-semibold text-balance mb-2 group-hover:text-primary transition-colors">
+                            {category.name}
+                          </h3>
+                          <p className="text-sm text-muted-foreground">
+                            {category.video_count} video
+                          </p>
                         </div>
-                        <h3 className="text-lg font-semibold text-balance mb-2 group-hover:text-primary transition-colors">
-                          {category.name}
-                        </h3>
-                        <p className="text-sm text-muted-foreground">
-                          {category.video_count} video
-                        </p>
                       </div>
-                    </div>
-                  </ForceRefreshLink>
-                ))}
-              </div>
+                    </ForceRefreshLink>
+                  ))}
+                </div>
+
+                {/* Pagination for Categories */}
+                {categoryTotalPages > 1 && (
+                  <div className="mt-8 flex justify-center">
+                    <ForceRefreshPagination
+                      currentPage={currentPage}
+                      totalPages={categoryTotalPages}
+                    />
+                  </div>
+                )}
+              </>
             ) : (
               // Videos Grid View
               <>
