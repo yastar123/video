@@ -5,6 +5,7 @@ import './globals.css'
 import { AdsterraBanner } from '@/components/adsterra-banner'
 import { DelayPopunder } from '@/components/delay-popunder'
 import { TestingDashboard } from '@/components/testing-dashboard'
+import AdsterraAd from '@/components/adsterra-ad'
 
 const geistSans = Geist({
   subsets: ["latin"],
@@ -119,7 +120,7 @@ export default function RootLayout({
           }}
         />
         {/* Popunder Ad */}
-        <AdScript adKey="4388c91d89682a21f68164b288c042f9" format="js" />
+        <AdsterraAd adKey="4388c91d89682a21f68164b288c042f9" format="js" />
         {/* Social Bar Ad */}
         <AdsterraBanner format="social" />
         <div className="flex-1 flex flex-col">

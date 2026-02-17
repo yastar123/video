@@ -4,6 +4,7 @@ import type { Video } from '@/lib/db'
 import { Star, Eye, Clock } from 'lucide-react'
 import Image from 'next/image'
 import { useEffect, useRef, useState } from 'react'
+import { CompactViewCounter } from '@/components/view-counter'
 
 interface VideoCardProps {
   video: Video
@@ -98,10 +99,9 @@ export function VideoCard({ video, onClick, isLink, priority }: VideoCardProps) 
 
         {/* Stats */}
         <div className="flex items-center gap-2 sm:gap-3 text-[10px] sm:text-xs text-muted-foreground font-medium">
-          <span className="flex items-center gap-1 sm:gap-1.5 bg-secondary/50 px-1.5 sm:px-2 py-0.5 sm:py-1 rounded-md" title="Views">
-            <Eye size={10} className="sm:w-[12px] sm:h-[12px] text-primary" />
-            {formatViews(video.views || 0)}
-          </span>
+          <div className="flex items-center gap-1 sm:gap-1.5 bg-secondary/50 px-1.5 sm:px-2 py-0.5 sm:py-1 rounded-md" title="Views">
+            <CompactViewCounter videoId={video.id} />
+          </div>
           <span className="flex items-center gap-1 sm:gap-1.5">
             <Clock size={10} className="sm:w-[12px] sm:h-[12px]" />
             <span suppressHydrationWarning>

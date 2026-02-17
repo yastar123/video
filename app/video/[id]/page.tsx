@@ -4,7 +4,8 @@ import { RandomVideos } from '@/components/random-videos'
 import { VideoPlayerWrapper } from '@/components/video-player-wrapper'
 import { SmartlinkRotator, MultipleSmartlinks } from '@/components/smartlink-rotator'
 import { AdsterraBanner } from '@/components/adsterra-banner'
-import AdScript from '@/components/ad-script'
+import { ViewCounter, DetailedViewCounter } from '@/components/view-counter'
+import AdsterraAd from '@/components/adsterra-ad'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { Metadata, Viewport } from 'next'
@@ -162,14 +163,14 @@ export default async function VideoDetail({ params }: { params: Promise<{ id: st
         </header>
 
         {/* Global Ads */}
-<div className="w-full flex flex-wrap justify-center gap-4">
-  <AdScript adKey="4388c91d89682a21f68164b288c042f9" format="js" />
-  <AdScript adKey="9add34aad611a8243e9fa65055bde309" format="js" />
-  <AdScript adKey="4388c91d89682a21f68164b288c042f9" format="js" />
-  <AdScript adKey="9add34aad611a8243e9fa65055bde309" format="js" />
-  <AdScript adKey="4388c91d89682a21f68164b288c042f9" format="js" />
-  <AdScript adKey="9add34aad611a8243e9fa65055bde309" format="js" />
-</div>
+        <div className="w-full flex flex-wrap justify-center gap-4">
+          <AdsterraAd adKey="4388c91d89682a21f68164b288c042f9" format="js" />
+          <AdsterraAd adKey="9add34aad611a8243e9fa65055bde309" format="js" />
+          <AdsterraAd adKey="4388c91d89682a21f68164b288c042f9" format="js" />
+          <AdsterraAd adKey="9add34aad611a8243e9fa65055bde309" format="js" />
+          <AdsterraAd adKey="4388c91d89682a21f68164b288c042f9" format="js" />
+          <AdsterraAd adKey="9add34aad611a8243e9fa65055bde309" format="js" />
+        </div>
 
         <div className="w-full overflow-hidden">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
@@ -183,14 +184,14 @@ export default async function VideoDetail({ params }: { params: Promise<{ id: st
           {/* Top Ads */}
           <div className="max-w-7xl mx-auto px-4 mb-4 flex flex-col items-center gap-4 w-full overflow-hidden">
              <div className="w-full overflow-hidden flex justify-center">
-               <AdScript adKey="5a8dd45e78414c6e5be9db9eaffed61f" format="iframe" height={90} width={728} />
+               <AdsterraAd adKey="5a8dd45e78414c6e5be9db9eaffed61f" format="iframe" height={90} width={728} />
              </div>
              {/* Banner 728x90 - ID: 28622405 */}
              <div className="w-full overflow-hidden flex justify-center">
-               <AdScript adKey="28622405" format="iframe" height={90} width={728} />
+               <AdsterraAd adKey="5a8dd45e78414c6e5be9db9eaffed61f" format="iframe" height={90} width={728} />
              </div>
              <div className="w-full overflow-hidden flex justify-center">
-               <AdScript adKey="c08de902b7930682919199d915646b97" format="js" />
+               <AdsterraAd adKey="c08de902b7930682919199d915646b97" format="js" />
              </div>
              <div className="w-full grid grid-cols-1 sm:grid-cols-3 gap-2">
                <SmartlinkRotator />
@@ -199,7 +200,7 @@ export default async function VideoDetail({ params }: { params: Promise<{ id: st
              </div>
              {/* Banner 468x60 - ID: 28628094 */}
              <div className="w-full overflow-hidden flex justify-center">
-               <AdScript adKey="28628094" format="iframe" height={60} width={468} />
+               <AdsterraAd adKey="a8ea859722150189e57a87b6579578f3" format="iframe" height={60} width={468} />
              </div>
           </div>
 
@@ -214,7 +215,7 @@ export default async function VideoDetail({ params }: { params: Promise<{ id: st
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
             {/* Native Banner Ad */}
             <div className="mb-8 w-full overflow-hidden flex justify-center">
-              <AdScript adKey="c08de902b7930682919199d915646b97" format="js" />
+              <AdsterraAd adKey="c08de902b7930682919199d915646b97" format="js" />
             </div>
 
             {/* Middle Ads */}
@@ -240,7 +241,12 @@ export default async function VideoDetail({ params }: { params: Promise<{ id: st
                       <Eye className="w-6 h-6 text-primary" />
                     </div>
                     <div>
-                      <p className="text-2xl font-black text-primary leading-none">{formatViews(video.views)}</p>
+                      <ViewCounter 
+                        videoId={video.id} 
+                        className="text-2xl font-black text-primary leading-none"
+                        showIcon={false}
+                        showTrending={true}
+                      />
                       <p className="text-xs text-muted-foreground uppercase tracking-widest font-bold mt-1">Tayangan</p>
                     </div>
                   </div>

@@ -15,9 +15,8 @@ export function AdsterraBanner({ format }: AdsterraBannerProps) {
     // Clear existing content
     containerRef.current.innerHTML = ''
 
-    const script = document.createElement('script')
-    
     if (format === '160x300') {
+      // 160x300 Banner
       const configScript = document.createElement('script')
       configScript.innerHTML = `
         atOptions = {
@@ -29,8 +28,13 @@ export function AdsterraBanner({ format }: AdsterraBannerProps) {
         };
       `
       containerRef.current.appendChild(configScript)
-      script.src = 'https://www.highperformanceformat.com/6e9a519272442fa242b5a43e53ddc7fd/invoke.js'
+      
+      const invokeScript = document.createElement('script')
+      invokeScript.src = 'https://www.highperformanceformat.com/6e9a519272442fa242b5a43e53ddc7fd/invoke.js'
+      containerRef.current.appendChild(invokeScript)
+      
     } else if (format === '160x600') {
+      // 160x600 Banner
       const configScript = document.createElement('script')
       configScript.innerHTML = `
         atOptions = {
@@ -42,8 +46,13 @@ export function AdsterraBanner({ format }: AdsterraBannerProps) {
         };
       `
       containerRef.current.appendChild(configScript)
-      script.src = 'https://www.highperformanceformat.com/22bed31723f24472a78afb44a7addb6b/invoke.js'
+      
+      const invokeScript = document.createElement('script')
+      invokeScript.src = 'https://www.highperformanceformat.com/22bed31723f24472a78afb44a7addb6b/invoke.js'
+      containerRef.current.appendChild(invokeScript)
+      
     } else if (format === '300x250') {
+      // 300x250 Banner
       const configScript = document.createElement('script')
       configScript.innerHTML = `
         atOptions = {
@@ -55,8 +64,13 @@ export function AdsterraBanner({ format }: AdsterraBannerProps) {
         };
       `
       containerRef.current.appendChild(configScript)
-      script.src = 'https://www.highperformanceformat.com/1ad6f564f3ca7bb42752dba86368d149/invoke.js'
+      
+      const invokeScript = document.createElement('script')
+      invokeScript.src = 'https://www.highperformanceformat.com/1ad6f564f3ca7bb42752dba86368d149/invoke.js'
+      containerRef.current.appendChild(invokeScript)
+      
     } else if (format === '468x60') {
+      // 468x60 Banner
       const configScript = document.createElement('script')
       configScript.innerHTML = `
         atOptions = {
@@ -68,8 +82,13 @@ export function AdsterraBanner({ format }: AdsterraBannerProps) {
         };
       `
       containerRef.current.appendChild(configScript)
-      script.src = 'https://www.highperformanceformat.com/a8ea859722150189e57a87b6579578f3/invoke.js'
+      
+      const invokeScript = document.createElement('script')
+      invokeScript.src = 'https://www.highperformanceformat.com/a8ea859722150189e57a87b6579578f3/invoke.js'
+      containerRef.current.appendChild(invokeScript)
+      
     } else if (format === '728x90') {
+      // 728x90 Banner
       const configScript = document.createElement('script')
       configScript.innerHTML = `
         atOptions = {
@@ -81,23 +100,30 @@ export function AdsterraBanner({ format }: AdsterraBannerProps) {
         };
       `
       containerRef.current.appendChild(configScript)
-      script.src = 'https://www.highperformanceformat.com/5a8dd45e78414c6e5be9db9eaffed61f/invoke.js'
+      
+      const invokeScript = document.createElement('script')
+      invokeScript.src = 'https://www.highperformanceformat.com/5a8dd45e78414c6e5be9db9eaffed61f/invoke.js'
+      containerRef.current.appendChild(invokeScript)
+      
     } else if (format === 'native') {
       // Native Banner
-      script.async = true
-      script.setAttribute('data-cfasync', 'false')
-      script.src = 'https://pl28722946.effectivegatecpm.com/c08de902b7930682919199d915646b97/invoke.js'
       const nativeContainer = document.createElement('div')
       nativeContainer.id = 'container-c08de902b7930682919199d915646b97'
       containerRef.current.appendChild(nativeContainer)
+      
+      const nativeScript = document.createElement('script')
+      nativeScript.async = true
+      nativeScript.setAttribute('data-cfasync', 'false')
+      nativeScript.src = 'https://pl28722946.effectivegatecpm.com/c08de902b7930682919199d915646b97/invoke.js'
+      containerRef.current.appendChild(nativeScript)
+      
     } else if (format === 'social') {
       // Social Bar
-      script.src = 'https://pl28722941.effectivegatecpm.com/9a/dd/34/9add34aad611a8243e9fa65055bde309.js'
-    } else {
-      return
+      const socialScript = document.createElement('script')
+      socialScript.src = 'https://pl28722941.effectivegatecpm.com/9a/dd/34/9add34aad611a8243e9fa65055bde309.js'
+      containerRef.current.appendChild(socialScript)
     }
 
-    containerRef.current.appendChild(script)
   }, [format])
 
   return (
