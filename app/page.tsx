@@ -132,9 +132,7 @@ export default async function Home({
               </div>
 
 
-              {/* Native Banner */}
-              <AdsterraBanner format="native" />
-            </div>
+                          </div>
 
             {/* Smartlinks Section */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 sm:gap-3 lg:gap-4 mb-6 sm:mb-8 w-full">
@@ -144,14 +142,6 @@ export default async function Home({
             </div>
 
             {/* Middle Banner Ads */}
-            <div className="flex flex-col items-center gap-2 sm:gap-4 w-full overflow-hidden mb-6 sm:mb-8">
-              {/* Banner 300x250 - ID: 1ad6f564f3ca7bb42752dba86368d149 */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 sm:gap-3 lg:gap-4 w-full">
-                <AdsterraBanner format="300x250" />
-                <AdsterraBanner format="300x250" />
-                <AdsterraBanner format="300x250" />
-              </div>
-            </div>
 
             {/* Search and Filter Section */}
             <section className="mb-8 overflow-hidden">
@@ -233,20 +223,7 @@ export default async function Home({
                 </div>
               )}
               
-              {/* Native Banner - Paling Bawah */}
-              <div className="mt-12 mb-8 flex justify-center">
-                <div className="w-full max-w-[728px]">
-                  <div 
-                    dangerouslySetInnerHTML={{
-                      __html: `
-                        <script async="async" data-cfasync="false" src="https://pl28722946.effectivegatecpm.com/c08de902b7930682919199d915646b97/invoke.js"></script>
-                        <div id="container-c08de902b7930682919199d915646b97"></div>
-                      `
-                    }}
-                  />
-                </div>
-              </div>
-            </section>
+                          </section>
           </div>
           
           <aside className="hidden xl:block w-[160px] flex-shrink-0 pt-20">
