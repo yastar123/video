@@ -30,6 +30,21 @@ async function getVideo(id: string) {
   return rows[0] || null
 }
 
+async function getVideoCategories(videoId: string) {
+  const { rows } = await query(`
+    SELECT c.* 
+    FROM categories c 
+    JOIN video_categories vc ON c.id = vc.category_id 
+    WHERE vc.video_id = $1
+  `, [videoId])
+  return rows || []
+}
+
+async function getAllCategories() {
+  const { rows } = await query('SELECT * FROM categories ORDER BY name ASC')
+  return rows || []
+}
+
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
   const { id } = await params
   const video = await getVideo(id)
@@ -107,6 +122,8 @@ const formatViews = (views: number) => {
 export default async function VideoDetail({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
   const video = await getVideo(id)
+  const videoCategories = await getVideoCategories(id)
+  const allCategories = await getAllCategories()
 
   if (!video) {
     notFound()
@@ -249,6 +266,36 @@ export default async function VideoDetail({ params }: { params: Promise<{ id: st
                     </time>
                   </p>
                 </div>
+              </div>
+            </section>
+
+            {/* Categories Section */}
+            <section className="mb-8">
+              <div className="bg-muted/30 p-5 sm:p-6 rounded-xl border border-border/50 shadow-sm">
+                <h3 className="text-lg font-bold mb-4 text-foreground">Kategori Video</h3>
+                <div className="flex flex-wrap gap-2">
+                  {allCategories.map((category: any) => (
+                    <Link
+                      key={category.id}
+                      href={`/?category=${encodeURIComponent(category.name)}`}
+                      className={`inline-flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-medium transition-all duration-200 border ${
+                        videoCategories.some((vc: any) => vc.id === category.id) || 
+                        video.category === category.name
+                          ? 'bg-primary text-primary-foreground border-primary'
+                          : 'bg-muted/50 text-muted-foreground border-border/50 hover:bg-muted hover:text-foreground'
+                      }`}
+                    >
+                      <span>{category.name}</span>
+                      {videoCategories.some((vc: any) => vc.id === category.id) || 
+                       video.category === category.name ? (
+                        <span className="w-1.5 h-1.5 bg-primary-foreground rounded-full"></span>
+                      ) : null}
+                    </Link>
+                  ))}
+                </div>
+                <p className="text-xs text-muted-foreground mt-3">
+                  Klik kategori untuk melihat video lainnya dalam kategori yang sama
+                </p>
               </div>
             </section>
 

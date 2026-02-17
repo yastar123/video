@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { readFile, stat } from 'fs/promises'
+import { readFile, stat, writeFile, mkdir } from 'fs/promises'
 import { existsSync, readdirSync } from 'fs'
 import path from 'path'
 
@@ -21,36 +21,78 @@ export async function GET(
   const uploadDir = process.env.UPLOAD_DIR || './uploads'
   console.log('Environment UPLOAD_DIR:', uploadDir)
   console.log('Current working directory:', process.cwd())
+  console.log('NODE_ENV:', process.env.NODE_ENV)
+  
+  // Detect if we're running on VPS
+  const isVPS = process.env.NODE_ENV === 'production' && 
+                (process.cwd().includes('/root/video') || 
+                 existsSync('/root/video') ||
+                 process.env.USER === 'root')
+  
+  console.log('VPS Environment detected:', isVPS)
   
   // Try multiple possible upload directories - prioritize VPS paths and env var
-  const possiblePaths = [
-    path.join('/root', 'video', 'uploads', normalizedPath),    // VPS production path
-    path.join(process.cwd(), uploadDir, normalizedPath),       // Environment variable
-    path.join(process.cwd(), 'uploads', normalizedPath),        // Local development
-    path.join(process.cwd(), 'public', 'uploads', normalizedPath), // Alternative local
-    path.join('/tmp', 'uploads', normalizedPath),              // Production temp
-    path.join('/var/tmp', 'uploads', normalizedPath)           // Production temp alt
-  ]
+  let possiblePaths = []
+  
+  if (isVPS) {
+    // VPS priority paths
+    possiblePaths = [
+      path.join('/root', 'video', 'uploads', normalizedPath),    // VPS production path
+      path.join('/root', 'video', 'public', 'uploads', normalizedPath), // VPS public path
+      path.join(process.cwd(), 'uploads', normalizedPath),        // Current working dir
+      path.join(process.cwd(), uploadDir, normalizedPath),       // Environment variable
+      path.join(process.cwd(), 'public', 'uploads', normalizedPath), // Alternative local
+      path.join('/tmp', 'uploads', normalizedPath),              // Production temp
+      path.join('/var/tmp', 'uploads', normalizedPath)           // Production temp alt
+    ]
+  } else {
+    // Local development paths
+    possiblePaths = [
+      path.join(process.cwd(), uploadDir, normalizedPath),       // Environment variable
+      path.join(process.cwd(), 'uploads', normalizedPath),        // Local development
+      path.join(process.cwd(), 'public', 'uploads', normalizedPath), // Alternative local
+      path.join('/tmp', 'uploads', normalizedPath),              // Production temp
+      path.join('/var/tmp', 'uploads', normalizedPath)           // Production temp alt
+    ]
+  }
   
   console.log('Searching for file:', filename)
   console.log('Possible paths to check:')
   possiblePaths.forEach((path, index) => {
-    console.log(`${index + 1}. ${path}`)
+    console.log(`${index + 1}. ${path} - exists: ${existsSync(path)}`)
   })
   
   let absolutePath = null
   for (const testPath of possiblePaths) {
-    console.log('Looking for file in:', testPath, 'exists:', existsSync(testPath))
+    console.log('Checking path:', testPath, 'exists:', existsSync(testPath))
     if (existsSync(testPath)) {
       absolutePath = testPath
-      console.log('Found file at:', testPath)
+      console.log('✅ Found file at:', testPath)
       break
     }
   }
 
   if (!absolutePath) {
-    console.log('File not found in any location:', filename)
-    return new Response('File not found', { status: 404 })
+    console.log('❌ File not found in any location:', filename)
+    console.log('❌ All paths checked:')
+    possiblePaths.forEach((path, index) => {
+      console.log(`  ${index + 1}. ${path} - NOT FOUND`)
+    })
+    
+    // Return detailed error response for debugging
+    return new Response(JSON.stringify({
+      error: 'File not found',
+      filename: filename,
+      searchedPaths: possiblePaths,
+      environment: {
+        NODE_ENV: process.env.NODE_ENV,
+        UPLOAD_DIR: process.env.UPLOAD_DIR,
+        cwd: process.cwd()
+      }
+    }), { 
+      status: 404,
+      headers: { 'Content-Type': 'application/json' }
+    })
   }
 
   try {

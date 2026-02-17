@@ -27,16 +27,53 @@ export async function POST(request: NextRequest) {
     
     // Get upload directory from environment or use defaults
     const uploadDir = process.env.UPLOAD_DIR || './uploads'
+    console.log('Upload Environment:')
+    console.log('- NODE_ENV:', process.env.NODE_ENV)
+    console.log('- UPLOAD_DIR:', uploadDir)
+    console.log('- Current working directory:', process.cwd())
+    
+    // Detect if we're running on VPS
+    const isVPS = process.env.NODE_ENV === 'production' && 
+                  (process.cwd().includes('/root/video') || 
+                   require('fs').existsSync('/root/video') ||
+                   process.env.USER === 'root')
+    
+    console.log('VPS Environment detected:', isVPS)
     
     // Try multiple possible upload directories - prioritize VPS paths and env var
-    const possiblePaths = [
-      path.join('/root', 'video', 'uploads', fileName),    // VPS production path
-      path.join(process.cwd(), uploadDir, fileName),       // Environment variable
-      path.join(process.cwd(), 'uploads', fileName),        // Local development
-      path.join(process.cwd(), 'public', 'uploads', fileName), // Alternative local
-      path.join('/tmp', 'uploads', fileName),              // Production temp
-      path.join('/var/tmp', 'uploads', fileName)           // Production temp alt
-    ]
+    let possiblePaths = []
+    
+    if (isVPS) {
+      // VPS priority paths
+      possiblePaths = [
+        path.join('/root', 'video', 'uploads', fileName),    // VPS production path
+        path.join('/root', 'video', 'public', 'uploads', fileName), // VPS public path
+        path.join(process.cwd(), 'uploads', fileName),        // Current working dir
+        path.join(process.cwd(), uploadDir, fileName),       // Environment variable
+        path.join(process.cwd(), 'public', 'uploads', fileName), // Alternative local
+        path.join('/tmp', 'uploads', fileName),              // Production temp
+        path.join('/var/tmp', 'uploads', fileName)           // Production temp alt
+      ]
+    } else {
+      // Local development paths
+      possiblePaths = [
+        path.join(process.cwd(), uploadDir, fileName),       // Environment variable
+        path.join(process.cwd(), 'uploads', fileName),        // Local development
+        path.join(process.cwd(), 'public', 'uploads', fileName), // Alternative local
+        path.join('/tmp', 'uploads', fileName),              // Production temp
+        path.join('/var/tmp', 'uploads', fileName)           // Production temp alt
+      ]
+    }
+    
+    console.log('Upload file details:')
+    console.log('- Original filename:', file.name)
+    console.log('- File size:', file.size)
+    console.log('- File type:', file.type)
+    console.log('- Generated filename:', fileName)
+    console.log('Possible upload paths:')
+    possiblePaths.forEach((path, index) => {
+      console.log(`${index + 1}. ${path}`)
+    })
     
     let absolutePath = possiblePaths[0] // Default to first option
     let uploadSuccess = false
@@ -54,16 +91,21 @@ export async function POST(request: NextRequest) {
         if (require('fs').existsSync(testPath)) {
           absolutePath = testPath
           uploadSuccess = true
-          console.log('File saved successfully to:', testPath)
+          console.log('✅ File saved successfully to:', testPath)
+          console.log('✅ File exists after save:', require('fs').existsSync(testPath))
+          console.log('✅ File size:', require('fs').statSync(testPath).size, 'bytes')
           break
+        } else {
+          console.log('❌ File save verification failed for:', testPath)
         }
       } catch (error: any) {
-        console.log('Failed to save to', testPath, ':', error.message)
+        console.log('❌ Failed to save to', testPath, ':', error.message)
         continue
       }
     }
     
     if (!uploadSuccess) {
+      console.log('❌ Failed to save file to any location')
       throw new Error('Failed to save file to any location')
     }
 
