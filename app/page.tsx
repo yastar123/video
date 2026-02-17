@@ -127,9 +127,7 @@ export default async function Home({
                 <AdsterraBanner format="468x60" />
                 <AdsterraBanner format="468x60" />
               </div>
-
-
-                          </div>
+            </div>
 
             
             {/* Middle Banner Ads */}
@@ -214,7 +212,14 @@ export default async function Home({
                 </div>
               )}
               
-                          </section>
+              {/* Banner 468x60 - ID: a8ea859722150189e57a87b6579578f3 */}
+              <div className='flex flex-wrap justify-center gap-2 sm:gap-4 w-full overflow-hidden mb-4 sm:mb-6'>
+                <AdsterraBanner format="468x60" />
+                <AdsterraBanner format="468x60" />
+                <AdsterraBanner format="468x60" />
+                <AdsterraBanner format="468x60" />
+              </div>
+          </section>
           </div>
           
           <aside className="hidden xl:block w-[160px] flex-shrink-0 ">
@@ -228,10 +233,6 @@ export default async function Home({
             </div>
           </aside>
         </div>
-          <div className="w-full overflow-hidden flex justify-center">
-              <AdsterraBanner format="native" />
-            </div>
-
       </div>
     </main>
   )
