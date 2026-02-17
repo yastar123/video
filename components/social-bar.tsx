@@ -56,7 +56,7 @@ export function SocialBar({ className = "" }: SocialBarProps) {
         backgroundColor: '#f0f0f0',
         border: '1px solid #ddd',
         borderRadius: '4px',
-        display: 'flex',
+        display: 'none',
         alignItems: 'center',
         justifyContent: 'center'
       }}
