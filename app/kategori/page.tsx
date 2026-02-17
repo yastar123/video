@@ -15,9 +15,11 @@ async function getCategories() {
        FROM categories c
        LEFT JOIN video_categories vc ON c.id = vc.category_id
        LEFT JOIN videos v ON vc.video_id = v.id
+       WHERE c.slug IS NOT NULL AND c.slug != ''
        GROUP BY c.id, c.name, c.slug
        ORDER BY c.name`
     )
+    console.log('Categories from DB:', result.rows)
     return result.rows
   } catch (error) {
     console.error('Error fetching categories:', error)
@@ -70,7 +72,7 @@ export default async function KategoriPage({
   searchParams: { page?: string; category?: string }
 }) {
   const currentPage = parseInt(searchParams.page || '1')
-  const selectedCategory = searchParams.category
+  const selectedCategory = searchParams.category && searchParams.category !== 'null' ? searchParams.category : ''
   const limit = 12
 
   // Get all categories
@@ -88,11 +90,14 @@ export default async function KategoriPage({
   let totalCount = 0
   let currentCategoryName = ''
 
-  if (selectedCategory) {
+  console.log('Selected category:', selectedCategory)
+
+  if (selectedCategory && selectedCategory !== 'null' && selectedCategory !== '') {
     videos = await getVideosByCategory(selectedCategory, currentPage, limit)
     totalCount = await getVideosCountByCategory(selectedCategory)
     const category = categories.find((cat: any) => cat.slug === selectedCategory)
     currentCategoryName = category?.name || ''
+    console.log('Found category:', category)
   }
 
   const totalPages = selectedCategory ? Math.ceil(totalCount / limit) : categoryTotalPages
@@ -156,6 +161,8 @@ export default async function KategoriPage({
                 <AdsterraBanner format="468x60" />
                 <AdsterraBanner format="468x60" />
                 <AdsterraBanner format="468x60" />
+                <AdsterraBanner format="468x60" />
+                <AdsterraBanner format="468x60" />
               </div>
             </div>
 
@@ -163,29 +170,37 @@ export default async function KategoriPage({
               // Category Grid View
               <>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
-                  {paginatedCategories.map((category: any) => (
-                    <ForceRefreshLink
-                      key={category.id}
-                      href={`/kategori?category=${encodeURIComponent(category.slug)}`}
-                      className="group block"
-                    >
-                      <div className="bg-muted/30 hover:bg-muted/50 rounded-xl p-6 border border-border/50 hover:border-border transition-all duration-300">
-                        <div className="flex flex-col items-center text-center">
-                          <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mb-4 group-hover:bg-primary/20 transition-colors">
-                            <span className="text-2xl font-bold text-primary">
-                              {category.name.charAt(0).toUpperCase()}
-                            </span>
+                  {paginatedCategories.map((category: any) => {
+                    // Skip categories with null/empty slug
+                    if (!category.slug || category.slug === 'null' || category.slug === '') {
+                      console.log('Skipping category with invalid slug:', category)
+                      return null
+                    }
+                    
+                    return (
+                      <ForceRefreshLink
+                        key={category.id}
+                        href={`/kategori?category=${encodeURIComponent(category.slug)}`}
+                        className="group block"
+                      >
+                        <div className="bg-muted/30 hover:bg-muted/50 rounded-xl p-6 border border-border/50 hover:border-border transition-all duration-300">
+                          <div className="flex flex-col items-center text-center">
+                            <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mb-4 group-hover:bg-primary/20 transition-colors">
+                              <span className="text-2xl font-bold text-primary">
+                                {category.name.charAt(0).toUpperCase()}
+                              </span>
+                            </div>
+                            <h3 className="text-lg font-semibold text-balance mb-2 group-hover:text-primary transition-colors">
+                              {category.name}
+                            </h3>
+                            <p className="text-sm text-muted-foreground">
+                              {category.video_count} video
+                            </p>
                           </div>
-                          <h3 className="text-lg font-semibold text-balance mb-2 group-hover:text-primary transition-colors">
-                            {category.name}
-                          </h3>
-                          <p className="text-sm text-muted-foreground">
-                            {category.video_count} video
-                          </p>
                         </div>
-                      </div>
-                    </ForceRefreshLink>
-                  ))}
+                      </ForceRefreshLink>
+                    )
+                  })}
                 </div>
 
                 {/* Pagination for Categories */}
@@ -222,6 +237,8 @@ export default async function KategoriPage({
             {/* Bottom Banner Ads */}
             <div className="mt-8 flex flex-col items-center gap-2 sm:gap-4 w-full overflow-hidden">
               <div className='flex flex-wrap justify-center gap-2 sm:gap-2 w-full overflow-hidden mb-4 sm:mb-6'>
+                <AdsterraBanner format="468x60" />
+                <AdsterraBanner format="468x60" />
                 <AdsterraBanner format="468x60" />
                 <AdsterraBanner format="468x60" />
                 <AdsterraBanner format="468x60" />
