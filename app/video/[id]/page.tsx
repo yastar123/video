@@ -215,14 +215,7 @@ export default async function VideoDetail({ params }: { params: Promise<{ id: st
 
             {/* Middle Ads */}
             <div className="mb-8 flex flex-col items-center gap-6 w-full overflow-hidden">
-              {/* Banner 300x250 - ID: 1ad6f564f3ca7bb42752dba86368d149 */}
-              <AdsterraBanner format="300x250" />
-              {/* Native Banner */}
-              <AdsterraBanner format="native" />
-              
               <div className="w-full grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3 lg:gap-4">
-                <MultipleSmartlinks count={1} />
-                <MultipleSmartlinks count={1} />
                 <MultipleSmartlinks count={1} />
                 <MultipleSmartlinks count={1} />
               </div>
