@@ -178,24 +178,19 @@ export default async function VideoDetail({ params }: { params: Promise<{ id: st
 
           {/* Top Ads */}
           <div className="max-w-7xl mx-auto px-4 mb-4 flex flex-col items-center gap-4 w-full overflow-hidden">
-             <div className="w-full overflow-hidden flex justify-center">
-               <AdsterraBanner format="728x90" />
-             </div>
-             {/* Banner 728x90 - ID: 5a8dd45e78414c6e5be9db9eaffed61f */}
-             <div className="w-full overflow-hidden flex justify-center">
-               <AdsterraBanner format="728x90" />
-             </div>
-             <div className="w-full overflow-hidden flex justify-center">
-               <AdsterraBanner format="native" />
-             </div>
+               {/* Banner 468x60 - ID: a8ea859722150189e57a87b6579578f3 */}
+              <div className='flex flex-wrap justify-center gap-2 sm:gap-4 w-full overflow-hidden mb-4 sm:mb-6'>
+                <AdsterraBanner format="468x60" />
+                <AdsterraBanner format="468x60" />
+                <AdsterraBanner format="468x60" />
+                <AdsterraBanner format="468x60" />
+                <AdsterraBanner format="468x60" />
+                <AdsterraBanner format="468x60" />
+              </div>
              <div className="w-full grid grid-cols-1 sm:grid-cols-3 gap-2">
                <SmartlinkRotator />
                <SmartlinkRotator />
                <SmartlinkRotator />
-             </div>
-             {/* Banner 468x60 - ID: 28628094 */}
-             <div className="w-full overflow-hidden flex justify-center">
-               <AdsterraBanner format="468x60" />
              </div>
           </div>
 
@@ -206,13 +201,16 @@ export default async function VideoDetail({ params }: { params: Promise<{ id: st
               </div>
             </div>
           </section>
+          <div className='flex flex-wrap justify-center gap-2 sm:gap-4 w-full overflow-hidden mb-4 sm:mb-6'>
+                <AdsterraBanner format="468x60" />
+                <AdsterraBanner format="468x60" />
+                <AdsterraBanner format="468x60" />
+                <AdsterraBanner format="468x60" />
+                <AdsterraBanner format="468x60" />
+                <AdsterraBanner format="468x60" />
+              </div>
 
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
-            {/* Native Banner Ad */}
-            <div className="mb-8 w-full overflow-hidden flex justify-center">
-              <AdsterraBanner format="native" />
-            </div>
-
             {/* Middle Ads */}
             <div className="mb-8 flex flex-col items-center gap-6 w-full overflow-hidden">
               <div className="w-full grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3 lg:gap-4">
@@ -316,18 +314,8 @@ export default async function VideoDetail({ params }: { params: Promise<{ id: st
               <RandomVideos />
             </section>
 
-            {/* Native Banner - Paling Bawah */}
-            <div className="mt-12 mb-8 flex justify-center">
-              <div className="w-full max-w-[728px]">
-                <div 
-                  dangerouslySetInnerHTML={{
-                    __html: `
-                      <script async="async" data-cfasync="false" src="https://pl28722946.effectivegatecpm.com/c08de902b7930682919199d915646b97/invoke.js"></script>
-                      <div id="container-c08de902b7930682919199d915646b97"></div>
-                    `
-                  }}
-                />
-              </div>
+            <div className="w-full overflow-hidden flex justify-center">
+              <AdsterraBanner format="native" />
             </div>
           </div>
         </div>
