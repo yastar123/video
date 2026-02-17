@@ -5,7 +5,7 @@ import { VideoPlayerWrapper } from '@/components/video-player-wrapper'
 import { AdsterraBanner } from '@/components/adsterra-banner-inline'
 import { ViewCounter, DetailedViewCounter } from '@/components/view-counter'
 import AdsterraAd from '@/components/adsterra-ad'
-import Link from 'next/link'
+import { ForceRefreshLink } from '@/components/force-refresh-link'
 import { notFound } from 'next/navigation'
 import { Metadata, Viewport } from 'next'
 
@@ -145,13 +145,13 @@ export default async function VideoDetail({ params }: { params: Promise<{ id: st
             <nav aria-label="Breadcrumb" className="py-4">
               <ol className="flex items-center space-x-2 text-sm text-muted-foreground">
                 <li>
-                  <Link href="/" className="hover:text-primary transition">Home</Link>
+                  <ForceRefreshLink href="/" className="hover:text-primary transition">Home</ForceRefreshLink>
                 </li>
                 <li>
                   <span className="mx-2">/</span>
-                  <Link href={`/category/${video.category_slug}`} className="hover:text-primary transition capitalize">
+                  <ForceRefreshLink href={`/category/${video.category_slug}`} className="hover:text-primary transition capitalize">
                     {video.category}
-                  </Link>
+                  </ForceRefreshLink>
                 </li>
                 <li className="text-foreground font-medium truncate max-w-[150px] sm:max-w-none">
                   {video.title}
@@ -265,7 +265,7 @@ export default async function VideoDetail({ params }: { params: Promise<{ id: st
                   <h3 className="text-lg font-bold mb-4 text-foreground">Kategori Video</h3>
                   <div className="flex flex-wrap gap-2">
                     {allCategories.map((category: any) => (
-                      <Link
+                      <ForceRefreshLink
                         key={category.id}
                         href={`/?category=${encodeURIComponent(category.name)}`}
                         className={`inline-flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-medium transition-all duration-200 border ${
@@ -280,7 +280,7 @@ export default async function VideoDetail({ params }: { params: Promise<{ id: st
                          video.category === category.name ? (
                           <span className="w-1.5 h-1.5 bg-primary-foreground rounded-full"></span>
                         ) : null}
-                      </Link>
+                      </ForceRefreshLink>
                     ))}
                   </div>
                   <p className="text-xs text-muted-foreground mt-3">
@@ -327,7 +327,7 @@ export default async function VideoDetail({ params }: { params: Promise<{ id: st
            <section className="relative">
               <div className="flex items-center justify-between mb-6">
                 <h2 className="text-2xl font-bold">Video Terkait</h2>
-                <Link href="/" className="text-primary text-sm font-semibold hover:underline">Lihat Semua</Link>
+                <ForceRefreshLink href="/" className="text-primary text-sm font-semibold hover:underline">Lihat Semua</ForceRefreshLink>
               </div>
               <RandomVideos />
             </section>

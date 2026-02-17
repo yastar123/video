@@ -3,8 +3,7 @@
 import { useEffect, useState } from 'react'
 import { VideoCard } from '@/components/video-card'
 import type { Video } from '@/lib/db'
-import Link from 'next/link'
-import { BannerPlaceholder } from '@/components/banner-placeholder'
+import { ForceRefreshLink } from '@/components/force-refresh-link'
 
 export function RandomVideos() {
   const [videos, setVideos] = useState<Video[]>([])
@@ -42,9 +41,9 @@ export function RandomVideos() {
       </h2>
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         {videos.map((video) => (
-          <Link key={video.id} href={`/video/${video.id}`}>
+          <ForceRefreshLink key={video.id} href={`/video/${video.id}`}>
             <VideoCard video={video} />
-          </Link>
+          </ForceRefreshLink>
         ))}
       </div>
     </div>

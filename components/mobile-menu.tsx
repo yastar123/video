@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { Menu, X, LogIn, User } from 'lucide-react'
-import Link from 'next/link'
+import { ForceRefreshLink } from '@/components/force-refresh-link'
 import { getCurrentUser } from '@/lib/session'
 
 export function MobileMenu() {
@@ -27,39 +27,39 @@ export function MobileMenu() {
       {isOpen && (
         <div className="absolute top-16 left-0 right-0 bg-background border-b border-border md:hidden z-50">
           <nav className="flex flex-col p-4 gap-3">
-            <Link
+            <ForceRefreshLink
               href="/"
               onClick={() => setIsOpen(false)}
               className="px-4 py-2 hover:bg-muted rounded-lg transition"
             >
               Home
-            </Link>
-            <Link
+            </ForceRefreshLink>
+            <ForceRefreshLink
               href="/kategori"
               onClick={() => setIsOpen(false)}
               className="px-4 py-2 hover:bg-muted rounded-lg transition"
             >
               Categories
-            </Link>
+            </ForceRefreshLink>
             <div className="border-t border-border pt-3">
               {currentUser ? (
-                <Link
+                <ForceRefreshLink
                   href="/profile"
                   onClick={() => setIsOpen(false)}
                   className="flex items-center gap-2 px-4 py-2 hover:bg-muted rounded-lg transition"
                 >
                   <User size={18} />
                   {currentUser.username}
-                </Link>
+                </ForceRefreshLink>
               ) : (
-                <Link
+                <ForceRefreshLink
                   href="/auth/login"
                   onClick={() => setIsOpen(false)}
                   className="flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-lg hover:opacity-90 transition"
                 >
                   <LogIn size={18} />
                   Login
-                </Link>
+                </ForceRefreshLink>
               )}
             </div>
           </nav>

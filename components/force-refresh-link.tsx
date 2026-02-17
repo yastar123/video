@@ -7,13 +7,19 @@ interface ForceRefreshLinkProps {
   href: string
   children: React.ReactNode
   className?: string
+  onClick?: () => void
 }
 
-export function ForceRefreshLink({ href, children, className }: ForceRefreshLinkProps) {
+export function ForceRefreshLink({ href, children, className, onClick }: ForceRefreshLinkProps) {
   const router = useRouter()
 
   const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault()
+    
+    // Execute custom onClick if provided
+    if (onClick) {
+      onClick()
+    }
     
     // Force full page refresh untuk reload semua iklan
     window.location.href = href
