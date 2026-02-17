@@ -163,7 +163,7 @@ export default async function VideoDetail({ params }: { params: Promise<{ id: st
 
 
         <div className="w-full overflow-hidden">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+          <div className="w-full mx-auto px-4 sm:px-6 lg:px-8 py-4">
             <div className="flex flex-col lg:flex-row gap-8">
               <div className="flex-1 min-w-0">
             <header className="mb-4">
@@ -173,7 +173,7 @@ export default async function VideoDetail({ params }: { params: Promise<{ id: st
             </header>
 
             {/* Top Ads */}
-            <div className="max-w-7xl mx-auto px-4 mb-4 flex flex-col items-center gap-4 w-full overflow-hidden">
+            <div className="w-full mx-auto px-4 mb-4 flex flex-col items-center gap-4 w-full overflow-hidden">
                  {/* Banner 468x60 - ID: a8ea859722150189e57a87b6579578f3 */}
                 <div className='flex flex-wrap justify-center gap-2 sm:gap-4 w-full overflow-hidden mb-4 sm:mb-6'>
                   <AdsterraBanner format="468x60" />
@@ -201,7 +201,7 @@ export default async function VideoDetail({ params }: { params: Promise<{ id: st
                   </div>
 
 
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
+            <div className="w-full mx-auto px-4 sm:px-6 lg:px-8 pb-12">
               {/* Middle Ads */}
               <div className="mb-8 flex flex-col items-center gap-6 w-full overflow-hidden">
                                 </div>
@@ -301,7 +301,9 @@ export default async function VideoDetail({ params }: { params: Promise<{ id: st
               </section>
 
               {/* Banner 468x60 - ID: a8ea859722150189e57a87b6579578f3 */}
-                  <div className='flex flex-wrap justify-center gap-2 sm:gap-4 w-full overflow-hidden mb-4 sm:mb-6'>
+                  <div className='flex flex-wrap justify-center gap-2 sm:gap-2 w-full overflow-hidden mb-4 sm:mb-6'>
+                    <AdsterraBanner format="468x60" />
+                    <AdsterraBanner format="468x60" />
                     <AdsterraBanner format="468x60" />
                     <AdsterraBanner format="468x60" />
                   </div>
