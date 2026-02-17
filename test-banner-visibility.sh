@@ -21,7 +21,7 @@ if [ "$HTTP_CODE" = "200" ]; then
     echo "📄 Checking Banner Implementation..."
     
     # Get page source and check for ad implementations
-    PAGE_SOURCE=$(curl -s "https://$DOMAIN" | head -c 20000)
+    PAGE_SOURCE=$(curl -s "https://$DOMAIN")
     
     echo "Checking for Adsterra components:"
     
@@ -37,6 +37,24 @@ if [ "$HTTP_CODE" = "200" ]; then
         echo "❌ 160x300 ad key not found"
     fi
     
+    if echo "$PAGE_SOURCE" | grep -q "22bed31723f24472a78afb44a7addb6b"; then
+        echo "✅ 160x600 ad key found"
+    else
+        echo "❌ 160x600 ad key not found"
+    fi
+    
+    if echo "$PAGE_SOURCE" | grep -q "1ad6f564f3ca7bb42752dba86368d149"; then
+        echo "✅ 300x250 ad key found"
+    else
+        echo "❌ 300x250 ad key not found"
+    fi
+    
+    if echo "$PAGE_SOURCE" | grep -q "a8ea859722150189e57a87b6579578f3"; then
+        echo "✅ 468x60 ad key found"
+    else
+        echo "❌ 468x60 ad key not found"
+    fi
+    
     if echo "$PAGE_SOURCE" | grep -q "5a8dd45e78414c6e5be9db9eaffed61f"; then
         echo "✅ 728x90 ad key found"
     else
@@ -47,6 +65,12 @@ if [ "$HTTP_CODE" = "200" ]; then
         echo "✅ Native banner key found"
     else
         echo "❌ Native banner key not found"
+    fi
+    
+    if echo "$PAGE_SOURCE" | grep -q "9add34aad611a8243e9fa65055bde309"; then
+        echo "✅ Social bar key found"
+    else
+        echo "❌ Social bar key not found"
     fi
     
     echo ""
