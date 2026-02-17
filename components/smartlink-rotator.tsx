@@ -14,11 +14,6 @@ const SMARTLINKS = [
     id: 'smartlink_1',
     url: 'https://www.effectivegatecpm.com/a1pm3et2?key=1bf6eae1539e20a7d049e4876bf00c55',
     label: 'Premium Content'
-  },
-  {
-    id: 'smartlink_2', 
-    url: 'https://www.effectivegatecpm.com/by96i9ee?key=a0e61301b91f693d8a1866f59dd1de66',
-    label: 'Exclusive Videos'
   }
 ]
 
