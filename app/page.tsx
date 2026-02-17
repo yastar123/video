@@ -3,7 +3,6 @@ import { SearchBar } from '@/components/search-bar'
 import { MobileMenu } from '@/components/mobile-menu'
 import { ForceRefreshPagination } from '@/components/force-refresh-pagination'
 import { SortFilter } from '@/components/sort-filter'
-import { SmartlinkRotator } from '@/components/smartlink-rotator'
 import { query } from '@/lib/postgres'
 import { ChevronDown, LogIn, User } from 'lucide-react'
 import { Suspense } from 'react'
@@ -88,11 +87,6 @@ export default async function Home({
 
   return (
     <main className="min-h-screen bg-[#0a0a0a] text-white">
-       <div className='flex flex-wrap justify-center gap-2 sm:gap-4 w-full overflow-hidden mb-4 sm:mb-6'>
- {/* Banner 728x90 - ID: 5a8dd45e78414c6e5be9db9eaffed61f */}
-              <AdsterraBanner format="728x90" />
-              <AdsterraBanner format="728x90" />
-              </div>
       {/* Header */}
       <header className="sticky top-0 z-50 bg-[#0a0a0a]/95 backdrop-blur-md border-b border-white/10">
         <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-6 h-16 flex items-center justify-between">
@@ -137,13 +131,7 @@ export default async function Home({
 
                           </div>
 
-            {/* Smartlinks Section */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 sm:gap-3 lg:gap-4 mb-6 sm:mb-8 w-full">
-              <SmartlinkRotator />
-              <SmartlinkRotator />
-              <SmartlinkRotator />
-            </div>
-
+            
             {/* Middle Banner Ads */}
 
             {/* Search and Filter Section */}

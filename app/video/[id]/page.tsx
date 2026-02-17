@@ -2,7 +2,6 @@ import { query } from '@/lib/postgres'
 import { Star, Eye, Clock, ArrowLeft } from 'lucide-react'
 import { RandomVideos } from '@/components/random-videos'
 import { VideoPlayerWrapper } from '@/components/video-player-wrapper'
-import { SmartlinkRotator, MultipleSmartlinks } from '@/components/smartlink-rotator'
 import { AdsterraBanner } from '@/components/adsterra-banner-inline'
 import { ViewCounter, DetailedViewCounter } from '@/components/view-counter'
 import AdsterraAd from '@/components/adsterra-ad'
@@ -187,12 +186,7 @@ export default async function VideoDetail({ params }: { params: Promise<{ id: st
                 <AdsterraBanner format="468x60" />
                 <AdsterraBanner format="468x60" />
               </div>
-             <div className="w-full grid grid-cols-1 sm:grid-cols-3 gap-2">
-               <SmartlinkRotator />
-               <SmartlinkRotator />
-               <SmartlinkRotator />
-             </div>
-          </div>
+                       </div>
 
           <section className="w-full bg-black border-y border-border/50 shadow-2xl overflow-hidden mb-6">
             <div className="max-w-7xl mx-auto">
@@ -214,11 +208,7 @@ export default async function VideoDetail({ params }: { params: Promise<{ id: st
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
             {/* Middle Ads */}
             <div className="mb-8 flex flex-col items-center gap-6 w-full overflow-hidden">
-              <div className="w-full grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3 lg:gap-4">
-                <MultipleSmartlinks count={1} />
-                <MultipleSmartlinks count={1} />
-              </div>
-            </div>
+                          </div>
 
             <section className="mb-8">
               <div className="bg-muted/30 p-5 sm:p-6 rounded-xl border border-border/50 shadow-sm">
