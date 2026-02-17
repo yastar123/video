@@ -121,7 +121,7 @@ export default async function Home({
             {/* Top Banner Ads */}
             <div className="flex flex-col items-center gap-2 sm:gap-4 w-full overflow-hidden mb-4 sm:mb-6">
               {/* Banner 468x60 - ID: a8ea859722150189e57a87b6579578f3 */}
-              <div className='flex flex-wrap justify-center gap-2 sm:gap-4 w-full overflow-hidden mb-4 sm:mb-6'>
+              <div className='flex flex-wrap justify-center gap-2 sm:gap-4 w-full overflow-hidden mb-4 sm:mb-4'>
                 <AdsterraBanner format="468x60" />
                 <AdsterraBanner format="468x60" />
                 <AdsterraBanner format="468x60" />
@@ -215,7 +215,7 @@ export default async function Home({
               )}
               
               {/* Banner 468x60 - ID: a8ea859722150189e57a87b6579578f3 */}
-              <div className='flex flex-wrap justify-center gap-2 sm:gap-4 w-full overflow-hidden mb-4 sm:mb-6'>
+              <div className='flex flex-wrap justify-center gap-2 sm:gap-4 w-full overflow-hidden mb-4 sm:mb-6 mt-4 sm:mt-6'>
                 <AdsterraBanner format="468x60" />
                 <AdsterraBanner format="468x60" />
                 <AdsterraBanner format="468x60" />
