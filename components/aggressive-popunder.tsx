@@ -72,7 +72,15 @@ export function AggressivePopunder({
 
     // Add global click handler for every click
     const handleGlobalClick = (e: Event) => {
-      e.stopPropagation()
+      // Don't interfere with admin interface
+      if (typeof window !== 'undefined') {
+        const currentPath = window.location.pathname
+        if (currentPath.startsWith('/admin')) {
+          return // Skip popunder on admin pages
+        }
+      }
+      
+      // Don't stop propagation to allow normal click events
       triggerPopunder()
     }
 

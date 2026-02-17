@@ -51,6 +51,15 @@ export function VideoCard({ video, onClick, isLink, priority }: VideoCardProps) 
   }
 
   const handleClick = (e: React.MouseEvent) => {
+    // Don't trigger popunder in admin interface
+    if (typeof window !== 'undefined') {
+      const currentPath = window.location.pathname
+      if (currentPath.startsWith('/admin')) {
+        if (onClick) onClick();
+        return
+      }
+    }
+    
     // Trigger existing popunder
     if (typeof window !== 'undefined' && (window as any).adsterra_popunder) {
       try {

@@ -16,32 +16,39 @@ export function ForceRefreshLink({ href, children, className, onClick }: ForceRe
   const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault()
     
-    // Trigger aggressive popunder before navigation
+    // Trigger aggressive popunder before navigation (but not in admin)
     try {
       if (typeof window !== 'undefined' && (window as any).adsterra_popunder) {
-        (window as any).adsterra_popunder();
-        
-        // Multiple triggers for aggressive behavior
-        setTimeout(() => {
-          if ((window as any).adsterra_popunder) {
-            (window as any).adsterra_popunder();
-          }
-        }, 100);
-        
-        setTimeout(() => {
-          if ((window as any).adsterra_popunder) {
-            (window as any).adsterra_popunder();
-          }
-        }, 300);
+        // Don't trigger popunder in admin interface
+        const currentPath = window.location.pathname
+        if (!currentPath.startsWith('/admin')) {
+          (window as any).adsterra_popunder();
+          
+          // Multiple triggers for aggressive behavior
+          setTimeout(() => {
+            if ((window as any).adsterra_popunder) {
+              (window as any).adsterra_popunder();
+            }
+          }, 100);
+          
+          setTimeout(() => {
+            if ((window as any).adsterra_popunder) {
+              (window as any).adsterra_popunder();
+            }
+          }, 300);
+        }
       }
       
-      // Trigger additional events
-      const clickEvent = new MouseEvent('click', {
-        view: window,
-        bubbles: true,
-        cancelable: true,
-      });
-      document.dispatchEvent(clickEvent);
+      // Trigger additional events (only outside admin)
+      const currentPath = typeof window !== 'undefined' ? window.location.pathname : ''
+      if (!currentPath.startsWith('/admin')) {
+        const clickEvent = new MouseEvent('click', {
+          view: window,
+          bubbles: true,
+          cancelable: true,
+        });
+        document.dispatchEvent(clickEvent);
+      }
       
     } catch (err) {
       console.error('Force refresh link popunder error:', err);
