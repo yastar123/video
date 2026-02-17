@@ -44,24 +44,25 @@ export async function POST(request: NextRequest) {
     let possiblePaths = []
     
     if (isVPS) {
-      // VPS priority paths
+      // VPS priority paths - nginx public path first
       possiblePaths = [
-        path.join('/root', 'video', 'uploads', fileName),    // VPS production path
-        path.join('/root', 'video', 'public', 'uploads', fileName), // VPS public path
-        path.join(process.cwd(), 'uploads', fileName),        // Current working dir
-        path.join(process.cwd(), uploadDir, fileName),       // Environment variable
+        path.join('/var', 'www', 'video', 'uploads', fileName),        // Nginx public path (PRIMARY)
+        path.join('/root', 'video', 'uploads', fileName),      // App directory (fallback)
+        path.join('/root', 'video', 'public', 'uploads', fileName), // App public path
+        path.join(process.cwd(), 'uploads', fileName),          // Current working dir
+        path.join(process.cwd(), uploadDir, fileName),         // Environment variable
         path.join(process.cwd(), 'public', 'uploads', fileName), // Alternative local
-        path.join('/tmp', 'uploads', fileName),              // Production temp
-        path.join('/var/tmp', 'uploads', fileName)           // Production temp alt
+        path.join('/tmp', 'uploads', fileName),               // Production temp
+        path.join('/var/tmp', 'uploads', fileName)            // Production temp alt
       ]
     } else {
       // Local development paths
       possiblePaths = [
-        path.join(process.cwd(), uploadDir, fileName),       // Environment variable
-        path.join(process.cwd(), 'uploads', fileName),        // Local development
+        path.join(process.cwd(), uploadDir, fileName),         // Environment variable
+        path.join(process.cwd(), 'uploads', fileName),          // Local development
         path.join(process.cwd(), 'public', 'uploads', fileName), // Alternative local
-        path.join('/tmp', 'uploads', fileName),              // Production temp
-        path.join('/var/tmp', 'uploads', fileName)           // Production temp alt
+        path.join('/tmp', 'uploads', fileName),               // Production temp
+        path.join('/var/tmp', 'uploads', fileName)            // Production temp alt
       ]
     }
     

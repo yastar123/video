@@ -31,28 +31,29 @@ export async function GET(
   
   console.log('VPS Environment detected:', isVPS)
   
-  // Try multiple possible upload directories - prioritize VPS paths and env var
+  // Try multiple possible upload directories - prioritize nginx public path
   let possiblePaths = []
   
   if (isVPS) {
-    // VPS priority paths
+    // VPS priority paths - nginx public path first
     possiblePaths = [
-      path.join('/root', 'video', 'uploads', normalizedPath),    // VPS production path
-      path.join('/root', 'video', 'public', 'uploads', normalizedPath), // VPS public path
-      path.join(process.cwd(), 'uploads', normalizedPath),        // Current working dir
-      path.join(process.cwd(), uploadDir, normalizedPath),       // Environment variable
+      path.join('/var', 'www', 'video', 'uploads', normalizedPath),        // Nginx public path (PRIMARY)
+      path.join('/root', 'video', 'uploads', normalizedPath),      // App directory (fallback)
+      path.join('/root', 'video', 'public', 'uploads', normalizedPath), // App public path
+      path.join(process.cwd(), 'uploads', normalizedPath),          // Current working dir
+      path.join(process.cwd(), uploadDir, normalizedPath),         // Environment variable
       path.join(process.cwd(), 'public', 'uploads', normalizedPath), // Alternative local
-      path.join('/tmp', 'uploads', normalizedPath),              // Production temp
-      path.join('/var/tmp', 'uploads', normalizedPath)           // Production temp alt
+      path.join('/tmp', 'uploads', normalizedPath),               // Production temp
+      path.join('/var/tmp', 'uploads', normalizedPath)            // Production temp alt
     ]
   } else {
     // Local development paths
     possiblePaths = [
-      path.join(process.cwd(), uploadDir, normalizedPath),       // Environment variable
-      path.join(process.cwd(), 'uploads', normalizedPath),        // Local development
+      path.join(process.cwd(), uploadDir, normalizedPath),         // Environment variable
+      path.join(process.cwd(), 'uploads', normalizedPath),          // Local development
       path.join(process.cwd(), 'public', 'uploads', normalizedPath), // Alternative local
-      path.join('/tmp', 'uploads', normalizedPath),              // Production temp
-      path.join('/var/tmp', 'uploads', normalizedPath)           // Production temp alt
+      path.join('/tmp', 'uploads', normalizedPath),               // Production temp
+      path.join('/var/tmp', 'uploads', normalizedPath)            // Production temp alt
     ]
   }
   
