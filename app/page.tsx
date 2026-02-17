@@ -11,7 +11,6 @@ import Loading from './loading'
 import Link from 'next/link'
 import { HeaderUser } from '@/components/header-user'
 import { getCurrentUser } from '@/lib/session'
-import { BannerPlaceholder } from '@/components/banner-placeholder'
 import { DynamicAds } from '@/components/dynamic-ads'
 import { AdsterraBanner } from '@/components/adsterra-banner'
 import AdScript from '@/components/ad-script'
@@ -126,31 +125,12 @@ export default async function Home({
             
             {/* Top Banner Ads */}
             <div className="flex flex-col items-center gap-2 sm:gap-4 w-full overflow-hidden mb-4 sm:mb-6">
-              <div className="w-full overflow-hidden flex justify-center">
-                <div className="sm:hidden">
-                  <AdScript adKey="5a8dd45e78414c6e5be9db9eaffed61f" format="iframe" height={60} width={320} />
-                </div>
-                <div className="hidden sm:block">
-                  <AdScript adKey="5a8dd45e78414c6e5be9db9eaffed61f" format="iframe" height={90} width={728} />
-                </div>
-              </div>
-              <div className="w-full overflow-hidden flex justify-center">
-                <div className="sm:hidden">
-                  <AdScript adKey="1ad6f564f3ca7bb42752dba86368d149" format="iframe" height={200} width={300} />
-                </div>
-                <div className="hidden sm:block">
-                  <AdScript adKey="1ad6f564f3ca7bb42752dba86368d149" format="iframe" height={250} width={300} />
-                </div>
-              </div>
-              {/* Banner 728x90 - ID: 28622405 */}
-              <div className="w-full overflow-hidden flex justify-center">
-                <div className="sm:hidden">
-                  <AdScript adKey="28622405" format="iframe" height={60} width={320} />
-                </div>
-                <div className="hidden sm:block">
-                  <AdScript adKey="28622405" format="iframe" height={90} width={728} />
-                </div>
-              </div>
+              {/* Banner 728x90 - ID: 5a8dd45e78414c6e5be9db9eaffed61f */}
+              <AdsterraBanner format="728x90" />
+              {/* Banner 468x60 - ID: a8ea859722150189e57a87b6579578f3 */}
+              <AdsterraBanner format="468x60" />
+              {/* Native Banner */}
+              <AdsterraBanner format="native" />
             </div>
 
             {/* Smartlinks Section */}
@@ -162,29 +142,11 @@ export default async function Home({
 
             {/* Middle Banner Ads */}
             <div className="flex flex-col items-center gap-2 sm:gap-4 w-full overflow-hidden mb-6 sm:mb-8">
-              {/* Banner 468x60 - ID: 28628094 */}
-              <div className="w-full overflow-hidden flex justify-center">
-                <div className="sm:hidden">
-                  <AdScript adKey="28628094" format="iframe" height={60} width={320} />
-                </div>
-                <div className="hidden sm:block md:hidden">
-                  <AdScript adKey="28628094" format="iframe" height={60} width={468} />
-                </div>
-                <div className="hidden md:block">
-                  <AdScript adKey="28628094" format="iframe" height={60} width={468} />
-                </div>
-              </div>
-              {/* Banner 300x250 - ID: 28622523 */}
+              {/* Banner 300x250 - ID: 1ad6f564f3ca7bb42752dba86368d149 */}
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 sm:gap-3 lg:gap-4 w-full">
-                <div className="flex justify-center">
-                  <AdScript adKey="28622523" format="iframe" height={250} width={300} />
-                </div>
-                <div className="flex justify-center">
-                  <AdScript adKey="28622523" format="iframe" height={250} width={300} />
-                </div>
-                <div className="flex justify-center">
-                  <AdScript adKey="28622523" format="iframe" height={250} width={300} />
-                </div>
+                <AdsterraBanner format="300x250" />
+                <AdsterraBanner format="300x250" />
+                <AdsterraBanner format="300x250" />
               </div>
             </div>
 
@@ -286,12 +248,12 @@ export default async function Home({
           
           <aside className="hidden xl:block w-[160px] flex-shrink-0 pt-20">
             <div className="sticky top-24 flex flex-col gap-8">
-              {/* Banner 160x600 - ID: 28622417 */}
-              <AdScript adKey="28622417" format="iframe" height={600} width={160} />
-              {/* Banner 160x300 - ID: 28628104 */}
-              <AdScript adKey="28628104" format="iframe" height={300} width={160} />
+              {/* Banner 160x600 - ID: 22bed31723f24472a78afb44a7addb6b */}
+              <AdsterraBanner format="160x600" />
+              {/* Banner 160x300 - ID: 6e9a519272442fa242b5a43e53ddc7fd */}
+              <AdsterraBanner format="160x300" />
               {/* Banner 160x300 - Additional */}
-              <AdScript adKey="28628104" format="iframe" height={300} width={160} />
+              <AdsterraBanner format="160x300" />
             </div>
           </aside>
         </div>

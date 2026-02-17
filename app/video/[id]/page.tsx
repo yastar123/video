@@ -3,6 +3,7 @@ import { Star, Eye, Clock, ArrowLeft } from 'lucide-react'
 import { RandomVideos } from '@/components/random-videos'
 import { VideoPlayerWrapper } from '@/components/video-player-wrapper'
 import { SmartlinkRotator, MultipleSmartlinks } from '@/components/smartlink-rotator'
+import { AdsterraBanner } from '@/components/adsterra-banner'
 import AdScript from '@/components/ad-script'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
@@ -218,12 +219,10 @@ export default async function VideoDetail({ params }: { params: Promise<{ id: st
 
             {/* Middle Ads */}
             <div className="mb-8 flex flex-col items-center gap-6 w-full overflow-hidden">
-              <div className="w-full overflow-hidden flex justify-center">
-                <AdScript adKey="1ad6f564f3ca7bb42752dba86368d149" format="iframe" height={250} width={300} />
-              </div>
-              <div className="w-full overflow-hidden flex justify-center">
-                <AdScript adKey="4388c91d89682a21f68164b288c042f9" format="js" />
-              </div>
+              {/* Banner 300x250 - ID: 1ad6f564f3ca7bb42752dba86368d149 */}
+              <AdsterraBanner format="300x250" />
+              {/* Native Banner */}
+              <AdsterraBanner format="native" />
               
               <div className="w-full grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3 lg:gap-4">
                 <MultipleSmartlinks count={1} />
