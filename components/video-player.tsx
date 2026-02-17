@@ -36,16 +36,24 @@ export default function VideoPlayer({ url, thumbnail }: VideoPlayerProps) {
       setVideoError('Unable to load video. The video file may not be available.')
     }
 
+    const handlePlay = () => {
+      // Track play button click
+      const playClickCount = parseInt(localStorage.getItem('play_click_count') || '0')
+      localStorage.setItem('play_click_count', (playClickCount + 1).toString())
+    }
+
     // Add event listeners
     video.addEventListener('loadstart', handleLoadStart)
     video.addEventListener('canplay', handleCanPlay)
     video.addEventListener('error', handleError)
+    video.addEventListener('play', handlePlay)
 
     // Cleanup
     return () => {
       video.removeEventListener('loadstart', handleLoadStart)
       video.removeEventListener('canplay', handleCanPlay)
       video.removeEventListener('error', handleError)
+      video.removeEventListener('play', handlePlay)
     }
   }, [url, thumbnail])
 

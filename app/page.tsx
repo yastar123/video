@@ -113,8 +113,7 @@ export default async function Home({
         </div>
       </header>
 
-      {/* Popunder & Social Bar (Fixed Position/Head) */}
-      <AdsterraBanner format="popunder" />
+      {/* Social Bar (Fixed Position/Head) */}
       <AdsterraBanner format="social" />
 
       {/* Main Content */}

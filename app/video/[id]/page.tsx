@@ -164,11 +164,8 @@ export default async function VideoDetail({ params }: { params: Promise<{ id: st
 
         {/* Global Ads */}
         <div className="w-full flex flex-wrap justify-center gap-4">
-          <AdsterraBanner format="popunder" />
           <AdsterraBanner format="social" />
-          <AdsterraBanner format="popunder" />
           <AdsterraBanner format="social" />
-          <AdsterraBanner format="popunder" />
           <AdsterraBanner format="social" />
         </div>
 

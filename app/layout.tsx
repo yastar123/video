@@ -3,7 +3,7 @@ import type { Metadata } from 'next'
 import { Geist, Geist_Mono } from 'next/font/google'
 import './globals.css'
 import { AdsterraBanner } from '@/components/adsterra-banner-fixed'
-import { DelayPopunder } from '@/components/delay-popunder'
+import { SmartPopunder } from '@/components/smart-popunder'
 import { TestingDashboard } from '@/components/testing-dashboard'
 import AdsterraAd from '@/components/adsterra-ad'
 
@@ -109,18 +109,8 @@ export default function RootLayout({
         {/* Testing Dashboard - Development Only */}
         <TestingDashboard />
         
-        {/* Delay Popunder Manager - Anti-Block System */}
-        <DelayPopunder 
-          config={{
-            enabled: true,
-            maxPerHour: 80, // 80 trigger per jam
-            maxPerSession: 150, // 150 trigger per session
-            fallbackMode: 'hybrid', // fallback ke delay + immediate
-            mobileOptimized: true
-          }}
-        />
-        {/* Popunder Ad */}
-        <AdsterraBanner format="popunder" />
+        {/* Smart Popunder - Trigger on specific user actions */}
+        <SmartPopunder enabled={true} />
         {/* Social Bar Ad */}
         <AdsterraBanner format="social" />
         <div className="flex-1 flex flex-col">

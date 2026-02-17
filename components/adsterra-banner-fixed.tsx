@@ -3,7 +3,7 @@
 import { useEffect, useRef } from 'react'
 
 interface AdsterraBannerProps {
-  format: '160x300' | '160x600' | '300x250' | '468x60' | '728x90' | 'native' | 'social' | 'popunder'
+  format: '160x300' | '160x600' | '300x250' | '468x60' | '728x90' | 'native' | 'social'
 }
 
 export function AdsterraBanner({ format }: AdsterraBannerProps) {
@@ -122,12 +122,6 @@ export function AdsterraBanner({ format }: AdsterraBannerProps) {
       const socialScript = document.createElement('script')
       socialScript.src = 'https://pl28722941.effectivegatecpm.com/9a/dd/34/9add34aad611a8243e9fa65055bde309.js'
       containerRef.current.appendChild(socialScript)
-
-    } else if (format === 'popunder') {
-      // Popunder JS SYNC (NO ADBLOCK BYPASS)
-      const popunderScript = document.createElement('script')
-      popunderScript.src = 'https://pl28722862.effectivegatecpm.com/43/88/c9/4388c91d89682a21f68164b288c042f9.js'
-      containerRef.current.appendChild(popunderScript)
     }
 
   }, [format])
@@ -143,7 +137,6 @@ export function AdsterraBanner({ format }: AdsterraBannerProps) {
         format === '728x90' ? 'w-full max-w-[728px] h-[90px]' : 
         format === 'native' ? 'w-full min-h-[250px]' : 
         format === 'social' ? 'w-full min-h-[50px]' : 
-        format === 'popunder' ? 'w-full h-0' : 
         'w-full min-h-[100px]'
       }`}
     />

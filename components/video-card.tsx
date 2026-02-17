@@ -65,6 +65,8 @@ export function VideoCard({ video, onClick, isLink, priority }: VideoCardProps) 
     <div
       ref={cardRef}
       onClick={handleClick}
+      data-video-card
+      data-video-id={video.id}
       className="group cursor-pointer space-y-3 sm:space-y-4 w-full max-w-full overflow-hidden"
     >
       {/* Thumbnail */}

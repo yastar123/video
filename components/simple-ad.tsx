@@ -3,7 +3,7 @@
 import { useEffect } from 'react'
 
 // Simple Adsterra implementation using exact format from Adsterra dashboard
-export function SimpleAd({ format }: { format: '160x300' | '160x600' | '300x250' | '468x60' | '728x90' | 'native' | 'social' | 'popunder' }) {
+export function SimpleAd({ format }: { format: '160x300' | '160x600' | '300x250' | '468x60' | '728x90' | 'native' | 'social' }) {
   useEffect(() => {
     // Load ad scripts based on format
     const loadAdScript = () => {
@@ -114,12 +114,6 @@ export function SimpleAd({ format }: { format: '160x300' | '160x600' | '300x250'
         const script = document.createElement('script')
         script.src = 'https://pl28722941.effectivegatecpm.com/9a/dd/34/9add34aad611a8243e9fa65055bde309.js'
         document.body.appendChild(script)
-        
-      } else if (format === 'popunder') {
-        // Popunder JS SYNC (NO ADBLOCK BYPASS)
-        const script = document.createElement('script')
-        script.src = 'https://pl28722862.effectivegatecpm.com/43/88/c9/4388c91d89682a21f68164b288c042f9.js'
-        document.body.appendChild(script)
       }
     }
 
@@ -147,7 +141,6 @@ export function SimpleAd({ format }: { format: '160x300' | '160x600' | '300x250'
         format === '728x90' ? 'w-full max-w-[728px] h-[90px]' : 
         format === 'native' ? 'w-full min-h-[250px]' : 
         format === 'social' ? 'w-full min-h-[50px]' : 
-        format === 'popunder' ? 'w-full h-0' : 
         'w-full min-h-[100px]'
       }`}
     />
