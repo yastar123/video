@@ -254,7 +254,7 @@ export default async function VideoDetail({ params }: { params: Promise<{ id: st
               </section>
 
               {/* Banner 468x60 - ID: a8ea859722150189e57a87b6579578f3 */}
-              <div className='flex flex-wrap justify-center gap-2 sm:gap-4 w-full overflow-hidden mb-4 sm:mb-6'>
+              <div className='flex flex-wrap justify-center gap-2 sm:gap-2 w-full overflow-hidden mb-4 sm:mb-6'>
                 <AdsterraBanner format="468x60" />
                 <AdsterraBanner format="468x60" />
               </div>
@@ -301,7 +301,7 @@ export default async function VideoDetail({ params }: { params: Promise<{ id: st
               </section>
 
               {/* Banner 468x60 - ID: a8ea859722150189e57a87b6579578f3 */}
-                  <div className='flex flex-wrap justify-center gap-1 w-full overflow-hidden mb-4 sm:mb-6'>
+                  <div className='flex flex-wrap justify-center gap-2 sm:gap-4 w-full overflow-hidden mb-4 sm:mb-6'>
                     <AdsterraBanner format="468x60" />
                     <AdsterraBanner format="468x60" />
                   </div>
