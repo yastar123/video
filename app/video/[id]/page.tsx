@@ -173,7 +173,7 @@ export default async function VideoDetail({ params }: { params: Promise<{ id: st
             </header>
 
             {/* Top Ads */}
-            <div className="w-full mx-auto px-4 mb-4 flex flex-col items-center gap-4 w-full overflow-hidden">
+            <div className="w-full mx-auto px-2 mb-4 flex flex-col items-center gap-4 w-full overflow-hidden">
                  {/* Banner 468x60 - ID: a8ea859722150189e57a87b6579578f3 */}
                 <div className='flex flex-wrap justify-center gap-2 sm:gap-4 w-full overflow-hidden mb-4 sm:mb-6'>
                   <AdsterraBanner format="468x60" />
@@ -185,7 +185,7 @@ export default async function VideoDetail({ params }: { params: Promise<{ id: st
                 </div>
                          </div>
 
-            <section className="w-full bg-black border-y border-border/50 shadow-2xl overflow-hidden mb-6">
+            <section className="w-full bg-black border-y border-border/50 shadow-2xl overflow-hidden mb-3">
               <div className="max-w-7xl mx-auto">
                 <div className="relative w-full aspect-video sm:h-auto h-[250px] sm:max-h-[700px]">
                   <VideoPlayerWrapper url={video.url} thumbnail={video.thumbnail} />
