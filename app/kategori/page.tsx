@@ -26,7 +26,7 @@ async function getCategories() {
 }
 
 // Fetch videos for each category
-async function getVideosByCategory(categorySlug: string, page: number = 1, limit: number = 12) {
+async function getVideosByCategory(categoryName: string, page: number = 1, limit: number = 12) {
   try {
     const offset = (page - 1) * limit
     const result = await query(
@@ -34,10 +34,10 @@ async function getVideosByCategory(categorySlug: string, page: number = 1, limit
        FROM videos v
        JOIN video_categories vc ON v.id = vc.video_id
        JOIN categories c ON vc.category_id = c.id
-       WHERE c.slug = $1
+       WHERE c.name = $1
        ORDER BY v.created_at DESC
        LIMIT $2 OFFSET $3`,
-      [categorySlug, limit, offset]
+      [categoryName, limit, offset]
     )
     return result.rows
   } catch (error) {
@@ -47,19 +47,19 @@ async function getVideosByCategory(categorySlug: string, page: number = 1, limit
 }
 
 // Get total count for pagination
-async function getVideosCountByCategory(categorySlug: string) {
+async function getVideosCountByCategory(categoryName: string) {
   try {
     const result = await query(
-      `SELECT COUNT(*) as count
+      `SELECT COUNT(v.id) as total
        FROM videos v
        JOIN video_categories vc ON v.id = vc.video_id
        JOIN categories c ON vc.category_id = c.id
-       WHERE c.slug = $1`,
-      [categorySlug]
+       WHERE c.name = $1`,
+      [categoryName]
     )
-    return parseInt(result.rows[0]?.count || '0')
+    return parseInt(result.rows[0]?.total || '0')
   } catch (error) {
-    console.error('Error getting video count:', error)
+    console.error('Error fetching videos count by category:', error)
     return 0
   }
 }
@@ -91,7 +91,7 @@ export default async function KategoriPage({
   if (selectedCategory) {
     videos = await getVideosByCategory(selectedCategory, currentPage, limit)
     totalCount = await getVideosCountByCategory(selectedCategory)
-    const category = categories.find((cat: any) => cat.slug === selectedCategory)
+    const category = categories.find((cat: any) => cat.name === selectedCategory)
     currentCategoryName = category?.name || ''
   }
 
@@ -168,7 +168,7 @@ export default async function KategoriPage({
                   {paginatedCategories.map((category: any) => (
                     <ForceRefreshLink
                       key={category.id}
-                      href={`/?category=${encodeURIComponent(category.slug)}`}
+                      href={`/?category=${encodeURIComponent(category.name)}`}
                       className="group block"
                     >
                       <div className="bg-muted/30 hover:bg-muted/50 rounded-xl p-6 border border-border/50 hover:border-border transition-all duration-300">
