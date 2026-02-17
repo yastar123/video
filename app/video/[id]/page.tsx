@@ -3,7 +3,7 @@ import { Star, Eye, Clock, ArrowLeft } from 'lucide-react'
 import { RandomVideos } from '@/components/random-videos'
 import { VideoPlayerWrapper } from '@/components/video-player-wrapper'
 import { SmartlinkRotator, MultipleSmartlinks } from '@/components/smartlink-rotator'
-import { AdsterraBanner } from '@/components/adsterra-banner'
+import { AdsterraBanner } from '@/components/adsterra-banner-fixed'
 import { ViewCounter, DetailedViewCounter } from '@/components/view-counter'
 import AdsterraAd from '@/components/adsterra-ad'
 import Link from 'next/link'
@@ -164,12 +164,12 @@ export default async function VideoDetail({ params }: { params: Promise<{ id: st
 
         {/* Global Ads */}
         <div className="w-full flex flex-wrap justify-center gap-4">
-          <AdsterraAd adKey="4388c91d89682a21f68164b288c042f9" format="js" />
-          <AdsterraAd adKey="9add34aad611a8243e9fa65055bde309" format="js" />
-          <AdsterraAd adKey="4388c91d89682a21f68164b288c042f9" format="js" />
-          <AdsterraAd adKey="9add34aad611a8243e9fa65055bde309" format="js" />
-          <AdsterraAd adKey="4388c91d89682a21f68164b288c042f9" format="js" />
-          <AdsterraAd adKey="9add34aad611a8243e9fa65055bde309" format="js" />
+          <AdsterraBanner format="popunder" />
+          <AdsterraBanner format="social" />
+          <AdsterraBanner format="popunder" />
+          <AdsterraBanner format="social" />
+          <AdsterraBanner format="popunder" />
+          <AdsterraBanner format="social" />
         </div>
 
         <div className="w-full overflow-hidden">
@@ -184,14 +184,14 @@ export default async function VideoDetail({ params }: { params: Promise<{ id: st
           {/* Top Ads */}
           <div className="max-w-7xl mx-auto px-4 mb-4 flex flex-col items-center gap-4 w-full overflow-hidden">
              <div className="w-full overflow-hidden flex justify-center">
-               <AdsterraAd adKey="5a8dd45e78414c6e5be9db9eaffed61f" format="iframe" height={90} width={728} />
+               <AdsterraBanner format="728x90" />
              </div>
-             {/* Banner 728x90 - ID: 28622405 */}
+             {/* Banner 728x90 - ID: 5a8dd45e78414c6e5be9db9eaffed61f */}
              <div className="w-full overflow-hidden flex justify-center">
-               <AdsterraAd adKey="5a8dd45e78414c6e5be9db9eaffed61f" format="iframe" height={90} width={728} />
+               <AdsterraBanner format="728x90" />
              </div>
              <div className="w-full overflow-hidden flex justify-center">
-               <AdsterraAd adKey="c08de902b7930682919199d915646b97" format="js" />
+               <AdsterraBanner format="native" />
              </div>
              <div className="w-full grid grid-cols-1 sm:grid-cols-3 gap-2">
                <SmartlinkRotator />
@@ -200,7 +200,7 @@ export default async function VideoDetail({ params }: { params: Promise<{ id: st
              </div>
              {/* Banner 468x60 - ID: 28628094 */}
              <div className="w-full overflow-hidden flex justify-center">
-               <AdsterraAd adKey="a8ea859722150189e57a87b6579578f3" format="iframe" height={60} width={468} />
+               <AdsterraBanner format="468x60" />
              </div>
           </div>
 
@@ -215,7 +215,7 @@ export default async function VideoDetail({ params }: { params: Promise<{ id: st
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
             {/* Native Banner Ad */}
             <div className="mb-8 w-full overflow-hidden flex justify-center">
-              <AdsterraAd adKey="c08de902b7930682919199d915646b97" format="js" />
+              <AdsterraBanner format="native" />
             </div>
 
             {/* Middle Ads */}

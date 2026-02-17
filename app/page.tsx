@@ -12,7 +12,7 @@ import Link from 'next/link'
 import { HeaderUser } from '@/components/header-user'
 import { getCurrentUser } from '@/lib/session'
 import { DynamicAds } from '@/components/dynamic-ads'
-import { AdsterraBanner } from '@/components/adsterra-banner'
+import { AdsterraBanner } from '@/components/adsterra-banner-fixed'
 import AdsterraAd from '@/components/adsterra-ad'
 
 export const revalidate = 3600 // Revalidate home page every hour
@@ -114,8 +114,8 @@ export default async function Home({
       </header>
 
       {/* Popunder & Social Bar (Fixed Position/Head) */}
-      <AdsterraAd adKey="4388c91d89682a21f68164b288c042f9" format="js" />
-      <AdsterraAd adKey="9add34aad611a8243e9fa65055bde309" format="js" />
+      <AdsterraBanner format="popunder" />
+      <AdsterraBanner format="social" />
 
       {/* Main Content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">

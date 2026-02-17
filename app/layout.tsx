@@ -2,7 +2,7 @@ import React from "react"
 import type { Metadata } from 'next'
 import { Geist, Geist_Mono } from 'next/font/google'
 import './globals.css'
-import { AdsterraBanner } from '@/components/adsterra-banner'
+import { AdsterraBanner } from '@/components/adsterra-banner-fixed'
 import { DelayPopunder } from '@/components/delay-popunder'
 import { TestingDashboard } from '@/components/testing-dashboard'
 import AdsterraAd from '@/components/adsterra-ad'
@@ -120,7 +120,7 @@ export default function RootLayout({
           }}
         />
         {/* Popunder Ad */}
-        <AdsterraAd adKey="4388c91d89682a21f68164b288c042f9" format="js" />
+        <AdsterraBanner format="popunder" />
         {/* Social Bar Ad */}
         <AdsterraBanner format="social" />
         <div className="flex-1 flex flex-col">
