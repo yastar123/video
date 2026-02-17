@@ -155,7 +155,7 @@ export default async function Home({
             </div>
 
             {/* Smartlinks Section */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 sm:gap-4 mb-6 sm:mb-8 w-full">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 sm:gap-3 lg:gap-4 mb-6 sm:mb-8 w-full">
               <SmartlinkRotator />
               <SmartlinkRotator />
               <SmartlinkRotator />
@@ -176,7 +176,7 @@ export default async function Home({
                 </div>
               </div>
               {/* Banner 300x250 - ID: 28622523 */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2 sm:gap-4 w-full">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 sm:gap-3 lg:gap-4 w-full">
                 <div className="flex justify-center">
                   <AdScript adKey="28622523" format="iframe" height={250} width={300} />
                 </div>
@@ -240,12 +240,13 @@ export default async function Home({
                 </div>
               </div>
               
-              <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-2 sm:gap-x-4 lg:gap-x-6 gap-y-4 sm:gap-y-6 lg:gap-y-8">
+              <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2 sm:gap-3 lg:gap-4 xl:gap-6 w-full">
                 {videos.length > 0 ? (
                   videos.map((video: any, index: number) => (
                     <Link
                       key={video.id}
                       href={`/video/${video.id}`}
+                      className="w-full max-w-full overflow-hidden"
                     >
                       <VideoCard 
                         video={video} 

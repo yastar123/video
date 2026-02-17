@@ -64,10 +64,10 @@ export function VideoCard({ video, onClick, isLink, priority }: VideoCardProps) 
     <div
       ref={cardRef}
       onClick={handleClick}
-      className="group cursor-pointer space-y-3 sm:space-y-4"
+      className="group cursor-pointer space-y-3 sm:space-y-4 w-full max-w-full overflow-hidden"
     >
       {/* Thumbnail */}
-      <div className="relative aspect-video rounded-2xl overflow-hidden border border-white/5 bg-[#1a1a1a] transition-all duration-300 group-hover:border-primary/50 group-hover:shadow-2xl group-hover:shadow-primary/10 group-hover:-translate-y-1">
+      <div className="relative w-full aspect-[16/9] sm:aspect-video rounded-2xl overflow-hidden border border-white/5 bg-[#1a1a1a] transition-all duration-300 group-hover:border-primary/50 group-hover:shadow-2xl group-hover:shadow-primary/10 group-hover:-translate-y-1">
         {isVisible ? (
           <Image
             src={video.thumbnail || "/placeholder.svg"}
@@ -76,7 +76,7 @@ export function VideoCard({ video, onClick, isLink, priority }: VideoCardProps) 
             className="object-cover transition-transform duration-500 group-hover:scale-110"
             loading={priority ? "eager" : "lazy"}
             priority={priority}
-            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
+            sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
           />
         ) : (
           <div className="w-full h-full bg-[#1a1a1a] animate-pulse" />

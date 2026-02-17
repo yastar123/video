@@ -6,7 +6,12 @@ import { SmartlinkRotator, MultipleSmartlinks } from '@/components/smartlink-rot
 import AdScript from '@/components/ad-script'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
-import { Metadata } from 'next'
+import { Metadata, Viewport } from 'next'
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+}
 
 export async function generateStaticParams() {
   try {
@@ -220,7 +225,7 @@ export default async function VideoDetail({ params }: { params: Promise<{ id: st
                 <AdScript adKey="4388c91d89682a21f68164b288c042f9" format="js" />
               </div>
               
-              <div className="w-full grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="w-full grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3 lg:gap-4">
                 <MultipleSmartlinks count={1} />
                 <MultipleSmartlinks count={1} />
                 <MultipleSmartlinks count={1} />

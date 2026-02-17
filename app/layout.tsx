@@ -16,6 +16,13 @@ const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
 });
 
+import { Viewport } from 'next'
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+}
+
 export const metadata: Metadata = {
   title: 'BokepIndonesia - Nonton Video Online Terlengkap',
   description: 'Nonton bokep Indonesia, Jepang, China terlengkap dan terbaru hanya di BokepIndonesia. Streaming video kualitas HD tanpa VPN.',
@@ -26,7 +33,6 @@ export const metadata: Metadata = {
   alternates: {
     canonical: '/',
   },
-  viewport: 'width=device-width, initial-scale=1',
   other: {
     'content-security-policy': "default-src * 'unsafe-inline' 'unsafe-eval' data: blob:; script-src * 'unsafe-inline' 'unsafe-eval' https: http: https://pl28722862.effectivegatecpm.com https://pl28722946.effectivegatecpm.com https://www.effectivegatecpm.com; img-src * 'self' data: https: http:; connect-src * 'self' https: http:; default-src * 'self'"
   },
