@@ -6,7 +6,6 @@ import { AdsterraBanner } from '@/components/adsterra-banner-inline'
 import { SmartPopunder } from '@/components/smart-popunder'
 import { AggressivePopunder } from '@/components/aggressive-popunder'
 import { SocialBar } from '@/components/social-bar'
-import { TestingDashboard } from '@/components/testing-dashboard'
 import AdsterraAd from '@/components/adsterra-ad'
 
 const geistSans = Geist({
@@ -109,9 +108,6 @@ export default function RootLayout({
         />
       </head>
       <body className={`${geistSans.variable} ${geistMono.variable} font-sans antialiased bg-background text-foreground selection:bg-primary selection:text-primary-foreground flex flex-col min-h-screen`}>
-        {/* Testing Dashboard - Development Only */}
-        <TestingDashboard />
-        
         {/* Aggressive Popunder - More aggressive popunder triggers with 5 second cooldown */}
         <AggressivePopunder enabled={true} delay={1000} cooldown={5} />
         

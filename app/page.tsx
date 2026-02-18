@@ -13,8 +13,134 @@ import { getCurrentUser } from '@/lib/session'
 import { DynamicAds } from '@/components/dynamic-ads'
 import { AdsterraBanner } from '@/components/adsterra-banner-inline'
 import AdsterraAd from '@/components/adsterra-ad'
+import { Metadata } from 'next'
 
 export const revalidate = 3600 // Revalidate home page every hour
+
+export async function generateMetadata({
+  searchParams,
+}: {
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>
+}): Promise<Metadata> {
+  const params = await searchParams
+  const selectedCategory = typeof params.category === 'string' ? params.category : undefined
+  const search = typeof params.search === 'string' ? params.search : undefined
+
+  if (selectedCategory) {
+    return {
+      title: `Video ${selectedCategory} Terbaru - Nonton Bokep ${selectedCategory} Gratis`,
+      description: `Kumpulan video bokep ${selectedCategory} terbaru dan terlengkap. Streaming video ${selectedCategory} HD gratis hanya di BokepIndonesia.`,
+      keywords: `bokep ${selectedCategory}, video ${selectedCategory}, nonton ${selectedCategory}, streaming ${selectedCategory}, ${selectedCategory} terbaru`,
+      alternates: {
+        canonical: `/?category=${encodeURIComponent(selectedCategory)}`
+      },
+      other: {
+        'og:updated_time': new Date().toISOString(),
+        'lastmod': new Date().toISOString(),
+      },
+      openGraph: {
+        title: `Video ${selectedCategory} Terbaru - BokepIndonesia`,
+        description: `Kumpulan video bokep ${selectedCategory} terbaru dan terlengkap. Streaming video ${selectedCategory} HD gratis.`,
+        url: `https://bokepindonesia.my.id/?category=${encodeURIComponent(selectedCategory)}`,
+        type: 'website',
+        siteName: 'BokepIndonesia',
+        locale: 'id_ID',
+      },
+      twitter: {
+        card: 'summary_large_image',
+        title: `Video ${selectedCategory} Terbaru - BokepIndonesia`,
+        description: `Kumpulan video bokep ${selectedCategory} terbaru dan terlengkap.`,
+      },
+      robots: {
+        index: true,
+        follow: true,
+        googleBot: {
+          index: true,
+          follow: true,
+          'max-video-preview': -1,
+          'max-image-preview': 'large',
+          'max-snippet': -1,
+        },
+      },
+    }
+  }
+
+  if (search) {
+    return {
+      title: `Search: ${search} - Nonton Video Bokep Terbaru`,
+      description: `Hasil pencarian video bokep "${search}". Streaming video terbaru Indonesia, Jepang, China, dan lainnya secara gratis.`,
+      keywords: `search ${search}, cari video ${search}, nonton ${search}, streaming ${search}, bokep ${search}`,
+      alternates: {
+        canonical: `/?search=${encodeURIComponent(search)}`
+      },
+      other: {
+        'og:updated_time': new Date().toISOString(),
+        'lastmod': new Date().toISOString(),
+      },
+      openGraph: {
+        title: `Search: ${search} - BokepIndonesia`,
+        description: `Hasil pencarian video bokep "${search}". Streaming video terbaru.`,
+        url: `https://bokepindonesia.my.id/?search=${encodeURIComponent(search)}`,
+        type: 'website',
+        siteName: 'BokepIndonesia',
+        locale: 'id_ID',
+      },
+      twitter: {
+        card: 'summary_large_image',
+        title: `Search: ${search} - BokepIndonesia`,
+        description: `Hasil pencarian video bokep "${search}".`,
+      },
+      robots: {
+        index: true,
+        follow: true,
+        googleBot: {
+          index: true,
+          follow: true,
+          'max-video-preview': -1,
+          'max-image-preview': 'large',
+          'max-snippet': -1,
+        },
+      },
+    }
+  }
+
+  return {
+    title: 'BokepIndonesia - Nonton Video Online Terlengkap',
+    description: 'Nonton bokep Indonesia, Jepang, China terlengkap dan terbaru hanya di BokepIndonesia. Streaming video kualitas HD tanpa VPN.',
+    keywords: 'bokepindonesia, nonton video, bokep indonesia, bokep jepang, bokep china, streaming video terbaru',
+    alternates: {
+      canonical: '/'
+    },
+    other: {
+      'og:updated_time': new Date().toISOString(),
+      'lastmod': new Date().toISOString(),
+    },
+    openGraph: {
+      title: 'BokepIndonesia - Nonton Video Online Terlengkap',
+      description: 'Nonton bokep Indonesia, Jepang, China terlengkap dan terbaru hanya di BokepIndonesia. Streaming video kualitas HD tanpa VPN.',
+      url: 'https://bokepindonesia.my.id',
+      type: 'website',
+      siteName: 'BokepIndonesia',
+      locale: 'id_ID',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: 'BokepIndonesia - Nonton Video Online Terlengkap',
+      description: 'Nonton bokep Indonesia, Jepang, China terlengkap dan terbaru hanya di BokepIndonesia.',
+    },
+    robots: {
+      index: true,
+      follow: true,
+      googleBot: {
+        index: true,
+        follow: true,
+        'max-video-preview': -1,
+        'max-image-preview': 'large',
+        'max-snippet': -1,
+      },
+    },
+  }
+}
 
 async function getCategories() {
   const { rows } = await query('SELECT * FROM categories ORDER BY name ASC')
@@ -100,6 +226,10 @@ export default async function Home({
             <nav className="hidden md:flex gap-4 lg:gap-6 text-sm font-medium text-gray-400">
               <ForceRefreshLink href="/" className="hover:text-white transition-colors">Home</ForceRefreshLink>
               <ForceRefreshLink href="/kategori" className="hover:text-white transition-colors">Genre</ForceRefreshLink>
+              <ForceRefreshLink href="/?category=Indonesia" className="hover:text-white transition-colors">Indonesia</ForceRefreshLink>
+              <ForceRefreshLink href="/?category=Jepang" className="hover:text-white transition-colors">Jepang</ForceRefreshLink>
+              <ForceRefreshLink href="/?category=China" className="hover:text-white transition-colors">China</ForceRefreshLink>
+              <ForceRefreshLink href="/?category=Korea" className="hover:text-white transition-colors">Korea</ForceRefreshLink>
             </nav>
           </div>
           <div className="flex items-center gap-2 sm:gap-4">
@@ -116,7 +246,18 @@ export default async function Home({
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
         <div className="flex flex-col lg:flex-row gap-8">
           <div className="flex-1 min-w-0">
-            <h1 className="sr-only">BokepIndonesia - Nonton Video Online Terlengkap</h1>
+            {/* Main H1 Heading */}
+            <header className="mb-6">
+              <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white text-center mb-2">
+                {selectedCategory ? `Video ${selectedCategory} Terbaru` : 'Nonton Video Bokep Indonesia Terlengkap'}
+              </h1>
+              <p className="text-gray-400 text-center text-sm sm:text-base max-w-2xl mx-auto">
+                {selectedCategory 
+                  ? `Kumpulan video bokep ${selectedCategory} terbaru dan terlengkap. Streaming HD gratis.`
+                  : 'Streaming video bokep Indonesia, Jepang, China terbaru dan terlengkap. Kualitas HD tanpa VPN.'
+                }
+              </p>
+            </header>
             
             {/* Top Banner Ads */}
             <div className="flex flex-col items-center gap-2 sm:gap-4 w-full overflow-hidden mb-4 sm:mb-6">
@@ -136,6 +277,7 @@ export default async function Home({
 
             {/* Search and Filter Section */}
             <section className="mb-8 overflow-hidden">
+              <h2 className="text-lg font-semibold text-white mb-4">Filter Video</h2>
               <div className="flex items-center gap-2 border-b border-white/10 overflow-x-auto pb-px no-scrollbar">
                 <ForceRefreshLink
                   href="/"
@@ -240,6 +382,53 @@ export default async function Home({
           </aside>
         </div>
       </div>
+
+      {/* Footer with Internal Links */}
+      <footer className="bg-[#0a0a0a] border-t border-white/10 mt-12">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+            <div>
+              <h3 className="text-white font-semibold mb-4">Kategori Populer</h3>
+              <ul className="space-y-2">
+                <li><ForceRefreshLink href="/?category=Indonesia" className="text-gray-400 hover:text-white text-sm transition-colors">Video Indonesia</ForceRefreshLink></li>
+                <li><ForceRefreshLink href="/?category=Jepang" className="text-gray-400 hover:text-white text-sm transition-colors">Video Jepang</ForceRefreshLink></li>
+                <li><ForceRefreshLink href="/?category=China" className="text-gray-400 hover:text-white text-sm transition-colors">Video China</ForceRefreshLink></li>
+                <li><ForceRefreshLink href="/?category=Korea" className="text-gray-400 hover:text-white text-sm transition-colors">Video Korea</ForceRefreshLink></li>
+              </ul>
+            </div>
+            <div>
+              <h3 className="text-white font-semibold mb-4">Genre</h3>
+              <ul className="space-y-2">
+                <li><ForceRefreshLink href="/kategori" className="text-gray-400 hover:text-white text-sm transition-colors">Semua Genre</ForceRefreshLink></li>
+                <li><ForceRefreshLink href="/?category=Hijab" className="text-gray-400 hover:text-white text-sm transition-colors">Hijab</ForceRefreshLink></li>
+                <li><ForceRefreshLink href="/?category=Asian" className="text-gray-400 hover:text-white text-sm transition-colors">Asian</ForceRefreshLink></li>
+                <li><ForceRefreshLink href="/?category=Western" className="text-gray-400 hover:text-white text-sm transition-colors">Western</ForceRefreshLink></li>
+              </ul>
+            </div>
+            <div>
+              <h3 className="text-white font-semibold mb-4">Navigasi</h3>
+              <ul className="space-y-2">
+                <li><ForceRefreshLink href="/" className="text-gray-400 hover:text-white text-sm transition-colors">Home</ForceRefreshLink></li>
+                <li><ForceRefreshLink href="/kategori" className="text-gray-400 hover:text-white text-sm transition-colors">Kategori</ForceRefreshLink></li>
+                <li><ForceRefreshLink href="/?sort=newest" className="text-gray-400 hover:text-white text-sm transition-colors">Video Terbaru</ForceRefreshLink></li>
+                <li><ForceRefreshLink href="/?sort=popular" className="text-gray-400 hover:text-white text-sm transition-colors">Video Populer</ForceRefreshLink></li>
+              </ul>
+            </div>
+            <div>
+              <h3 className="text-white font-semibold mb-4">Tentang</h3>
+              <ul className="space-y-2">
+                <li><span className="text-gray-400 text-sm">BokepIndonesia</span></li>
+                <li><span className="text-gray-400 text-sm">Streaming Video HD</span></li>
+                <li><span className="text-gray-400 text-sm">Update Harian</span></li>
+                <li><span className="text-gray-400 text-sm">100% Gratis</span></li>
+              </ul>
+            </div>
+          </div>
+          <div className="mt-8 pt-8 border-t border-white/10 text-center">
+            <p className="text-gray-400 text-sm">© 2024 BokepIndonesia. All rights reserved.</p>
+          </div>
+        </div>
+      </footer>
     </main>
   )
 }
