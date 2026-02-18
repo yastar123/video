@@ -1,7 +1,7 @@
 import { query } from '@/lib/postgres'
 
 export async function generateSitemap() {
-  const baseUrl = 'https://ruangmalam.com'
+  const baseUrl = 'https://bokepindonesia.my.id'
 
   try {
     // Get all videos
