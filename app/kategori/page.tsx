@@ -74,9 +74,9 @@ export async function generateMetadata({
   
   if (category) {
     return {
-      title: `Video ${category} Terbaru - Nonton Bokep ${category} Gratis`,
-      description: `Kumpulan video bokep ${category} terbaru dan terlengkap. Streaming video ${category} HD gratis hanya di BokepIndonesia.`,
-      keywords: `bokep ${category}, video ${category}, nonton ${category}, streaming ${category}, ${category} terbaru`,
+      title: `Video ${category} Terbaru`,
+      description: `Kumpulan video bokep ${category} terbaru dan terlengkap. Streaming video ${category} HD gratis hanya di BokepIndonesia. Update harian dengan kualitas terbaik.`,
+      keywords: `bokep ${category}, video ${category}, nonton ${category}, streaming ${category}, ${category} terbaru, ${category} HD, bokepindonesia, streaming gratis, video dewasa`,
       alternates: {
         canonical: `/?category=${encodeURIComponent(category)}`
       },
@@ -112,9 +112,9 @@ export async function generateMetadata({
   }
 
   return {
-    title: 'Kategori Video - Nonton Bokep Indonesia, Jepang, China Terlengkap',
-    description: 'Pilih kategori video bokep favorit kamu. Streaming video Indonesia, Jepang, China, dan lainnya secara gratis di BokepIndonesia.',
-    keywords: 'kategori bokep, genre video, bokep indonesia, bokep jepang, bokep china, streaming video kategori',
+    title: 'Kategori Video',
+    description: 'Pilih kategori video bokep favorit kamu. Streaming video Indonesia, Jepang, China, dan lainnya secara gratis di BokepIndonesia. Update harian dengan kualitas HD.',
+    keywords: 'kategori bokep, genre video, bokep indonesia, bokep jepang, bokep china, streaming video kategori, video dewasa, bokepindonesia, streaming gratis',
     alternates: {
       canonical: '/kategori'
     },

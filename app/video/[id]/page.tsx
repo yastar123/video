@@ -58,14 +58,15 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
   if (!video) return {}
 
   const keywords = [
-    'bokep', 'nonton bokep', 'video porno', 'film dewasa',
+    'bokep', 'nonton bokep', 'video porno', 'film dewasa', 'streaming video',
     video.category?.toLowerCase() || 'dewasa',
     'bokep indonesia', 'bokep jepang', 'bokep china',
-    video.title.toLowerCase().replace(/[^a-z0-9\s]/g, '').replace(/\s+/g, ' ')
+    video.title.toLowerCase().replace(/[^a-z0-9\s]/g, '').replace(/\s+/g, ' '),
+    'video HD', 'streaming gratis', 'bokepindonesia'
   ].filter(Boolean).slice(0, 10).join(', ')
 
-  const title = `${video.title} - Nonton Bokep Terbaru ${video.category || 'Dewasa'} Gratis`
-  const description = `Nonton ${video.title} video bokep ${video.category || 'dewasa'} terbaru durasi ${formatDuration(video.duration || 0)}. Streaming bokep HD gratis Indonesia, Jepang, China dan lainnya.`
+  const title = video.title
+  const description = `Nonton ${video.title} video bokep ${video.category || 'dewasa'} terbaru durasi ${formatDuration(video.duration || 0)}. Streaming bokep HD gratis Indonesia, Jepang, China dan lainnya. Update harian di BokepIndonesia.`
 
   return {
     title,

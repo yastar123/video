@@ -28,9 +28,9 @@ export async function generateMetadata({
 
   if (selectedCategory) {
     return {
-      title: `Video ${selectedCategory} Terbaru - Nonton Bokep ${selectedCategory} Gratis`,
-      description: `Kumpulan video bokep ${selectedCategory} terbaru dan terlengkap. Streaming video ${selectedCategory} HD gratis hanya di BokepIndonesia.`,
-      keywords: `bokep ${selectedCategory}, video ${selectedCategory}, nonton ${selectedCategory}, streaming ${selectedCategory}, ${selectedCategory} terbaru`,
+      title: `Video ${selectedCategory} Terbaru`,
+      description: `Kumpulan video bokep ${selectedCategory} terbaru dan terlengkap. Streaming video ${selectedCategory} HD gratis hanya di BokepIndonesia. Update harian dengan kualitas terbaik.`,
+      keywords: `bokep ${selectedCategory}, video ${selectedCategory}, nonton ${selectedCategory}, streaming ${selectedCategory}, ${selectedCategory} terbaru, ${selectedCategory} HD, bokepindonesia, streaming gratis`,
       alternates: {
         canonical: `/?category=${encodeURIComponent(selectedCategory)}`
       },
@@ -67,9 +67,9 @@ export async function generateMetadata({
 
   if (search) {
     return {
-      title: `Search: ${search} - Nonton Video Bokep Terbaru`,
-      description: `Hasil pencarian video bokep "${search}". Streaming video terbaru Indonesia, Jepang, China, dan lainnya secara gratis.`,
-      keywords: `search ${search}, cari video ${search}, nonton ${search}, streaming ${search}, bokep ${search}`,
+      title: `Search: ${search}`,
+      description: `Hasil pencarian video bokep "${search}". Streaming video terbaru Indonesia, Jepang, China, dan lainnya secara gratis. Temukan video favorit kamu di BokepIndonesia.`,
+      keywords: `search ${search}, cari video ${search}, nonton ${search}, streaming ${search}, bokep ${search}, bokepindonesia, video terbaru, streaming gratis`,
       alternates: {
         canonical: `/?search=${encodeURIComponent(search)}`
       },
@@ -105,9 +105,9 @@ export async function generateMetadata({
   }
 
   return {
-    title: 'BokepIndonesia - Nonton Video Online Terlengkap',
-    description: 'Nonton bokep Indonesia, Jepang, China terlengkap dan terbaru hanya di BokepIndonesia. Streaming video kualitas HD tanpa VPN.',
-    keywords: 'bokepindonesia, nonton video, bokep indonesia, bokep jepang, bokep china, streaming video terbaru',
+    title: 'Nonton Video Online Terlengkap',
+    description: 'Nonton bokep Indonesia, Jepang, China terlengkap dan terbaru hanya di BokepIndonesia. Streaming video kualitas HD tanpa VPN. Update harian dengan konten terlengkap.',
+    keywords: 'bokepindonesia, nonton video, bokep indonesia, bokep jepang, bokep china, streaming video terbaru, video dewasa, film porno, streaming gratis, video HD',
     alternates: {
       canonical: '/'
     },

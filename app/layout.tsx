@@ -26,9 +26,12 @@ export const viewport: Viewport = {
 }
 
 export const metadata: Metadata = {
-  title: 'BokepIndonesia - Nonton Video Online Terlengkap',
+  title: {
+    default: 'BokepIndonesia - Nonton Video Online Terlengkap',
+    template: '%s | BokepIndonesia'
+  },
   description: 'Nonton bokep Indonesia, Jepang, China terlengkap dan terbaru hanya di BokepIndonesia. Streaming video kualitas HD tanpa VPN.',
-  keywords: 'bokepindonesia, nonton video, bokep indonesia, bokep jepang, bokep china, streaming video terbaru',
+  keywords: 'bokepindonesia, nonton video, bokep indonesia, bokep jepang, bokep china, streaming video terbaru, video dewasa, film porno, streaming gratis',
   authors: [{ name: 'BokepIndonesia', url: 'https://bokepindonesia.my.id' }],
   publisher: 'BokepIndonesia',
   metadataBase: new URL('https://bokepindonesia.my.id'),
