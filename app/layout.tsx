@@ -38,6 +38,8 @@ export const metadata: Metadata = {
   other: {
     'content-security-policy': "default-src * 'unsafe-inline' 'unsafe-eval' data: blob:; script-src * 'unsafe-inline' 'unsafe-eval' https: http: https://pl28722862.effectivegatecpm.com https://pl28722946.effectivegatecpm.com https://pl28722941.effectivegatecpm.com https://www.effectivegatecpm.com; img-src * 'self' data: https: http:; connect-src * 'self' https: http:; default-src * 'self'",
     'og:updated_time': new Date().toISOString(),
+    'robots': 'index, follow',
+    'googlebot': 'index, follow',
   },
   openGraph: {
     title: 'BokepIndonesia - Nonton Video Online Terlengkap',
