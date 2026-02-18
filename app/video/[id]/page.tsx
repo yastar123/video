@@ -74,22 +74,37 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
     alternates: {
       canonical: `/video/${id}`
     },
+    other: {
+      'og:updated_time': video.updated_at || video.created_at || new Date().toISOString(),
+      'lastmod': video.updated_at || video.created_at || new Date().toISOString(),
+    },
     openGraph: {
       title,
       description,
-      url: `https://yoursite.com/video/${id}`,
+      url: `https://bokepindonesia.my.id/video/${id}`,
       type: 'video.movie',
-      images: [video.thumbnail],
+      siteName: 'BokepIndonesia',
+      locale: 'id_ID',
+      images: [
+        {
+          url: video.thumbnail || '/placeholder.svg',
+          width: 1200,
+          height: 630,
+          alt: video.title,
+        }
+      ],
       videos: [{
         url: video.url,
-        type: 'video/mp4'
+        type: 'video/mp4',
+        width: 1280,
+        height: 720,
       }]
     },
     twitter: {
       card: 'summary_large_image',
       title,
       description,
-      images: [video.thumbnail]
+      images: [video.thumbnail || '/placeholder.svg']
     },
     robots: {
       index: true,

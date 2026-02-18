@@ -6,6 +6,7 @@ import { ForceRefreshLink } from '@/components/force-refresh-link'
 import { AdsterraBanner } from '@/components/adsterra-banner-inline'
 import { HeaderUser } from '@/components/header-user'
 import { getCurrentUser } from '@/lib/session'
+import { Metadata } from 'next'
 
 // Fetch categories from database
 async function getCategories() {
@@ -61,6 +62,90 @@ async function getVideosCountByCategory(categoryName: string) {
   } catch (error) {
     console.error('Error fetching videos count by category:', error)
     return 0
+  }
+}
+
+export async function generateMetadata({ 
+  searchParams 
+}: { 
+  searchParams: Promise<{ page?: string; category?: string }> 
+}): Promise<Metadata> {
+  const { category } = await searchParams
+  
+  if (category) {
+    return {
+      title: `Video ${category} Terbaru - Nonton Bokep ${category} Gratis`,
+      description: `Kumpulan video bokep ${category} terbaru dan terlengkap. Streaming video ${category} HD gratis hanya di BokepIndonesia.`,
+      keywords: `bokep ${category}, video ${category}, nonton ${category}, streaming ${category}, ${category} terbaru`,
+      alternates: {
+        canonical: `/?category=${encodeURIComponent(category)}`
+      },
+      other: {
+        'og:updated_time': new Date().toISOString(),
+        'lastmod': new Date().toISOString(),
+      },
+      openGraph: {
+        title: `Video ${category} Terbaru - BokepIndonesia`,
+        description: `Kumpulan video bokep ${category} terbaru dan terlengkap. Streaming video ${category} HD gratis.`,
+        url: `https://bokepindonesia.my.id/?category=${encodeURIComponent(category)}`,
+        type: 'website',
+        siteName: 'BokepIndonesia',
+        locale: 'id_ID',
+      },
+      twitter: {
+        card: 'summary_large_image',
+        title: `Video ${category} Terbaru - BokepIndonesia`,
+        description: `Kumpulan video bokep ${category} terbaru dan terlengkap.`,
+      },
+      robots: {
+        index: true,
+        follow: true,
+        googleBot: {
+          index: true,
+          follow: true,
+          'max-video-preview': -1,
+          'max-image-preview': 'large',
+          'max-snippet': -1,
+        },
+      },
+    }
+  }
+
+  return {
+    title: 'Kategori Video - Nonton Bokep Indonesia, Jepang, China Terlengkap',
+    description: 'Pilih kategori video bokep favorit kamu. Streaming video Indonesia, Jepang, China, dan lainnya secara gratis di BokepIndonesia.',
+    keywords: 'kategori bokep, genre video, bokep indonesia, bokep jepang, bokep china, streaming video kategori',
+    alternates: {
+      canonical: '/kategori'
+    },
+    other: {
+      'og:updated_time': new Date().toISOString(),
+      'lastmod': new Date().toISOString(),
+    },
+    openGraph: {
+      title: 'Kategori Video - BokepIndonesia',
+      description: 'Pilih kategori video bokep favorit kamu. Streaming video Indonesia, Jepang, China, dan lainnya.',
+      url: 'https://bokepindonesia.my.id/kategori',
+      type: 'website',
+      siteName: 'BokepIndonesia',
+      locale: 'id_ID',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: 'Kategori Video - BokepIndonesia',
+      description: 'Pilih kategori video bokep favorit kamu.',
+    },
+    robots: {
+      index: true,
+      follow: true,
+      googleBot: {
+        index: true,
+        follow: true,
+        'max-video-preview': -1,
+        'max-image-preview': 'large',
+        'max-snippet': -1,
+      },
+    },
   }
 }
 

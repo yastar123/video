@@ -30,19 +30,20 @@ export const metadata: Metadata = {
   title: 'BokepIndonesia - Nonton Video Online Terlengkap',
   description: 'Nonton bokep Indonesia, Jepang, China terlengkap dan terbaru hanya di BokepIndonesia. Streaming video kualitas HD tanpa VPN.',
   keywords: 'bokepindonesia, nonton video, bokep indonesia, bokep jepang, bokep china, streaming video terbaru',
-  authors: [{ name: 'BokepIndonesia', url: 'https://video.seyiki.com' }],
+  authors: [{ name: 'BokepIndonesia', url: 'https://bokepindonesia.my.id' }],
   publisher: 'BokepIndonesia',
-  metadataBase: new URL('https://video.seyiki.com'),
+  metadataBase: new URL('https://bokepindonesia.my.id'),
   alternates: {
     canonical: '/',
   },
   other: {
-    'content-security-policy': "default-src * 'unsafe-inline' 'unsafe-eval' data: blob:; script-src * 'unsafe-inline' 'unsafe-eval' https: http: https://pl28722862.effectivegatecpm.com https://pl28722946.effectivegatecpm.com https://pl28722941.effectivegatecpm.com https://www.effectivegatecpm.com; img-src * 'self' data: https: http:; connect-src * 'self' https: http:; default-src * 'self'"
+    'content-security-policy': "default-src * 'unsafe-inline' 'unsafe-eval' data: blob:; script-src * 'unsafe-inline' 'unsafe-eval' https: http: https://pl28722862.effectivegatecpm.com https://pl28722946.effectivegatecpm.com https://pl28722941.effectivegatecpm.com https://www.effectivegatecpm.com; img-src * 'self' data: https: http:; connect-src * 'self' https: http:; default-src * 'self'",
+    'og:updated_time': new Date().toISOString(),
   },
   openGraph: {
     title: 'BokepIndonesia - Nonton Video Online Terlengkap',
     description: 'Nonton bokep Indonesia, Jepang, China terlengkap dan terbaru hanya di BokepIndonesia. Streaming video kualitas HD tanpa VPN.',
-    url: 'https://video.seyiki.com',
+    url: 'https://bokepindonesia.my.id',
     siteName: 'BokepIndonesia',
     locale: 'id_ID',
     type: 'website',
@@ -86,8 +87,8 @@ const jsonLd = {
   '@context': 'https://schema.org',
   '@type': 'Organization',
   name: 'BokepIndonesia',
-  url: 'https://video.seyiki.com',
-  logo: 'https://video.seyiki.com/assets/logo.jpg',
+  url: 'https://bokepindonesia.my.id',
+  logo: 'https://bokepindonesia.my.id/assets/logo.jpg',
   description: 'Nonton bokep Indonesia, Jepang, China terlengkap dan terbaru hanya di BokepIndonesia. Streaming video kualitas HD tanpa VPN.',
   sameAs: [],
 }
