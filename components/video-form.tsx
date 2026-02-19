@@ -5,6 +5,7 @@ import React from "react"
 import type { Video, Category } from '@/lib/db'
 import { useState } from 'react'
 import { X, Upload, Loader2, Trash2 } from 'lucide-react'
+import { VideoProviderInfo } from './video-provider-info'
 
 interface VideoFormProps {
   video?: Video
@@ -444,6 +445,14 @@ export function VideoForm({
           </div>
         </form>
       </div>
+
+      {/* Provider Information */}
+      {formData.url && (
+        <div className="mt-6 p-4 bg-gray-50 rounded-lg">
+          <h3 className="text-lg font-semibold mb-4">Video Provider Information</h3>
+          <VideoProviderInfo url={formData.url} />
+        </div>
+      )}
     </div>
   )
 }
