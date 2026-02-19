@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Player Streaming</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .video-container {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            margin-bottom: 20px;
+        }
+
+        .input-section {
+            margin-bottom: 20px;
+        }
+
+        .input-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .url-input {
+            flex: 1;
+            padding: 12px 20px;
+            border: 2px solid #e1e5e9;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+        .url-input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .btn {
+            padding: 12px 30px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .video-wrapper {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            border-radius: 10px;
+            background: #000;
+        }
+
+        .video-wrapper iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+            border-radius: 10px;
+        }
+
+        .video-wrapper video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 10px;
+        }
+
+        .error-message {
+            background: #fee;
+            color: #c33;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 10px;
+            border-left: 4px solid #c33;
+        }
+
+        .success-message {
+            background: #efe;
+            color: #3c3;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 10px;
+            border-left: 4px solid #3c3;
+        }
+
+        .supported-sites {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .supported-sites h3 {
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .site-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 10px;
+        }
+
+        .site-item {
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+        }
+
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 10px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .input-group {
+                flex-direction: column;
+            }
+            
+            .site-list {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎬 Video Player Streaming</h1>
+            <p>Tonton video dari berbagai layanan streaming dalam satu tempat</p>
+        </div>
+
+        <div class="video-container">
+            <div class="input-section">
+                <div class="input-group">
+                    <input 
+                        type="url" 
+                        id="videoUrl" 
+                        class="url-input" 
+                        placeholder="Masukkan link video (Streamtape, Luluvid, dll)..."
+                        value="https://streamtape.com/https://luluvid.com/1sobwcz7j6lz"
+                    >
+                    <button onclick="loadVideo()" class="btn">▶ Play Video</button>
+                </div>
+                <div id="messageArea"></div>
+            </div>
+
+            <div id="loadingIndicator" class="loading hidden">
+                <div class="spinner"></div>
+                <p>Memuat video...</p>
+            </div>
+
+            <div id="videoPlayer" class="video-wrapper hidden">
+                <!-- Video akan dimuat di sini -->
+            </div>
+        </div>
+
+        <div class="supported-sites">
+            <h3>🌐 Layanan yang Didukung</h3>
+            <div class="site-list">
+                <div class="site-item"><strong>Streamtape</strong> - streamtape.com</div>
+                <div class="site-item"><strong>Luluvid</strong> - luluvid.com</div>
+                <div class="site-item"><strong>YouTube</strong> - youtube.com, youtu.be</div>
+                <div class="site-item"><strong>Vimeo</strong> - vimeo.com</div>
+                <div class="site-item"><strong>Dailymotion</strong> - dailymotion.com</div>
+                <div class="site-item"><strong>Direct MP4</strong> - Link langsung ke file .mp4</div>
+                <div class="site-item"><strong>Google Drive</strong> - drive.google.com</div>
+                <div class="site-item"><strong>Dropbox</strong> - dropbox.com</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showMessage(message, type = 'error') {
+            const messageArea = document.getElementById('messageArea');
+            const className = type === 'error' ? 'error-message' : 'success-message';
+            messageArea.innerHTML = `<div class="${className}">${message}</div>`;
+            
+            // Auto hide setelah 5 detik
+            setTimeout(() => {
+                messageArea.innerHTML = '';
+            }, 5000);
+        }
+
+        function showLoading(show = true) {
+            const loadingIndicator = document.getElementById('loadingIndicator');
+            const videoPlayer = document.getElementById('videoPlayer');
+            
+            if (show) {
+                loadingIndicator.classList.remove('hidden');
+                videoPlayer.classList.add('hidden');
+            } else {
+                loadingIndicator.classList.add('hidden');
+            }
+        }
+
+        function detectVideoService(url) {
+            const hostname = new URL(url).hostname.toLowerCase();
+            
+            if (hostname.includes('streamtape.com')) {
+                return 'streamtape';
+            } else if (hostname.includes('luluvid.com')) {
+                return 'luluvid';
+            } else if (hostname.includes('youtube.com') || hostname.includes('youtu.be')) {
+                return 'youtube';
+            } else if (hostname.includes('vimeo.com')) {
+                return 'vimeo';
+            } else if (hostname.includes('dailymotion.com')) {
+                return 'dailymotion';
+            } else if (hostname.includes('drive.google.com')) {
+                return 'gdrive';
+            } else if (hostname.includes('dropbox.com')) {
+                return 'dropbox';
+            } else if (url.match(/\.(mp4|webm|ogg|avi|mov)$/i)) {
+                return 'direct';
+            }
+            
+            return 'unknown';
+        }
+
+        function generateEmbedCode(url, service) {
+            switch (service) {
+                case 'streamtape':
+                    // Streamtape memerlukan iframe khusus
+                    return `<iframe src="${url}" allowfullscreen></iframe>`;
+                
+                case 'luluvid':
+                    // Luluvid juga menggunakan iframe
+                    return `<iframe src="${url}" allowfullscreen></iframe>`;
+                
+                case 'youtube':
+                    const videoId = url.includes('youtu.be') 
+                        ? url.split('/').pop().split('?')[0]
+                        : new URL(url).searchParams.get('v');
+                    return `<iframe src="https://www.youtube.com/embed/${videoId}" allowfullscreen></iframe>`;
+                
+                case 'vimeo':
+                    const vimeoId = url.split('/').pop().split('?')[0];
+                    return `<iframe src="https://player.vimeo.com/video/${vimeoId}" allowfullscreen></iframe>`;
+                
+                case 'dailymotion':
+                    const dailymotionId = url.split('/').pop().split('_')[0];
+                    return `<iframe src="https://www.dailymotion.com/embed/video/${dailymotionId}" allowfullscreen></iframe>`;
+                
+                case 'gdrive':
+                    const fileId = url.match(/\/d\/([a-zA-Z0-9_-]+)/)?.[1];
+                    if (fileId) {
+                        return `<iframe src="https://drive.google.com/file/d/${fileId}/preview" allowfullscreen></iframe>`;
+                    }
+                    break;
+                
+                case 'dropbox':
+                    const dropboxUrl = url.replace('www.dropbox.com', 'dl.dropboxusercontent.com').replace('?dl=0', '');
+                    return `<video controls><source src="${dropboxUrl}" type="video/mp4"></video>`;
+                
+                case 'direct':
+                    return `<video controls><source src="${url}" type="video/mp4"></video>`;
+            }
+            
+            return null;
+        }
+
+        async function loadVideo() {
+            const url = document.getElementById('videoUrl').value.trim();
+            
+            if (!url) {
+                showMessage('Silakan masukkan URL video yang valid');
+                return;
+            }
+
+            try {
+                // Validasi URL
+                new URL(url);
+            } catch (e) {
+                showMessage('URL tidak valid. Silakan periksa kembali link yang Anda masukkan.');
+                return;
+            }
+
+            showLoading(true);
+            document.getElementById('messageArea').innerHTML = '';
+
+            const service = detectVideoService(url);
+            const embedCode = generateEmbedCode(url, service);
+
+            if (embedCode) {
+                // Simulasi loading delay untuk UX yang lebih baik
+                setTimeout(() => {
+                    const videoPlayer = document.getElementById('videoPlayer');
+                    videoPlayer.innerHTML = embedCode;
+                    videoPlayer.classList.remove('hidden');
+                    showLoading(false);
+                    
+                    if (service === 'unknown') {
+                        showMessage('Video dimuat menggunakan metode default. Beberapa fitur mungkin tidak berfungsi.', 'success');
+                    } else {
+                        showMessage(`Video dari ${service} berhasil dimuat!`, 'success');
+                    }
+                }, 1000);
+            } else {
+                showLoading(false);
+                showMessage('Tidak dapat memuat video dari layanan ini. Layanan mungkin tidak didukung atau URL tidak valid.');
+            }
+        }
+
+        // Event listener untuk Enter key
+        document.getElementById('videoUrl').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                loadVideo();
+            }
+        });
+
+        // Auto-load video saat halaman dimuat (jika ada URL default)
+        window.addEventListener('load', function() {
+            const defaultUrl = document.getElementById('videoUrl').value;
+            if (defaultUrl) {
+                setTimeout(loadVideo, 500);
+            }
+        });
+    </script>
+</body>
+</html>
